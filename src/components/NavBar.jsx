@@ -11,6 +11,13 @@ const Container = styled.nav`
   display: flex;
   flex-direction: row;
   align-items: center;
+  @media screen and (max-width: 600px) {
+    height: 100vh;
+    width: 60%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+  };
 `;
 
 const NavItem = styled.button`
@@ -22,11 +29,16 @@ const NavItem = styled.button`
   text-decoration: none;
   &:hover {
     text-decoration: underline;
-  }
+  };
   &.toggled {
     text-shadow: 0 0 0.5rem var(--primary-white);
     font-weight: 700;
-  }
+  };
+  @media screen and (max-width: 600px) {
+    display: none;
+    font-size: 2rem;
+    padding: 0.75rem;
+  };
 `;
 
 const Burger = styled(NavItem)`
@@ -40,6 +52,7 @@ const NavBar = props => {
   const { vh, currentIndex } = props;
   return (
     <Container>
+      <Burger />
       <NavItem
         onClick={() => handleNavItemClick(0, vh)}
         className={currentIndex === 0 ? "toggled" : ""}
