@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+import BurgerMenu from "./BurgerMenu";
 import handleNavItemClick from "../modules/handleNavItemClick";
 
 const Container = styled.nav`
@@ -17,6 +18,9 @@ const Container = styled.nav`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-end;
+    &.unfold {
+      background: linear-gradient(270deg, var(--dark-blue) 0%, transparent 100%);
+    };
   };
 `;
 
@@ -38,21 +42,17 @@ const NavItem = styled.button`
     display: none;
     font-size: 2rem;
     padding: 0.75rem;
+    &.unfold {
+      display: flex;
+    };
   };
-`;
-
-const Burger = styled(NavItem)`
-  display: none;
-  width: 3rem;
-  align-items: center;
-  justify-content: center;
 `;
 
 const NavBar = props => {
   const { vh, currentIndex } = props;
   return (
     <Container>
-      <Burger />
+      <BurgerMenu />
       <NavItem
         onClick={() => handleNavItemClick(0, vh)}
         className={currentIndex === 0 ? "toggled" : ""}
