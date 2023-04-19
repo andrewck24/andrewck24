@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import Section from "../components/Section";"../components/Section";
+import Section from "../components/Section";
 
 const Container = styled(Section)`
   background-image: linear-gradient(
