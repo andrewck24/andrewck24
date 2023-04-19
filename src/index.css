@@ -24,3 +24,9 @@ body {
   margin: 0;
   border: 0;
 }
+
+@media screen and (max-width: 768px) {
+  :root {
+    font-size: 16px;
+  }
+}
