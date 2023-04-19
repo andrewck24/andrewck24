@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { ReactComponent as BurgerIcon } from "../icons/burger_menu.svg";
 
 import handleNavItemClick from "../modules/handleNavItemClick";
 
@@ -42,26 +41,18 @@ const NavItem = styled.button`
   };
 `;
 
-// TODO: Fix the burger icon
 const Burger = styled(NavItem)`
   display: none;
   width: 3rem;
   align-items: center;
   justify-content: center;
-  svg {
-    height: 2.5rem;
-    width: 2.5rem;
-    stroke: var(--primary-blue);
-  };
 `;
 
 const NavBar = props => {
   const { vh, currentIndex } = props;
   return (
     <Container>
-      <Burger>
-        <BurgerIcon />
-      </Burger>
+      <Burger />
       <NavItem
         onClick={() => handleNavItemClick(0, vh)}
         className={currentIndex === 0 ? "toggled" : ""}
