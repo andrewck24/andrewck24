@@ -1,0 +1,26 @@
+:root {
+  /* 設定字形 */
+  font-size: 20px;
+  font-family: "Roboto Mono", "Noto Sans TC", sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--dark-white);
+  /* 設定基礎色 */
+  --primary-white: #ededed; /* font color */
+  --dark-white: #ede5cf;
+  --primary-blue: #102937; /* support color */
+  --dark-blue: #091d26;
+  --primary-aquamarine: #124d54; /* main color */
+  --dark-aquamarine: #094044;
+  --primary-orange: #f9744b; /* alert */
+  --dark-orange: #d84f4a;
+  /* 其他設定 */
+  scroll-behavior: smooth;
+  transition: all 0.3s;
+  overscroll-behavior: none;
+}
+
+body {
+  margin: 0;
+  border: 0;
+}

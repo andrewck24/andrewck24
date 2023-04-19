@@ -1,136 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-hant">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap"
       rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap"
     />
-    <title>Portfolio Page</title>
+    <title>Andrew Tseng</title>
   </head>
   <body>
-    <nav id="navbar" class="nav">
-      <a class="burger" href="javascript:void(0);" onclick="openMenu()">
-        <svg
-          width="800px"
-          height="800px"
-          viewBox="0 0 24 24"
-          fill="#ede5cf"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M4 18L20 18" stroke-width="2" stroke-linecap="round" />
-          <path d="M4 12L20 12" stroke-width="2" stroke-linecap="round" />
-          <path d="M4 6L20 6" stroke-width="2" stroke-linecap="round" />
-        </svg>
-      </a>
-      <a class="home" href="#home">Home</a>
-      <a class="about" href="#about">About</a>
-      <a class="works" href="#works">Works</a>
-      <a class="contact" href="#contact">Contact</a>
-    </nav>
-    <main>
-      <section class="home" id="home">
-        <span class="header">ANDREW TSENG</span>
-        <div class="skill-stack">
-          <img class="icon" src="./src/html5.svg" alt="html5" />
-          <img class="icon" src="./src/css3.svg" alt="css3" />
-          <img class="icon" src="./src/javascript_1.svg" alt="javascript" />
-          <img class="icon" src="./src/react.svg" alt="react" />
-          <img class="icon" src="./src/python.svg" alt="python" />
-        </div>
-      </section>
-      <section class="about" id="about">
-        <div class="quote" id="quote1">
-          <div class="left-quotation"></div>
-          <div class="quote-text">
-            <p class="quote-main">I'm a Pull-Stack Developer.</p>
-            <p>I just pull things off the Internet and put it into my code.</p>
-          </div>
-          <div class="right-quotation"></div>
-        </div>
-        <div class="quote" id="quote2">
-          <div class="left-quotation"></div>
-          <div class="quote-text">
-            <p class="quote-main">我是全端工程師。</p>
-            <p>把網路上的程式碼全部端進來的工程師。</p>
-            <p>就連這句話也是端過來的XD</p>
-          </div>
-          <div class="right-quotation"></div>
-        </div>
-      </section>
-      <section class="works" id="works">
-        <h3 class="works-header">These are some of my projects</h3>
-        <p>No project is completed though.</p>
-      </section>
-      <section id="contact" class="contact">
-        <span class="header">ANDREW TSENG</span>
-        <div class="icon-container">
-          <a href="https://www.cakeresume.com/me/andrewHB614">
-            <svg
-              id="Layer_1"
-              data-name="Layer 1"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 66 66"
-            >
-              <defs>
-                <style>
-                  .cls-1 {
-                    fill: #ede5cf;
-                  }
-                  .cls-2 {
-                    fill: #102937;
-                  }
-                </style>
-              </defs>
-              <rect
-                class="cls-1"
-                x="15.37"
-                y="15.69"
-                width="34.63"
-                height="34.63"
-                rx="4.43"
-              />
-              <path
-                class="cls-2"
-                d="M38.73,38.13a7.32,7.32,0,1,1-.09-10.35l3.08-3.35A11.87,11.87,0,1,0,42,41.3Z"
-              />
-            </svg>
-          </a>
-          <a href="https://github.com/AndrewCK24">
-            <svg
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
-            >
-              <path
-                fill="#444444"
-                d="M16 5.343c-6.196 0-11.219 5.023-11.219 11.219 0 4.957 3.214 9.162 7.673 10.645 0.561 0.103 0.766-0.244 0.766-0.54 0-0.267-0.010-1.152-0.016-2.088-3.12 0.678-3.779-1.323-3.779-1.323-0.511-1.296-1.246-1.641-1.246-1.641-1.020-0.696 0.077-0.682 0.077-0.682 1.126 0.078 1.72 1.156 1.72 1.156 1.001 1.715 2.627 1.219 3.265 0.931 0.102-0.723 0.392-1.219 0.712-1.498-2.49-0.283-5.11-1.246-5.11-5.545 0-1.226 0.438-2.225 1.154-3.011-0.114-0.285-0.501-1.426 0.111-2.97 0 0 0.941-0.301 3.085 1.15 0.894-0.25 1.854-0.373 2.807-0.377 0.953 0.004 1.913 0.129 2.809 0.379 2.14-1.453 3.083-1.15 3.083-1.15 0.613 1.545 0.227 2.685 0.112 2.969 0.719 0.785 1.153 1.785 1.153 3.011 0 4.31-2.624 5.259-5.123 5.537 0.404 0.348 0.761 1.030 0.761 2.076 0 1.5-0.015 2.709-0.015 3.079 0 0.299 0.204 0.648 0.772 0.538 4.455-1.486 7.666-5.69 7.666-10.645 0-6.195-5.023-11.219-11.219-11.219z"
-              ></path>
-            </svg>
-          </a>
-          <a href="https://www.linkedin.com/in/li-wei-tseng-b6120b202/">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 50 50"
-              width="50px"
-              height="50px"
-            >
-              <path
-                d="M41,4H9C6.24,4,4,6.24,4,9v32c0,2.76,2.24,5,5,5h32c2.76,0,5-2.24,5-5V9C46,6.24,43.76,4,41,4z M17,20v19h-6V20H17z M11,14.47c0-1.4,1.2-2.47,3-2.47s2.93,1.07,3,2.47c0,1.4-1.12,2.53-3,2.53C12.2,17,11,15.87,11,14.47z M39,39h-6c0,0,0-9.26,0-10 c0-2-1-4-3.5-4.04h-0.08C27,24.96,26,27.02,26,29c0,0.91,0,10,0,10h-6V20h6v2.56c0,0,1.93-2.56,5.81-2.56 c3.97,0,7.19,2.73,7.19,8.26V39z"
-              />
-            </svg>
-          </a>
-        </div>
-      </section>
-    </main>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="navBar.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
