@@ -50,9 +50,26 @@ const NavItem = styled.button`
 
 const NavBar = props => {
   const { vh, currentIndex } = props;
+  const toggledConditions = [
+    currentIndex === 0,
+    currentIndex === 1,
+    currentIndex === 2,
+    currentIndex === 3
+  ];
+  const navItems = ["Home", "About", "Works", "Contact"];
   return (
     <Container>
       <BurgerBtn />
+      {/* FIXME: 解決className衝突問題 */}
+      {/* {navItems.map((item, index) => (
+        <NavItem
+          key={index}
+          onClick={() => handleNavItemClick(index, vh)}
+          className={toggledConditions[index] ? "toggled" : ""}
+        >
+          {item}
+        </NavItem>
+      ))} */}
       <NavItem
         onClick={() => handleNavItemClick(0, vh)}
         className={currentIndex === 0 ? "toggled" : ""}
