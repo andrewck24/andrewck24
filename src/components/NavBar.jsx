@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 
 import BurgerBtn from "./BurgerBtn";
-import handleNavItemClick from "../modules/handleNavItemClick";
+import useNavbarActions from "../modules/navbarActions";
 
 const Container = styled.nav`
   position: fixed;
@@ -54,12 +54,7 @@ const NavItem = styled.button`
 
 const NavBar = (props) => {
   const { vh, currentIndex } = props;
-  const [unfold, setUnfold] = useState(false);
-
-  const handleBurgerBtnClick = (event) => {
-    console.log("BurgerBtn clicked");
-    setUnfold(!unfold);
-  };
+  const { unfold, handleBurgerBtnClick, handleNavItemClick } = useNavbarActions();
 
   const pageArr = ["Home", "About", "Works", "Contact"];
   return (
