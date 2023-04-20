@@ -7,13 +7,12 @@ const Container = styled.button`
   display: none;
   background: none;
   border: none;
-  align-items: center;
-  justify-content: center;
+  /* align-items: center;
+  justify-content: center; */
   &:hover {
     text-decoration: underline;
   }
   svg {
-    /* FIXME: 無法調整圖示大小 */
     width: 2.5rem;
     height: 2.5rem;
     fill: var(--primary-white);
@@ -23,10 +22,12 @@ const Container = styled.button`
   };
 `;
 
-const BurgerBtn = () => (
-  <Container>
+const BurgerBtn = ({ onClick }) => {
+  return (
+  <Container title="unfold menu" onClick={onClick}>
     <BurgerIcon />
   </Container>
-);
+  );
+};
 
 export default BurgerBtn;
