@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 
+import Btn from "./Btn";
 import BurgerBtn from "./BurgerBtn";
 import useNavbarActions from "../modules/navbarActions";
 
@@ -28,13 +29,8 @@ const Container = styled.nav`
   } ;
 `;
 
-const NavItem = styled.button`
-  background: none;
-  font-size: 1rem;
-  border: none;
+const NavItem = styled(Btn)`
   margin-right: 1rem;
-  color: var(--primary-white);
-  text-decoration: none;
   &:hover {
     text-decoration: underline;
   }

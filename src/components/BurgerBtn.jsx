@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "@emotion/styled";
+
+import Btn from "./Btn";
 import { ReactComponent as BurgerIcon } from "./../icons/burger_menu.svg";
 
-const Container = styled.button`
+const Container = styled(Btn)`
   width: auto;
   display: none;
-  background: none;
-  border: none;
   /* align-items: center;
   justify-content: center; */
   &:hover {
