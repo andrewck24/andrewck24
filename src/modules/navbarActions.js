@@ -3,8 +3,7 @@ import { useState } from "react";
 const useNavbarActions = () => {
   const [unfold, setUnfold] = useState(false);
 
-  const handleBurgerBtnClick = (event) => {
-    console.log("BurgerBtn clicked");
+  const handleBurgerBtnClick = () => {
     setUnfold(!unfold);
   };
 

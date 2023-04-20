@@ -77,30 +77,3 @@ const NavBar = (props) => {
 };
 
 export default NavBar;
-
-{
-  /* <NavItem
-  onClick={() => handleNavItemClick(0, vh)}
-  className={currentIndex === 0 ? "toggled" : ""}
->
-  Home
-</NavItem>
-<NavItem
-  onClick={() => handleNavItemClick(1, vh)}
-  className={currentIndex === 1 ? "toggled" : ""}
->
-  About
-</NavItem>
-<NavItem
-  onClick={() => handleNavItemClick(2, vh)}
-  className={currentIndex === 2 ? "toggled" : ""}
->
-  Works
-</NavItem>
-<NavItem
-  onClick={() => handleNavItemClick(3, vh)}
-  className={currentIndex === 3 ? "toggled" : ""}
->
-  Contact
-</NavItem> */
-}
