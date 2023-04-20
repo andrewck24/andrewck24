@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import BurgerMenu from "./BurgerMenu";
+import BurgerBtn from "./BurgerBtn";
 import handleNavItemClick from "../modules/handleNavItemClick";
 
 const Container = styled.nav`
@@ -52,7 +52,7 @@ const NavBar = props => {
   const { vh, currentIndex } = props;
   return (
     <Container>
-      <BurgerMenu />
+      <BurgerBtn />
       <NavItem
         onClick={() => handleNavItemClick(0, vh)}
         className={currentIndex === 0 ? "toggled" : ""}
