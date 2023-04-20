@@ -19,14 +19,14 @@ const Container = styled(Btn)`
   }
   @media screen and (max-width: 600px) {
     display: flex;
-  };
+  } ;
 `;
 
 const BurgerBtn = ({ onClick }) => {
   return (
-  <Container title="unfold menu" onClick={onClick}>
-    <BurgerIcon />
-  </Container>
+    <Container title="unfold menu" onClick={onClick}>
+      <BurgerIcon />
+    </Container>
   );
 };
 

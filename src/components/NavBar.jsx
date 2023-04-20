@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 
 import Btn from "./Btn";
@@ -50,7 +50,8 @@ const NavItem = styled(Btn)`
 
 const NavBar = (props) => {
   const { vh, currentIndex } = props;
-  const { unfold, handleBurgerBtnClick, handleNavItemClick } = useNavbarActions();
+  const { unfold, handleBurgerBtnClick, handleNavItemClick } =
+    useNavbarActions();
 
   const pageArr = ["Home", "About", "Works", "Contact"];
   return (
