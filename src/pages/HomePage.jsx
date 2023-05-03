@@ -1,6 +1,12 @@
 import styled from "@emotion/styled";
 import Section from "../components/Section";
 
+import { ReactComponent as HtmlIcon } from "../icons/html5.svg";
+import { ReactComponent as CssIcon } from "../icons/css3.svg";
+import { ReactComponent as JsIcon } from "../icons/javascript_1.svg";
+import { ReactComponent as ReactIcon } from "../icons/react.svg";
+import { ReactComponent as PythonIcon } from "../icons/python.svg";
+
 const Container = styled(Section)`
   background-image: linear-gradient(
     60deg,
@@ -18,10 +24,27 @@ const Header = styled.h1`
   grid-row: 4;
 `;
 
+const SkillStack = styled.div`
+  grid-row: 3;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  svg {
+    height: 2rem;
+    filter: brightness(2.5);
+  }
+`;
+
 const HomePage = () => {
   return (
     <Container>
       <Header>Andrew Tseng</Header>
+      <SkillStack>
+        <HtmlIcon />
+        <CssIcon />
+        <JsIcon />
+        <ReactIcon />
+        <PythonIcon />
+      </SkillStack>
     </Container>
   );
 };
