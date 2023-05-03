@@ -6,13 +6,17 @@
 
 在開始前，請確認您已經在本機上安裝好 Node.js 環境。在專案資料夾中執行以下指令，安裝相依套件：
 
-`npm install`
+```
+npm install
+```
 
 ## 啟動專案
 
 在完成相依套件的安裝後，請執行以下指令啟動專案：
 
-`npm run dev`
+```
+npm run dev
+```
 
 啟動完成後，請打開瀏覽器，在網址列輸入 http://localhost:5173 即可預覽專案。
 欲結束 localhost server，按下 `ctrl/command + C`。
