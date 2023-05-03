@@ -23,11 +23,17 @@ const App = () => {
     setCurrentIndex(index);
   };
 
+  const handleResize = () => {
+    setWindowHeight(window.innerHeight);
+  };
+
   useEffect(() => {
     toggle();
     window.addEventListener("scroll", toggle);
+    window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("scroll", toggle);
+      window.removeEventListener("resize", handleResize);
     };
   }, [windowHeight]);
 
