@@ -1,30 +1,45 @@
-# AndrewCK24.github.io
+# andrewck24.github.io
 
-此專案是一個基於 Vite 的 React 模板，方便您快速開始 React 開發。以下是專案啟動的步驟。
+This is a Next.js application generated with
+[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
 
-## 安裝相依套件
+Run development server:
 
-在開始前，請確認您已經在本機上安裝好 Node.js 環境。在專案資料夾中執行以下指令，安裝相依套件：
-
-```
-npm install
-```
-
-## 啟動專案
-
-在完成相依套件的安裝後，請執行以下指令啟動專案：
-
-```
+```bash
 npm run dev
+# or
+pnpm dev
+# or
+yarn dev
 ```
 
-啟動完成後，請打開瀏覽器，在網址列輸入 http://localhost:5173 即可預覽專案。<br />
-欲結束 localhost server，按下 `ctrl/command + C`。<br />
+Open [localhost](http://localhost:3000) with your browser to see the result.
 
-## 其他指令
+## Explore
 
-在專案中，您可以使用以下指令：
+In the project, you can see:
 
-`npm run dev`: 啟動專案，開啟開發模式。<br />
-`npm run build`: 打包專案，產生 production 版本的檔案。<br />
-`npm run serve`: 在本機啟動打包後的專案，預覽 production 版本的網站。<br />
+- `lib/source.ts`: Code for content source adapter, [`loader()`](https://fumadocs.dev/docs/headless/source-api) provides the interface to access your content.
+- `lib/layout.shared.tsx`: Shared options for layouts, optional but preferred to keep.
+
+| Route                     | Description                                            |
+| ------------------------- | ------------------------------------------------------ |
+| `app/(home)`              | The route group for your landing page and other pages. |
+| `app/docs`                | The documentation layout and pages.                    |
+| `app/api/search/route.ts` | The Route Handler for search.                          |
+
+### Fumadocs MDX
+
+A `source.config.ts` config file has been included, you can customise different options like frontmatter schema.
+
+Read the [Introduction](https://fumadocs.dev/docs/mdx) for further details.
+
+## Learn More
+
+To learn more about Next.js and Fumadocs, take a look at the following
+resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
+  features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Fumadocs](https://fumadocs.vercel.app) - learn about Fumadocs
