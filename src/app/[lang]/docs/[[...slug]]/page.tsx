@@ -10,9 +10,13 @@ import {
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
-  const params = await props.params;
-  const page = source.getPage(params.slug);
+interface PageProps {
+  params: Promise<{ lang: string; slug?: string[] }>;
+}
+
+export default async function Page({ params }: PageProps) {
+  const { lang, slug } = await params;
+  const page = source.getPage(slug, lang);
   if (!page) notFound();
 
   const MDXContent = page.data.body;
@@ -37,11 +41,9 @@ export async function generateStaticParams() {
   return source.generateParams();
 }
 
-export async function generateMetadata(
-  props: PageProps<"/docs/[[...slug]]">
-): Promise<Metadata> {
-  const params = await props.params;
-  const page = source.getPage(params.slug);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { lang, slug } = await params;
+  const page = source.getPage(slug, lang);
   if (!page) notFound();
 
   return {

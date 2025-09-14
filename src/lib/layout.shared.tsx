@@ -1,14 +1,31 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
+import { i18n } from "@/lib/i18n";
 
-/**
- * Shared layout configurations
- *
- * you can customise layouts individually from:
- * Home Layout: app/(home)/layout.tsx
- * Docs Layout: app/docs/layout.tsx
- */
-export function baseOptions(): BaseLayoutProps {
+export function baseOptions(locale: string): BaseLayoutProps {
+  const getTitle = () => {
+    switch (locale) {
+      case "zh-tw":
+        return "我的應用程式";
+      case "ja":
+        return "私のアプリ";
+      default:
+        return "My App";
+    }
+  };
+
+  const getDocsText = () => {
+    switch (locale) {
+      case "zh-tw":
+        return "文檔";
+      case "ja":
+        return "ドキュメント";
+      default:
+        return "Documentation";
+    }
+  };
+
   return {
+    i18n,
     nav: {
       title: (
         <>
@@ -20,11 +37,18 @@ export function baseOptions(): BaseLayoutProps {
           >
             <circle cx={12} cy={12} r={12} fill="currentColor" />
           </svg>
-          My App
+          {getTitle()}
         </>
       ),
+      url: `/${locale}`,
     },
-    // see https://fumadocs.dev/docs/ui/navigation/links
-    links: [],
+    githubUrl: "https://github.com",
+    links: [
+      {
+        type: "main",
+        text: getDocsText(),
+        url: `/${locale}/docs`,
+      },
+    ],
   };
 }
