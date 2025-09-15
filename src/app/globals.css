@@ -1,0 +1,100 @@
+@import "tailwindcss";
+@import "fumadocs-ui/style.css";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+:root {
+  --radius: 0.625rem;
+
+  /* Primary colors */
+  --primary: oklch(0.21 0.034 264.665);
+  --primary-foreground: oklch(0.985 0.002 247.839);
+
+  /* Accent colors */
+  --accent: oklch(0.967 0.003 264.542);
+  --accent-foreground: oklch(0.21 0.034 264.665);
+
+  /* Background colors */
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.235 0.014 285.82);
+
+  /* Card colors */
+  --card: oklch(0.99 0 0);
+  --card-foreground: oklch(0.235 0.014 285.82);
+
+  /* Secondary colors */
+  --secondary: oklch(0.967 0.003 264.542);
+  --secondary-foreground: oklch(0.21 0.034 264.665);
+
+  /* Muted colors */
+  --muted: oklch(0.967 0.003 264.542);
+  --muted-foreground: oklch(0.472 0.009 285.34);
+
+  /* Border and input colors */
+  --border: oklch(0.922 0.004 285.84);
+  --input: oklch(0.922 0.004 285.84);
+  --ring: oklch(0.21 0.034 264.665);
+}
+
+.dark {
+  /* Dark mode primary colors */
+  --primary: oklch(0.928 0.006 264.531);
+  --primary-foreground: oklch(0.21 0.034 264.665);
+
+  /* Dark mode accent colors */
+  --accent: oklch(0.278 0.033 256.848);
+  --accent-foreground: oklch(0.985 0.002 247.839);
+
+  /* Dark mode background colors */
+  --background: oklch(0.092 0.006 285.84);
+  --foreground: oklch(0.985 0.002 247.839);
+
+  /* Dark mode card colors */
+  --card: oklch(0.092 0.006 285.84);
+  --card-foreground: oklch(0.985 0.002 247.839);
+
+  /* Dark mode secondary colors */
+  --secondary: oklch(0.181 0.014 285.75);
+  --secondary-foreground: oklch(0.985 0.002 247.839);
+
+  /* Dark mode muted colors */
+  --muted: oklch(0.181 0.014 285.75);
+  --muted-foreground: oklch(0.695 0.009 285.75);
+
+  /* Dark mode border and input colors */
+  --border: oklch(0.181 0.014 285.75);
+  --input: oklch(0.181 0.014 285.75);
+  --ring: oklch(0.928 0.006 264.531);
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius: var(--radius);
+}
+
+/* Base styles */
+* {
+  border-color: var(--border);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings:
+    "rlig" 1,
+    "calt" 1;
+}

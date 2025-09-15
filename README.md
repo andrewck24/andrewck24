@@ -1,4 +1,4 @@
-# 個人形象網站 - andrewck24.github.io
+# 個人形象網站 - andrewck24
 
 專業的個人品牌網站，展示前端到全端工程師的技術能力和產品思維。基於 Fumadocs 框架建構，支援多語言內容和互動式專案展示。
 
@@ -14,8 +14,8 @@
 Step 1. **Clone 專案**
 
 ```bash
-git clone https://github.com/andrewck24/andrewck24.github.io.git
-cd andrewck24.github.io
+git clone https://github.com/andrewck24/andrewck24.git
+cd andrewck24
 ```
 
 Step 2. **安裝依賴**

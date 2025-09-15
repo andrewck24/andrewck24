@@ -2,8 +2,8 @@
 
 ## 專案目錄結構
 
-``` txt
-andrewck24.github.io/
+```txt
+andrewck24/
 │
 ├── app/                          # Next.js 15 App Router
 │   ├── [lang]/                   # Fumadocs i18n 多語言路由
@@ -102,11 +102,11 @@ andrewck24.github.io/
 ### Fumadocs i18n 配置 (lib/i18n.ts)
 
 ```typescript
-import { defineI18n } from 'fumadocs-core/i18n';
+import { defineI18n } from "fumadocs-core/i18n";
 
 export const i18n = defineI18n({
-  defaultLanguage: 'en',
-  languages: ['en', 'zh-TW', 'ja'],
+  defaultLanguage: "en",
+  languages: ["en", "zh-TW", "ja"],
 });
 ```
 
@@ -114,27 +114,27 @@ export const i18n = defineI18n({
 
 ```typescript
 // app/[lang]/layout.tsx
-import { defineI18nUI } from 'fumadocs-ui/i18n';
-import { i18n } from '@/lib/i18n';
+import { defineI18nUI } from "fumadocs-ui/i18n";
+import { i18n } from "@/lib/i18n";
 
 const { provider } = defineI18nUI(i18n, {
   translations: {
     en: {
-      displayName: 'English',
+      displayName: "English",
     },
-    'zh-TW': {
-      displayName: '繁體中文',
-      search: '搜尋文檔',
-      searchNoResult: '沒有找到結果',
-      toc: '目錄',
-      lastUpdate: '最後更新',
+    "zh-TW": {
+      displayName: "繁體中文",
+      search: "搜尋文檔",
+      searchNoResult: "沒有找到結果",
+      toc: "目錄",
+      lastUpdate: "最後更新",
     },
     ja: {
-      displayName: '日本語',
-      search: 'ドキュメントを検索',
-      searchNoResult: '結果が見つかりません',
-      toc: '目次',
-      lastUpdate: '最終更新',
+      displayName: "日本語",
+      search: "ドキュメントを検索",
+      searchNoResult: "結果が見つかりません",
+      toc: "目次",
+      lastUpdate: "最終更新",
     },
   },
 });
@@ -143,13 +143,13 @@ const { provider } = defineI18nUI(i18n, {
 ### 中介軟體配置 (middleware.ts)
 
 ```typescript
-import { createI18nMiddleware } from 'fumadocs-core/i18n/middleware';
-import { i18n } from '@/lib/i18n';
+import { createI18nMiddleware } from "fumadocs-core/i18n/middleware";
+import { i18n } from "@/lib/i18n";
 
 export default createI18nMiddleware(i18n);
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
 ```
 
@@ -169,7 +169,8 @@ app/
 │   │       └── page.tsx      # 動態文件頁面
 │   └── layout.tsx            # 根層級佈局（RootProvider + i18n）
 └── api/                      # Serverless API
-    └── health/route.ts       # 健康檢查
+    └── demo/                 # 未來互動功能
+        └── route.ts          # API 處理程式
 ```
 
 ### 內容檔案結構
