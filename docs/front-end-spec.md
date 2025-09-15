@@ -536,7 +536,7 @@ interface FloatingElementsProps {
 
 #### 結構層次
 
-```
+```plaintext
 Header (Fixed/Glass)
 ├── Logo
 ├── Navigation
@@ -581,7 +581,7 @@ Footer
 
 #### 排球 App 詳細展示
 
-```
+```plaintext
 Project Hero
 ├── Project Title
 ├── Problem Statement
@@ -615,7 +615,7 @@ Outcome & Impact
 
 #### 文章列表頁
 
-```
+```plaintext
 Blog Header
 ├── Page Title
 ├── Search Bar
@@ -679,7 +679,9 @@ Sidebar (Desktop Only)
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 0 60px rgba(79, 172, 254, 0.2);
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.1),
+      0 0 60px rgba(79, 172, 254, 0.2);
     border-color: rgba(255, 255, 255, 0.3);
   }
 }
@@ -730,7 +732,7 @@ $breakpoints: (
   // Tablets landscape / Small laptops
   "xl": 1280px,
   // Desktops
-  "2xl": 1536px // Large desktops,,,,,,
+  "2xl": 1536px, // Large desktops,,,,,,
 );
 ```
 

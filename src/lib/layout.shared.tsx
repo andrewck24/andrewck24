@@ -1,10 +1,10 @@
-import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { i18n } from "@/lib/i18n";
+import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 export function baseOptions(locale: string): BaseLayoutProps {
   const getTitle = () => {
     switch (locale) {
-      case "zh-tw":
+      case "zh-TW":
         return "我的應用程式";
       case "ja":
         return "私のアプリ";
@@ -15,7 +15,7 @@ export function baseOptions(locale: string): BaseLayoutProps {
 
   const getDocsText = () => {
     switch (locale) {
-      case "zh-tw":
+      case "zh-TW":
         return "文檔";
       case "ja":
         return "ドキュメント";

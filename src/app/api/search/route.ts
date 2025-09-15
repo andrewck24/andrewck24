@@ -8,7 +8,7 @@ import { createFromSource } from "fumadocs-core/search/server";
 export const { GET } = createFromSource(source, {
   localeMap: {
     en: { language: "english" },
-    "zh-tw": {
+    "zh-TW": {
       components: {
         tokenizer: createMandarinTokenizer({
           stopWords: mandarinStopwords,
