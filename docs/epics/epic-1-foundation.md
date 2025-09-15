@@ -28,11 +28,11 @@ so that 我有一個穩定且功能豐富的網站基礎來展示個人作品和
 
 **Acceptance Criteria**:
 
-1. [x] 使用 Fumadocs 或 Next.js 15+ 建立專案，支援 TypeScript 和 App Router
-2. [ ] 配置 Tailwind CSS 和基本的設計系統（顏色、字體、間距）
-3. [ ] 設定 ESLint、Prettier 和基本的 Git hooks
-4. [x] 建立基本的檔案結構：pages、components、styles、lib 等目錄
-5. [ ] 設定基本的 meta tags 和 SEO 配置
+1. 使用 Fumadocs 或 Next.js 15+ 建立專案，支援 TypeScript 和 App Router
+2. 配置 Tailwind CSS 和基本的設計系統（顏色、字體、間距）
+3. 設定 ESLint、Prettier 和基本的 Git hooks
+4. 建立基本的檔案結構：pages、components、styles、lib 等目錄
+5. 設定基本的 meta tags 和 SEO 配置
 
 **優先順序**: P0 (必要)  
 **估算工時**: 4-6 小時  
@@ -47,13 +47,13 @@ so that 我能快速評估是否符合職位需求。
 
 **Acceptance Criteria**:
 
-1. [ ] 首頁包含個人照片、姓名、職稱（前端/全端工程師）
-2. [ ] 展示核心技術技能：React、Node.js、TypeScript、GCP、AWS
-3. [ ] 提供 GitHub、LinkedIn 等專業平台的連結
-4. [ ] 包含簡潔的個人介紹（中英日三語版本）
-5. [ ] 主要 CTA 按鈕導向作品集和聯絡方式
-6. [ ] 響應式設計，在手機和桌面都有良好體驗
-7. [ ] 載入時間低於 3 秒，包含所有圖片和樣式
+1. 首頁包含個人照片、姓名、職稱（前端/全端工程師）
+2. 展示核心技術技能：React、Node.js、TypeScript、GCP、AWS
+3. 提供 GitHub、LinkedIn 等專業平台的連結
+4. 包含簡潔的個人介紹（中英日三語版本）
+5. 主要 CTA 按鈕導向作品集和聯絡方式
+6. 響應式設計，在手機和桌面都有良好體驗
+7. 載入時間低於 3 秒，包含所有圖片和樣式
 
 **優先順序**: P0 (必要)  
 **估算工時**: 8-10 小時  
@@ -68,13 +68,13 @@ so that 對這位工程師的前端技術能力產生正面印象。
 
 **Acceptance Criteria**:
 
-1. [ ] 實作 blurry floating elements 背景動畫效果，使用純 CSS
-2. [ ] 加入 hover 效果到主要的互動元素（按鈕、連結、卡片）
-3. [ ] 頁面載入時的漸入動畫效果
-4. [ ] 滑動捲動時的 reveal 動畫
-5. [ ] 確保動畫在不同裝置和瀏覽器上的流暢性
-6. [ ] 提供 prefers-reduced-motion 的可訪問性支援
-7. [ ] 動畫不影響頁面的效能分數（Lighthouse > 90）
+1. 實作 blurry floating elements 背景動畫效果，使用純 CSS
+2. 加入 hover 效果到主要的互動元素（按鈕、連結、卡片）
+3. 頁面載入時的漸入動畫效果
+4. 滑動捲動時的 reveal 動畫
+5. 確保動畫在不同裝置和瀏覽器上的流暢性
+6. 提供 prefers-reduced-motion 的可訪問性支援
+7. 動畫不影響頁面的效能分數（Lighthouse > 90）
 
 **優先順序**: P1 (重要)  
 **估算工時**: 6-8 小時  
@@ -89,14 +89,14 @@ so that 我能向不同地區的雇主展示語言能力和文化適應性。
 
 **Acceptance Criteria**:
 
-1. [ ] 配置 fumadocs 原生國際化功能
-2. [ ] 實作語言切換功能，支援繁體中文、英文、日文
-3. [ ] 建立基礎的頁面路由：首頁、作品集、部落格、關於我
-4. [ ] 導航選單在所有裝置上都清晰可用
-5. [ ] 語言切換會記住使用者偏好（localStorage）
-6. [ ] 每個語言版本的 URL 結構清晰（/en、/ja 等）
-7. [ ] 基本的 404 錯誤頁面處理
-8. [ ] 所有基礎頁面都有對應的多語言內容框架
+1. 配置 fumadocs 原生國際化功能
+2. 實作語言切換功能，支援繁體中文、英文、日文
+3. 建立基礎的頁面路由：首頁、作品集、部落格、關於我
+4. 導航選單在所有裝置上都清晰可用
+5. 語言切換會記住使用者偏好（localStorage）
+6. 每個語言版本的 URL 結構清晰（/en、/ja 等）
+7. 基本的 404 錯誤頁面處理
+8. 所有基礎頁面都有對應的多語言內容框架
 
 **優先順序**: P0 (必要)  
 **估算工時**: 10-12 小時  

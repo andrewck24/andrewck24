@@ -12,13 +12,13 @@ const inter = Inter({
 
 const { provider } = defineI18nUI(i18n, {
   translations: {
+    "zh-TW": {
+      displayName: "繁體中文",
+      search: "搜尋文件",
+    },
     en: {
       displayName: "English",
       search: "Search Documentation",
-    },
-    "zh-tw": {
-      displayName: "繁體中文",
-      search: "搜尋文件",
     },
     ja: {
       displayName: "日本語",
@@ -35,21 +35,21 @@ export async function generateMetadata({
   const { lang } = await params;
 
   const titles = {
+    "zh-TW": "曾立維 - 全端工程師",
     en: "Andrew Tseng - Full-stack Developer",
-    "zh-tw": "曾立維 - 全端工程師",
     ja: "アンドリュー・ツェン - フルスタック開発者",
   };
 
   const descriptions = {
-    en: "Full-stack developer specializing in React, Node.js, and modern web technologies. Portfolio and technical blog.",
-    "zh-tw":
+    "zh-TW":
       "專精於 React、Node.js 和現代網頁技術的全端開發工程師。個人作品集與技術部落格。",
+    en: "Full-stack developer specializing in React, Node.js, and modern web technologies. Portfolio and technical blog.",
     ja: "React、Node.js、モダンウェブ技術を専門とするフルスタック開発者。ポートフォリオと技術ブログ。",
   };
 
-  const title = titles[lang as keyof typeof titles] || titles.en;
+  const title = titles[lang as keyof typeof titles] || titles["zh-TW"];
   const description =
-    descriptions[lang as keyof typeof descriptions] || descriptions.en;
+    descriptions[lang as keyof typeof descriptions] || descriptions["zh-TW"];
 
   return {
     metadataBase: new URL("https://andrewck24.vercel.app"),
@@ -72,7 +72,7 @@ export async function generateMetadata({
     creator: "Andrew Tseng",
     openGraph: {
       type: "website",
-      locale: lang === "zh-tw" ? "zh_TW" : lang === "ja" ? "ja_JP" : "en_US",
+      locale: lang === "zh-TW" ? "zh_TW" : lang === "ja" ? "ja_JP" : "en_US",
       title,
       description,
       siteName: title,

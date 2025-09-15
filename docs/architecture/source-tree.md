@@ -105,8 +105,8 @@ andrewck24/
 import { defineI18n } from "fumadocs-core/i18n";
 
 export const i18n = defineI18n({
-  defaultLanguage: "en",
-  languages: ["en", "zh-TW", "ja"],
+  defaultLanguage: "zh-TW",
+  languages: ["zh-TW", "en", "ja"],
 });
 ```
 
@@ -178,11 +178,11 @@ app/
 ```txt
 content/
 └── docs/
-    ├── en/                   # 英文內容
+    ├── zh-TW/                # 繁體中文內容
     │   ├── index.mdx         # 首頁內容
     │   ├── getting-started.mdx
     │   └── portfolio.mdx
-    ├── zh-TW/                # 繁體中文內容
+    ├── en/                   # 英文內容
     │   ├── index.mdx
     │   ├── getting-started.mdx
     │   └── portfolio.mdx
