@@ -41,8 +41,9 @@ export function baseOptions(locale: string): BaseLayoutProps {
         </>
       ),
       url: `/${locale}`,
+      transparentMode: "top",
     },
-    githubUrl: "https://github.com",
+    githubUrl: "https://github.com/andrewck24",
     links: [
       {
         type: "main",

@@ -14,15 +14,15 @@ const { provider } = defineI18nUI(i18n, {
   translations: {
     "zh-TW": {
       displayName: "繁體中文",
-      search: "搜尋文件",
+      search: "搜尋",
     },
     en: {
       displayName: "English",
-      search: "Search Documentation",
+      search: "Search",
     },
     ja: {
       displayName: "日本語",
-      search: "ドキュメントを検索",
+      search: "検索",
     },
   },
 });
@@ -129,7 +129,7 @@ export default async function LangLayout({
 
   return (
     <html lang={lang} className={inter.className} suppressHydrationWarning>
-      <body className="flex flex-col min-h-screen">
+      <body className="flex min-h-screen flex-col">
         <RootProvider i18n={provider(lang)}>{children}</RootProvider>
       </body>
     </html>
