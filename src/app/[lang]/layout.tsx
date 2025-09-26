@@ -129,7 +129,7 @@ export default async function LangLayout({
 
   return (
     <html lang={lang} className={inter.className} suppressHydrationWarning>
-      <body className="flex min-h-screen flex-col">
+      <body className="flex min-h-screen flex-col items-center">
         <RootProvider i18n={provider(lang)}>{children}</RootProvider>
       </body>
     </html>

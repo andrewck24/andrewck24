@@ -65,12 +65,20 @@ export interface Screenshot {
 
 ## 元件規範
 
+### 檔案命名規範
+
+**檔案命名標準:**
+
+- 一般檔案：使用 kebab-case (例：social-links.ts, user-profile.ts, hero-section.tsx)
+- 目錄：使用 kebab-case (例：profile/, user-data/)
+- 測試檔案：使用目錄資料夾 + kebab-case + .test.tsx (例：profile/hero-section.test.tsx)
+
 ### React 元件標準
 
 **元件結構範例:**
 
 ```typescript
-// components/profile/ProfileHero.tsx
+// components/home/hero.tsx
 import { source } from "@/lib/source";
 import { type UserProfile } from "@/types/profile";
 
@@ -80,25 +88,16 @@ interface ProfileHeroProps {
   className?: string;
 }
 
-export function ProfileHero({ locale, profile, className }: ProfileHeroProps) {
+export function Hero({ locale, profile, className }: ProfileHeroProps) {
   // 使用 Fumadocs i18n 靜態資料
   const profileData = source.getPage(["profile"], locale);
 
   return (
     <section
-      data-testid="profile-hero-section"
+      data-testid="hero-section"
       className={cn("relative", className)}
     >
-      <div data-testid="profile-card" className="glass-effect">
-        <img
-          src={profile?.avatar || "/images/profile/avatar.jpg"}
-          alt={profileData?.title || "Profile"}
-          data-testid="profile-avatar"
-        />
-        <h1 data-testid="profile-name">{profileData?.title}</h1>
-        <h2 data-testid="profile-title">全端工程師</h2>
-        <p data-testid="profile-bio">{profileData?.description}</p>
-      </div>
+      <HeroCard data-testid="hero-card" className="glass-effect" />
     </section>
   );
 }
@@ -237,16 +236,16 @@ export const demoSlice = createSlice({
 
 ```typescript
 // lib/i18n.ts
-import { defineI18n } from 'fumadocs-core/i18n';
+import { defineI18n } from "fumadocs-core/i18n";
 
 export const { i18n, locales } = defineI18n({
   languages: [
-    { code: 'zh-TW', name: '繁體中文' },
-    { code: 'en', name: 'English' },
-    { code: 'ja', name: '日本語' }
+    { code: "zh-TW", name: "繁體中文" },
+    { code: "en", name: "English" },
+    { code: "ja", name: "日本語" },
   ],
-  defaultLanguage: 'zh-TW',
-  fallbackLanguage: 'en'
+  defaultLanguage: "zh-TW",
+  fallbackLanguage: "en",
 });
 ```
 
@@ -255,21 +254,21 @@ export const { i18n, locales } = defineI18n({
 ```typescript
 // lib/data/profile.ts
 export const profileData = {
-  'zh-TW': {
-    name: '曾立維',
-    title: '全端工程師',
-    bio: '專精於 React 和 Node.js 的全端開發'
+  "zh-TW": {
+    name: "曾立維",
+    title: "全端工程師",
+    bio: "專精於 React 和 Node.js 的全端開發",
   },
-  'en': {
-    name: 'Andrew Tseng',
-    title: 'Full-stack Developer',
-    bio: 'Specialized in React and Node.js development'
+  en: {
+    name: "Andrew Tseng",
+    title: "Full-stack Developer",
+    bio: "Specialized in React and Node.js development",
   },
-  'ja': {
-    name: 'アンドリュー・ツェン',
-    title: 'フルスタック開発者',
-    bio: 'React と Node.js を専門とするフルスタック開発'
-  }
+  ja: {
+    name: "アンドリュー・ツェン",
+    title: "フルスタック開発者",
+    bio: "React と Node.js を専門とするフルスタック開発",
+  },
 };
 ```
 

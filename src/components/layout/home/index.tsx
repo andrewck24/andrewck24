@@ -1,3 +1,4 @@
+import { BackgroundAnimation } from "@/components/home/background-animation";
 import { LanguageToggle } from "@/components/language-toggle";
 import { Menu } from "@/components/layout/home/menu";
 import { Navbar, NavbarLinkItem } from "@/components/layout/home/navbar";
@@ -42,22 +43,26 @@ export function HomeLayout(
 
   return (
     <NavProvider transparentMode={nav?.transparentMode}>
+      {nav.enabled !== false &&
+        (nav.component ?? (
+          <Header
+            links={links}
+            nav={nav}
+            themeSwitch={themeSwitch}
+            searchToggle={searchToggle}
+            i18n={i18n}
+            githubUrl={githubUrl}
+          />
+        ))}
+      <BackgroundAnimation />
       <main
         id="nd-home-layout"
         {...rest}
-        className={cn("flex flex-1 flex-col pt-14", rest.className)}
+        className={cn(
+          "*:max-w-fd-container flex flex-1 flex-col pt-14",
+          rest.className
+        )}
       >
-        {nav.enabled !== false &&
-          (nav.component ?? (
-            <Header
-              links={links}
-              nav={nav}
-              themeSwitch={themeSwitch}
-              searchToggle={searchToggle}
-              i18n={i18n}
-              githubUrl={githubUrl}
-            />
-          ))}
         {props.children}
       </main>
     </NavProvider>
