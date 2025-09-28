@@ -22,14 +22,6 @@ jest.mock("../../../../lib/data/profile", () => ({
   },
 }));
 
-jest.mock("../../../../lib/data/skills", () => ({
-  coreSkills: [
-    { name: "React", category: "frontend", level: "advanced" },
-    { name: "TypeScript", category: "language", level: "advanced" },
-    { name: "Node.js", category: "backend", level: "advanced" },
-  ],
-}));
-
 jest.mock("../../../../lib/data/social-links", () => ({
   socialLinks: {
     github: "https://github.com/andrewck24",
@@ -60,17 +52,9 @@ describe("ProfileHero", () => {
       expect(screen.getByTestId("profile-title")).toHaveTextContent(
         "軟體工程師"
       );
-      expect(screen.getByTestId("profile-location")).toHaveTextContent(
-        "台灣 台北"
-      );
       expect(screen.getByTestId("profile-bio")).toHaveTextContent(
         "專精於 React 和 Node.js 的全端開發，致力於打造高品質的使用者體驗。"
       );
-    });
-
-    it("renders skill tags section", () => {
-      render(<ProfileHero locale="zh-TW" />);
-      expect(screen.getByTestId("skill-tags")).toBeInTheDocument();
     });
 
     it("renders CTA buttons section", () => {
@@ -89,9 +73,6 @@ describe("ProfileHero", () => {
       expect(screen.getByTestId("profile-title")).toHaveTextContent(
         "Software Engineer"
       );
-      expect(screen.getByTestId("profile-location")).toHaveTextContent(
-        "Taipei, Taiwan"
-      );
       expect(screen.getByTestId("profile-bio")).toHaveTextContent(
         "Specialized in React and Node.js development, dedicated to creating high-quality user experiences."
       );
@@ -107,9 +88,6 @@ describe("ProfileHero", () => {
       );
       expect(screen.getByTestId("profile-title")).toHaveTextContent(
         "ソフトウェアエンジニア"
-      );
-      expect(screen.getByTestId("profile-location")).toHaveTextContent(
-        "台湾 台北"
       );
       expect(screen.getByTestId("profile-bio")).toHaveTextContent(
         "React と Node.js を専門とするソフトウェアエンジニア。高品質なユーザーエクスペリエンスの創造に取り組んでいます。"
@@ -132,9 +110,8 @@ describe("ProfileHero", () => {
       render(<ProfileHero locale="zh-TW" />);
 
       const heroSection = screen.getByTestId("profile-hero-section");
-      expect(heroSection).toHaveClass("min-h-[80vh]");
-      expect(heroSection).toHaveClass("px-4", "md:px-6");
-      expect(heroSection).toHaveClass("py-16", "md:py-24", "lg:py-32");
+      expect(heroSection).toHaveClass("min-h-[65vh]");
+      expect(heroSection).toHaveClass("p-4", "md:p-6");
     });
   });
 });

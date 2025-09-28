@@ -1,8 +1,5 @@
 "use client";
-import {
-  LanguageToggle,
-  LanguageToggleText,
-} from "@/components/language-toggle";
+import { LanguageToggle } from "@/components/language-toggle";
 import { isSecondary } from "@/components/layout/home";
 import {
   BaseLinkItem,
@@ -46,10 +43,11 @@ export function Menu({
 }: MenuProps) {
   return (
     <ul className="ms-auto -me-1.5 flex flex-row items-center lg:hidden">
-      {searchToggle.enabled !== false &&
-        (searchToggle.components?.sm ?? (
-          <SearchToggle className="p-2" hideIfDisabled />
-        ))}
+      {i18n && (
+        <LanguageToggle className="p-2">
+          <Languages className="size-5" />
+        </LanguageToggle>
+      )}
       <NavigationMenuItem>
         <MenuTrigger
           aria-label="Toggle Menu"
@@ -75,13 +73,10 @@ export function Menu({
               <MenuLinkItem key={i} item={item} className="-me-1.5" />
             ))}
             <div role="separator" className="flex-1" />
-            {i18n ? (
-              <LanguageToggle>
-                <Languages className="size-5" />
-                <LanguageToggleText />
-                <ChevronDown className="text-fd-muted-foreground size-3" />
-              </LanguageToggle>
-            ) : null}
+            {searchToggle.enabled !== false &&
+              (searchToggle.components?.sm ?? (
+                <SearchToggle className="p-2" hideIfDisabled />
+              ))}
             {themeSwitch.enabled !== false &&
               (themeSwitch.component ?? (
                 <ThemeToggle mode={themeSwitch?.mode} />

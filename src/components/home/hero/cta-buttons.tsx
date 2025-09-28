@@ -60,7 +60,7 @@ export function CtaButtons({ locale, social }: CtaButtonsProps) {
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground flex items-center justify-center transition-colors"
+              className="text-secondary-foreground hover:text-foreground flex items-center justify-center transition-colors"
               aria-label={name}
               data-testid={testId}
             >

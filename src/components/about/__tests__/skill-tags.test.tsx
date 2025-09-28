@@ -1,6 +1,6 @@
+import type { Skill } from "@/lib/data/skills";
 import { render, screen } from "@testing-library/react";
 import { SkillTags } from "../skill-tags";
-import type { Skill } from "@/lib/data/skills";
 
 const mockSkills: Skill[] = [
   { name: "React", category: "frontend", level: "advanced" },
