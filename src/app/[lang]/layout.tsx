@@ -3,11 +3,17 @@ import { i18n } from "@/lib/i18n";
 import { defineI18nUI } from "fumadocs-ui/i18n";
 import { RootProvider } from "fumadocs-ui/provider";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Ubuntu_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
+});
+
+const ubuntuMono = Ubuntu_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-ubuntu-mono",
 });
 
 const { provider } = defineI18nUI(i18n, {
@@ -128,7 +134,19 @@ export default async function LangLayout({
   const { lang } = await params;
 
   return (
-    <html lang={lang} className={inter.className} suppressHydrationWarning>
+    <html
+      lang={lang}
+      className={`${inter.className} ${ubuntuMono.className}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <link
+          rel="icon"
+          href="/icon?<generated>"
+          type="image/png"
+          sizes="32x32"
+        />
+      </head>
       <body className="flex min-h-screen flex-col items-center">
         <RootProvider i18n={provider(lang)}>{children}</RootProvider>
       </body>

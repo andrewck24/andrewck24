@@ -52,7 +52,7 @@ describe("TerminalAnimation", () => {
       "Server started at http://localhost:3000"
     );
     expect(terminalCode).toHaveTextContent(
-      "AT runtime, where our ideas executed"
+      "AT runtime, where our ideas execute"
     );
   });
 
@@ -83,7 +83,7 @@ describe("TerminalAnimation", () => {
       "Server started at http://localhost:3000"
     );
     expect(terminalCode).toHaveTextContent(
-      "AT runtime, where our ideas executed"
+      "AT runtime, where our ideas execute"
     );
   });
 });

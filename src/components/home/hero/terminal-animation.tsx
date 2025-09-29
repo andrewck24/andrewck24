@@ -9,7 +9,7 @@ user@portfolio:~/andrewck24$ npm start
 
 > Starting server...
 > Server started at http://localhost:3000
-> AT runtime, where our ideas executed`;
+> AT runtime, where our ideas execute`;
 
   return (
     <div
