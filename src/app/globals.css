@@ -139,3 +139,8 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Fumadocs search dialog border color override */
+[role="dialog"] {
+  @apply border-border;
+}

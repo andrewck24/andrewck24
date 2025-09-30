@@ -1,10 +1,10 @@
 "use client";
-import { type ButtonProps, buttonVariants } from "@/components/ui/button";
+import { buttonVariants, type ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useI18n } from "fumadocs-ui/contexts/i18n";
 import { useSearchContext } from "fumadocs-ui/contexts/search";
 import { Search } from "lucide-react";
-import type { ComponentProps } from "react";
+import { type ComponentProps } from "react";
 
 interface SearchToggleProps
   extends Omit<ComponentProps<"button">, "color">,
@@ -58,7 +58,7 @@ export function LargeSearchToggle({
       data-search-full=""
       {...props}
       className={cn(
-        "bg-fd-secondary/50 text-fd-muted-foreground hover:bg-fd-accent hover:text-fd-accent-foreground inline-flex items-center gap-2 rounded-lg border p-1.5 ps-2 text-sm transition-colors",
+        "bg-fd-secondary/50 text-fd-muted-foreground hover:bg-fd-accent hover:text-fd-accent-foreground border-border inline-flex items-center gap-2 rounded-lg border p-1.5 ps-2 text-sm transition-colors",
         props.className
       )}
       onClick={() => {
@@ -69,7 +69,10 @@ export function LargeSearchToggle({
       {text.search}
       <div className="ms-auto inline-flex gap-0.5">
         {hotKey.map((k, i) => (
-          <kbd key={i} className="bg-fd-background rounded-md border px-1.5">
+          <kbd
+            key={i}
+            className="bg-fd-background border-border rounded-md border px-1.5"
+          >
             {k.display}
           </kbd>
         ))}
