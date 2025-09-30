@@ -125,7 +125,7 @@ $design-principles: (
 
 @layer base {
   .glass-effect {
-    @apply bg-background/30 border border-border backdrop-blur-md box-shadow-md;
+    @apply bg-background/30 border-border box-shadow-md border backdrop-blur-md;
   }
 }
 ```
@@ -332,7 +332,7 @@ export const LanguageSwitch = ({ currentLocale }: LanguageSwitchProps) => {
       <DropdownMenuContent align="end" className="glass-effect">
         <DropdownMenuItem onClick={() => switchLanguage('zh-TW')}>
           <span className="mr-2">🇹🇼</span>
-          繁體中文
+          中文（台灣華語）
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => switchLanguage('en')}>
           <span className="mr-2">🇺🇸</span>
@@ -376,7 +376,7 @@ interface HeroCardProps {
 // Creative Shape Background Example
 <div className="relative">
   {/* Animated Blob Background */}
-  <div className="absolute inset-0 blob-animation">
+  <div className="blob-animation absolute inset-0">
     <svg viewBox="0 0 200 200">
       <path d="..." /> {/* Animated blob path */}
     </svg>
@@ -968,7 +968,7 @@ export const GlassCard = ({
       )}
     >
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
 
       {/* Content */}
       <div className="relative z-10">{children}</div>
@@ -982,11 +982,11 @@ export const GlassCard = ({
 ```tsx
 export const FloatingElements = () => {
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
+    <div className="pointer-events-none fixed inset-0 overflow-hidden">
       {[...Array(5)].map((_, i) => (
         <div
           key={i}
-          className="absolute rounded-full blur-3xl animate-float"
+          className="animate-float absolute rounded-full blur-3xl"
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
@@ -1141,7 +1141,7 @@ interface ScoreBoardShowcaseProps {
 export const ScoreBoardShowcase = ({ mode, data }: ScoreBoardShowcaseProps) => {
   return (
     <div className="showcase-wrapper glass-effect p-6">
-      <div className="showcase-title flex items-center gap-2 mb-4">
+      <div className="showcase-title mb-4 flex items-center gap-2">
         <Badge variant="pulse" className="bg-green-500">
           LIVE
         </Badge>
@@ -1149,13 +1149,13 @@ export const ScoreBoardShowcase = ({ mode, data }: ScoreBoardShowcaseProps) => {
       </div>
 
       {/* 嵌入實際的 Scores 元件 */}
-      <div className="showcase-content scale-95 origin-top">
+      <div className="showcase-content origin-top scale-95">
         <Scores recordId="demo" onClick={() => handleDemoInteraction()} />
       </div>
 
       {/* 互動提示 */}
-      <div className="showcase-hint mt-4 text-sm text-muted">
-        <Info className="inline w-4 h-4 mr-1" />
+      <div className="showcase-hint text-muted mt-4 text-sm">
+        <Info className="mr-1 inline h-4 w-4" />
         點擊上方計分板查看詳細統計
       </div>
     </div>
@@ -1174,14 +1174,14 @@ export const CourtVisualization = () => {
     <div className="court-showcase">
       {/* 說明標題 */}
       <div className="showcase-header mb-4">
-        <h3 className="text-2xl font-bold gradient-text">戰術配置視覺化</h3>
+        <h3 className="gradient-text text-2xl font-bold">戰術配置視覺化</h3>
         <p className="text-muted mt-2">即時顯示球員位置與輪轉狀態</p>
       </div>
 
       {/* 球場元件包裝 */}
       <div className="court-wrapper relative">
         {/* 背景裝飾 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl" />
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-500/10" />
 
         {/* 實際球場元件 */}
         <div className="relative z-10 p-4">
@@ -1189,7 +1189,7 @@ export const CourtVisualization = () => {
         </div>
 
         {/* 互動層 */}
-        <div className="court-overlay absolute inset-0 pointer-events-none">
+        <div className="court-overlay pointer-events-none absolute inset-0">
           {activePlayer && <PlayerTooltip player={activePlayer} />}
         </div>
       </div>
@@ -1224,7 +1224,7 @@ export const EntryLogShowcase = () => {
     <div className="entry-log-showcase">
       <div className="log-container glass-effect rounded-xl p-4">
         {/* 標題區 */}
-        <div className="log-header flex justify-between items-center mb-4">
+        <div className="log-header mb-4 flex items-center justify-between">
           <h4 className="font-semibold">逐球紀錄</h4>
           <Badge variant={isLive ? "success" : "secondary"}>
             {isLive ? "LIVE" : "DEMO"}
@@ -1232,7 +1232,7 @@ export const EntryLogShowcase = () => {
         </div>
 
         {/* 紀錄列表 */}
-        <div className="log-list space-y-2 max-h-96 overflow-y-auto">
+        <div className="log-list max-h-96 space-y-2 overflow-y-auto">
           {entries.map((entry, index) => (
             <div
               key={index}
@@ -1242,7 +1242,7 @@ export const EntryLogShowcase = () => {
               <Entry
                 entry={entry}
                 players={demoPlayers}
-                className="hover:bg-white/5 transition-colors"
+                className="transition-colors hover:bg-white/5"
               />
             </div>
           ))}
@@ -1290,22 +1290,22 @@ export const APIMonitor = ({
   const [activeLog, setActiveLog] = useState<APILog | null>(null);
 
   return (
-    <div className="api-monitor grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="api-monitor grid grid-cols-1 gap-6 lg:grid-cols-2">
       {/* Request Builder */}
       <div className="request-panel">
-        <h4 className="text-lg font-semibold mb-4">API Request</h4>
+        <h4 className="mb-4 text-lg font-semibold">API Request</h4>
 
         <div className="request-builder glass-effect rounded-lg p-4">
-          <div className="method-url flex gap-2 mb-4">
+          <div className="method-url mb-4 flex gap-2">
             <Badge className={`method-${method.toLowerCase()}`}>{method}</Badge>
-            <code className="flex-1 bg-black/20 rounded px-2 py-1">
+            <code className="flex-1 rounded bg-black/20 px-2 py-1">
               {endpoint}
             </code>
           </div>
 
           {showHeaders && (
             <div className="headers mb-4">
-              <h5 className="text-sm font-medium mb-2">Headers</h5>
+              <h5 className="mb-2 text-sm font-medium">Headers</h5>
               <CodeBlock language="json">
                 {JSON.stringify(defaultHeaders, null, 2)}
               </CodeBlock>
@@ -1313,7 +1313,7 @@ export const APIMonitor = ({
           )}
 
           <div className="payload mb-4">
-            <h5 className="text-sm font-medium mb-2">Payload</h5>
+            <h5 className="mb-2 text-sm font-medium">Payload</h5>
             <CodeBlock language="json" editable>
               {JSON.stringify(samplePayload, null, 2)}
             </CodeBlock>
@@ -1327,18 +1327,18 @@ export const APIMonitor = ({
 
       {/* Response Viewer */}
       <div className="response-panel">
-        <h4 className="text-lg font-semibold mb-4">API Response</h4>
+        <h4 className="mb-4 text-lg font-semibold">API Response</h4>
 
         <div className="response-viewer glass-effect rounded-lg p-4">
           {activeLog ? (
             <>
               {/* Status Bar */}
-              <div className="status-bar flex justify-between items-center mb-4">
+              <div className="status-bar mb-4 flex items-center justify-between">
                 <Badge variant={activeLog.status < 400 ? "success" : "error"}>
                   {activeLog.status} {getStatusText(activeLog.status)}
                 </Badge>
                 {showTiming && (
-                  <span className="text-sm text-muted">
+                  <span className="text-muted text-sm">
                     {activeLog.responseTime}ms
                   </span>
                 )}
@@ -1352,8 +1352,8 @@ export const APIMonitor = ({
               </div>
             </>
           ) : (
-            <div className="empty-state text-center py-12 text-muted">
-              <Terminal className="w-12 h-12 mx-auto mb-4 opacity-50" />
+            <div className="empty-state text-muted py-12 text-center">
+              <Terminal className="mx-auto mb-4 h-12 w-12 opacity-50" />
               <p>等待 API 回應...</p>
             </div>
           )}
@@ -1361,15 +1361,15 @@ export const APIMonitor = ({
 
         {/* Logs History */}
         <div className="logs-history mt-4">
-          <h5 className="text-sm font-medium mb-2">請求歷史</h5>
-          <div className="logs-list space-y-1 max-h-32 overflow-y-auto">
+          <h5 className="mb-2 text-sm font-medium">請求歷史</h5>
+          <div className="logs-list max-h-32 space-y-1 overflow-y-auto">
             {logs.map((log, index) => (
               <div
                 key={index}
                 className={cn(
-                  "log-item flex justify-between items-center",
-                  "px-2 py-1 rounded cursor-pointer",
-                  "hover:bg-white/5 transition-colors",
+                  "log-item flex items-center justify-between",
+                  "cursor-pointer rounded px-2 py-1",
+                  "transition-colors hover:bg-white/5",
                   activeLog === log && "bg-white/10"
                 )}
                 onClick={() => setActiveLog(log)}

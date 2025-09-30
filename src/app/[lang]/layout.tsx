@@ -19,7 +19,7 @@ const ubuntuMono = Ubuntu_Mono({
 const { provider } = defineI18nUI(i18n, {
   translations: {
     "zh-TW": {
-      displayName: "繁體中文",
+      displayName: "中文（台灣華語）",
       search: "搜尋",
     },
     en: {

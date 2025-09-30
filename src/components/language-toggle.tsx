@@ -19,14 +19,11 @@ export function LanguageToggle(props: LanguageSelectProps): React.ReactElement {
     <Popover>
       <PopoverTrigger
         aria-label={context.text.chooseLanguage}
-        {...props}
         className={cn(
-          buttonVariants({
-            variant: "ghost",
-            className: "gap-1.5 p-1.5",
-          }),
+          buttonVariants({ variant: "ghost", className: "size-9" }),
           props.className
         )}
+        {...props}
       >
         {props.children}
       </PopoverTrigger>
