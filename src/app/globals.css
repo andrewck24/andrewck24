@@ -37,6 +37,11 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --gradient-1: 0.577 0.245 27.325;
+  --gradient-2: 0.828 0.189 100;
+  --gradient-3: 0.808 0.121 220;
+  --gradient-4: 0.565 0.243 264.376;
+  --gradient-5: 0.627 0.265 304;
 }
 
 .dark {
@@ -110,6 +115,11 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-gradient-1: oklch(var(--gradient-1));
+  --color-gradient-2: oklch(var(--gradient-2));
+  --color-gradient-3: oklch(var(--gradient-3));
+  --color-gradient-4: oklch(var(--gradient-4));
+  --color-gradient-5: oklch(var(--gradient-5));
 
   --animate-blink: blink 1.2s infinite;
 
@@ -138,4 +148,9 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Fumadocs search dialog border color override */
+[role="dialog"] {
+  @apply border-border;
 }

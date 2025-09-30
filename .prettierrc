@@ -10,5 +10,10 @@
   "endOfLine": "lf",
   "plugins": [
     "prettier-plugin-tailwindcss"
+  ],
+  "tailwindFunctions": [
+    "clsx",
+    "cn",
+    "cva"
   ]
 }

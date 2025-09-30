@@ -42,9 +42,9 @@ export function Menu({
   menuItems = [],
 }: MenuProps) {
   return (
-    <ul className="ms-auto -me-1.5 flex flex-row items-center lg:hidden">
+    <ul className="ms-auto -me-1.5 flex flex-row items-center gap-1.5 lg:hidden">
       {i18n && (
-        <LanguageToggle className="p-2">
+        <LanguageToggle>
           <Languages className="size-5" />
         </LanguageToggle>
       )}
@@ -91,7 +91,7 @@ export function Menu({
 const menuItemVariants = cva("", {
   variants: {
     variant: {
-      main: "inline-flex items-center gap-2 py-1.5 transition-colors hover:text-fd-popover-foreground/50 data-[active=true]:font-medium data-[active=true]:text-fd-primary [&_svg]:size-4",
+      main: "hover:text-fd-popover-foreground/50 data-[active=true]:text-fd-primary inline-flex items-center gap-2 py-1.5 transition-colors data-[active=true]:font-medium [&_svg]:size-4",
       icon: buttonVariants({
         size: "icon",
         variant: "ghost",
