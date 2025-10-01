@@ -41,16 +41,16 @@ export async function generateMetadata({
   const { lang } = await params;
 
   const titles = {
-    "zh-TW": "曾立維 - 全端工程師",
-    en: "Andrew Tseng - Full-stack Developer",
-    ja: "アンドリュー・ツェン - フルスタック開発者",
+    "zh-TW": "曾立維 - 軟體工程師",
+    en: "Andrew Tseng - Software Developer",
+    ja: "アンドリュー・ツェン - ソフトウェア開発者",
   };
 
   const descriptions = {
     "zh-TW":
-      "專精於 React、Node.js 和現代網頁技術的全端開發工程師。個人作品集與技術部落格。",
-    en: "Full-stack developer specializing in React, Node.js, and modern web technologies. Portfolio and technical blog.",
-    ja: "React、Node.js、モダンウェブ技術を専門とするフルスタック開発者。ポートフォリオと技術ブログ。",
+      "專精於 React、Node.js 和現代網頁技術的軟體工程師。個人作品集與技術部落格。",
+    en: "Software developer specializing in React, Node.js, and modern web technologies. Portfolio and technical blog.",
+    ja: "React、Node.js、モダンウェブ技術を専門とするソフトウェア開発者。ポートフォリオと技術ブログ。",
   };
 
   const title = titles[lang as keyof typeof titles] || titles["zh-TW"];
