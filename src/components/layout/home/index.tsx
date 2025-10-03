@@ -1,4 +1,3 @@
-import { BackgroundAnimation } from "@/components/home/background-animation";
 import { LanguageToggle } from "@/components/language-toggle";
 import { Menu } from "@/components/layout/home/menu";
 import { Navbar, NavbarLinkItem } from "@/components/layout/home/navbar";
@@ -54,7 +53,6 @@ export function HomeLayout(
             githubUrl={githubUrl}
           />
         ))}
-      <BackgroundAnimation />
       <main
         id="nd-home-layout"
         {...rest}

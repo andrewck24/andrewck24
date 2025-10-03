@@ -1,4 +1,4 @@
-import { ProfileHero } from "@/components/home/hero";
+import { Home } from "@/components/home";
 
 interface HomePageProps {
   params: Promise<{ lang: string }>;
@@ -7,5 +7,5 @@ interface HomePageProps {
 export default async function HomePage({ params }: HomePageProps) {
   const { lang } = await params;
 
-  return <ProfileHero locale={lang} />;
+  return <Home lang={lang} />;
 }
