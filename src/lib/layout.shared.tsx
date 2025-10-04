@@ -3,14 +3,14 @@ import { i18n } from "@/lib/i18n";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 export function baseOptions(locale: string): BaseLayoutProps {
-  const getDocsText = () => {
+  const getNotesText = () => {
     switch (locale) {
       case "zh-TW":
-        return "文檔";
+        return "筆記";
       case "ja":
-        return "ドキュメント";
+        return "ノート";
       default:
-        return "Documentation";
+        return "Notes";
     }
   };
 
@@ -25,8 +25,8 @@ export function baseOptions(locale: string): BaseLayoutProps {
     links: [
       {
         type: "main",
-        text: getDocsText(),
-        url: `/${locale}/docs`,
+        text: getNotesText(),
+        url: `/${locale}/notes`,
       },
     ],
   };

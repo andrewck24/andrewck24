@@ -6,9 +6,7 @@ import type { Metadata } from "next";
 import { Inter, Ubuntu_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 
-const inter = Inter({
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 const ubuntuMono = Ubuntu_Mono({
   subsets: ["latin"],
@@ -127,10 +125,7 @@ interface LangLayoutProps {
   params: Promise<{ lang: string }>;
 }
 
-export default async function LangLayout({
-  children,
-  params,
-}: LangLayoutProps) {
+export default async function Layout({ children, params }: LangLayoutProps) {
   const { lang } = await params;
 
   return (
