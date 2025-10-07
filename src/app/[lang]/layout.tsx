@@ -1,7 +1,7 @@
 import "@/app/globals.css";
+import { Provider } from "@/components/provider";
 import { i18n } from "@/lib/i18n";
 import { defineI18nUI } from "fumadocs-ui/i18n";
-import { RootProvider } from "fumadocs-ui/provider";
 import type { Metadata } from "next";
 import { Inter, Ubuntu_Mono } from "next/font/google";
 import type { ReactNode } from "react";
@@ -143,7 +143,7 @@ export default async function Layout({ children, params }: LangLayoutProps) {
         />
       </head>
       <body className="flex min-h-screen flex-col items-center">
-        <RootProvider i18n={provider(lang)}>{children}</RootProvider>
+        <Provider i18n={provider(lang)}>{children}</Provider>
       </body>
     </html>
   );
