@@ -1,3 +1,4 @@
+import { BackgroundAnimation } from "@/components/layout/home/background-animation";
 import { LanguageToggle } from "@/components/language-toggle";
 import { Menu } from "@/components/layout/home/menu";
 import { Navbar, NavbarLinkItem } from "@/components/layout/home/navbar";
@@ -24,6 +25,7 @@ export interface HomeLayoutProps extends BaseLayoutProps {
       enableHoverToOpen?: boolean;
     }
   >;
+  backgroundAnimation?: boolean;
 }
 
 export function HomeLayout(
@@ -37,11 +39,13 @@ export function HomeLayout(
     disableThemeSwitch = false,
     themeSwitch = { enabled: !disableThemeSwitch },
     searchToggle,
+    backgroundAnimation = false,
     ...rest
   } = props;
 
   return (
     <NavProvider transparentMode={nav?.transparentMode}>
+      {backgroundAnimation && <BackgroundAnimation />}
       {nav.enabled !== false &&
         (nav.component ?? (
           <Header

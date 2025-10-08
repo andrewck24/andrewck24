@@ -9,5 +9,9 @@ interface HomeLayoutProps {
 
 export default async function Layout({ params, children }: HomeLayoutProps) {
   const { lang } = await params;
-  return <HomeLayout {...baseOptions(lang)}>{children}</HomeLayout>;
+  return (
+    <HomeLayout backgroundAnimation {...baseOptions(lang)}>
+      {children}
+    </HomeLayout>
+  );
 }
