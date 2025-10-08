@@ -1,4 +1,4 @@
-import "@/components/home/background-animation.css";
+import "@/components/layout/home/background-animation.css";
 import { cn } from "@/lib/utils";
 
 export function BackgroundAnimation({ className }: { className?: string }) {
@@ -6,7 +6,7 @@ export function BackgroundAnimation({ className }: { className?: string }) {
     <div
       data-testid="background-animation"
       className={cn(
-        "fixed top-0 left-0 h-screen w-full overflow-hidden",
+        "fixed top-0 left-0 h-screen w-screen overflow-hidden",
         className
       )}
     >
