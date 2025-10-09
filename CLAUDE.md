@@ -126,3 +126,11 @@
 - MUST: Increase contrast on `:hover/:active/:focus`
 - SHOULD: Match browser UI to bg
 - SHOULD: Avoid gradient banding (use masks when needed)
+
+## Active Technologies
+
+專案當前使用的技術堆疊（依功能分支記錄）：
+
+- TypeScript 5.9, React 19.1.1, Next.js 15.5.3 (with experimental.viewTransition) (002-projects-1-home)
+- fumadocs-mdx 12.0.1, fumadocs-ui 15.8.2, shadcn/ui components, motion 12.23.22 (002-projects-1-home)
+- File-based (MDX files in content/projects/) (002-projects-1-home)
