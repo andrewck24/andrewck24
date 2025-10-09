@@ -39,9 +39,9 @@ export async function generateMetadata({
   const { lang } = await params;
 
   const titles = {
-    "zh-TW": "曾立維 - 軟體工程師",
-    en: "Andrew Tseng - Software Developer",
-    ja: "アンドリュー・ツェン - ソフトウェア開発者",
+    "zh-TW": "Andrew Tseng - Software Engineer",
+    en: "Andrew Tseng - Software Engineer",
+    ja: "Andrew Tseng - Software Engineer",
   };
 
   const descriptions = {

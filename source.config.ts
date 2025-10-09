@@ -17,8 +17,13 @@ export const { docs: notes, meta } = defineDocs({
   },
 });
 
-export default defineConfig({
-  mdxOptions: {
-    // MDX options
+export const { docs: about } = defineDocs({
+  dir: "content/about",
+  docs: {
+    schema: frontmatterSchema,
   },
+});
+
+export default defineConfig({
+  mdxOptions: {},
 });

@@ -14,6 +14,17 @@ export function baseOptions(locale: string): BaseLayoutProps {
     }
   };
 
+  const getAboutText = () => {
+    switch (locale) {
+      case "zh-TW":
+        return "關於";
+      case "ja":
+        return "私について";
+      default:
+        return "About";
+    }
+  };
+
   return {
     i18n,
     nav: {
@@ -27,6 +38,11 @@ export function baseOptions(locale: string): BaseLayoutProps {
         type: "main",
         text: getNotesText(),
         url: `/${locale}/notes`,
+      },
+      {
+        type: "main",
+        text: getAboutText(),
+        url: `/${locale}/about`,
       },
     ],
   };
