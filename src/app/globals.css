@@ -37,11 +37,11 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-  --gradient-1: 0.577 0.245 27.325;
-  --gradient-2: 0.828 0.189 100;
-  --gradient-3: 0.808 0.121 220;
-  --gradient-4: 0.565 0.243 264.376;
-  --gradient-5: 0.627 0.265 304;
+  --gradient-1: 0.543 0.174 29.7;
+  --gradient-2: 0.661 0.133 15.51;
+  --gradient-3: 0.82 0.116 53.45;
+  --gradient-4: 0.36 0.062 229.21;
+  --gradient-5: 0.324 0.137 293.39;
 }
 
 .dark {
