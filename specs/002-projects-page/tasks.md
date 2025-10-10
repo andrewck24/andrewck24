@@ -1,7 +1,7 @@
 # Tasks: 作品集展示功能 (Projects Portfolio)
 
-**Feature**: 002-projects-1-home | **Branch**: `002-projects-1-home` | **Date**: 2025-10-10
-**Input**: Design documents from `/Users/andrew/projects/andrewck24/specs/002-projects-1-home/`
+**Feature**: 002-projects-page | **Branch**: `002-projects-page` | **Date**: 2025-10-10
+**Input**: Design documents from `/Users/andrew/projects/andrewck24/specs/002-projects-page/`
 **Prerequisites**: plan.md ✅, research.md ✅, data-model.md ✅, contracts/ ✅, quickstart.md ✅
 
 ## Execution Flow (main)
@@ -71,10 +71,10 @@
 
 ### E2E Tests (Playwright)
 
-- [x] **T005** [P] E2E 測試：首頁顯示精選專案
+- [x] **T005** [P] E2E 測試：作品集頁面顯示精選專案
       **檔案**: `tests/e2e/projects/featured-projects.spec.ts`
       **測試內容**:
-  - 訪問 `/zh-TW` 顯示 3-5 張精選專案卡片
+  - 訪問 `/zh-TW/projects` 顯示 3-5 張精選專案卡片
   - 卡片包含圖片、標題、描述
   - 桌面顯示 3 欄網格，行動顯示單欄
   - 首張卡片使用 `priority` 載入圖片
@@ -313,12 +313,15 @@
     **依賴**: T017, T024
     **驗證**: T007 E2E 測試通過
 
-- [x] **T027** 更新首頁加入 FeaturedProjects
-      **檔案**: `src/app/[lang]/(home)/page.tsx`
+- [x] **T027** 建立作品集頁面 (Projects Page)
+      **檔案**: `src/app/[lang]/projects/page.tsx`
       **內容**:
+  - Server Component
+  - Props: `{ params: Promise<{ lang: string }> }`
   - 新增 `getFeaturedProjects(locale)` 呼叫
-  - 在 Hero section 下方插入 `<FeaturedProjects>` 元件
-  - Server Component data fetching
+  - 頁面標題與描述（支援 i18n）
+  - 渲染 `<FeaturedProjects>` 元件
+  - generateMetadata 產生 SEO metadata
     **依賴**: T016, T023
     **驗證**: T005 E2E 測試通過
 
@@ -478,4 +481,4 @@ Task: "T021 準備 placeholder 圖片"
 ---
 
 _Based on Constitution v1.1.0 - See `/.specify/memory/constitution.md`_
-_Generated: 2025-10-10 from design documents in specs/002-projects-1-home/_
+_Generated: 2025-10-10 from design documents in specs/002-projects-page/_

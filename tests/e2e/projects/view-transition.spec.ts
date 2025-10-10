@@ -19,7 +19,7 @@ test.describe("View Transition Effects", () => {
     const context = await browser.newContext();
     const page = await context.newPage();
 
-    await page.goto("/zh-TW");
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     // 檢查瀏覽器是否支援 View Transitions API
@@ -84,7 +84,7 @@ test.describe("View Transition Effects", () => {
     const context = await browser.newContext();
     const page = await context.newPage();
 
-    await page.goto("/zh-TW");
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     // 檢查瀏覽器不支援 View Transitions API
@@ -115,7 +115,7 @@ test.describe("View Transition Effects", () => {
     // 模擬使用者偏好減少動畫
     await page.emulateMedia({ reducedMotion: "reduce" });
 
-    await page.goto("/zh-TW");
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     const firstCard = page.locator('[data-testid="project-card"]').first();
@@ -139,8 +139,10 @@ test.describe("View Transition Effects", () => {
     expect(transitionDuration).toMatch(/0s|0ms/);
   });
 
-  test("should transition back to homepage correctly", async ({ page }) => {
-    await page.goto("/zh-TW");
+  test("should transition back to projects page correctly", async ({
+    page,
+  }) => {
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     // 導航至詳細頁面
@@ -153,11 +155,11 @@ test.describe("View Transition Effects", () => {
     await expect(backButton).toBeVisible();
     await backButton.click();
 
-    // 等待返回首頁
+    // 等待返回作品集頁面
     await page.waitForLoadState("networkidle");
 
-    // 檢查回到首頁
-    expect(page.url()).toMatch(/\/zh-TW\/?$/);
+    // 檢查回到作品集頁面
+    expect(page.url()).toMatch(/\/zh-TW\/projects\/?$/);
 
     // 檢查精選專案區塊仍然可見
     const featuredSection = page.getByRole("region", {

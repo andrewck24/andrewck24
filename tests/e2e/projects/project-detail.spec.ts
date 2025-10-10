@@ -14,8 +14,8 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Project Detail Page", () => {
   test("should display complete project details", async ({ page }) => {
-    // 先從首頁取得第一個專案的 slug
-    await page.goto("/zh-TW");
+    // 先從作品集頁面取得第一個專案的 slug
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     const firstCard = page.locator('[data-testid="project-card"]').first();
@@ -92,7 +92,7 @@ test.describe("Project Detail Page", () => {
   });
 
   test("should handle MDX content rendering correctly", async ({ page }) => {
-    await page.goto("/zh-TW");
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     const firstCard = page.locator('[data-testid="project-card"]').first();
@@ -129,14 +129,14 @@ test.describe("Project Detail Page", () => {
 
   test("should support multi-language URLs", async ({ page }) => {
     // 測試中文路由
-    await page.goto("/zh-TW");
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
     const zhCard = page.locator('[data-testid="project-card"]').first();
     const zhCardLink = await zhCard.locator("a").getAttribute("href");
     expect(zhCardLink).toMatch(/^\/zh-TW\/projects\/.+/);
 
     // 測試英文路由（如果有內容）
-    const enResponse = await page.goto("/en");
+    const enResponse = await page.goto("/en/projects");
     if (enResponse?.status() === 200) {
       await page.waitForLoadState("networkidle");
       const enCards = page.locator('[data-testid="project-card"]');
@@ -150,7 +150,7 @@ test.describe("Project Detail Page", () => {
     }
 
     // 測試日文路由（如果有內容）
-    const jaResponse = await page.goto("/ja");
+    const jaResponse = await page.goto("/ja/projects");
     if (jaResponse?.status() === 200) {
       await page.waitForLoadState("networkidle");
       const jaCards = page.locator('[data-testid="project-card"]');
@@ -165,7 +165,7 @@ test.describe("Project Detail Page", () => {
   });
 
   test("should maintain scroll position after navigation", async ({ page }) => {
-    await page.goto("/zh-TW");
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     // 滾動到頁面底部
@@ -180,7 +180,7 @@ test.describe("Project Detail Page", () => {
     const scrollAfterNavigation = await page.evaluate(() => window.scrollY);
     expect(scrollAfterNavigation).toBeLessThan(100); // 允許小誤差
 
-    // 返回首頁
+    // 返回作品集頁面
     const backButton = page.getByRole("link", { name: /返回|back/i });
     await backButton.click();
     await page.waitForLoadState("networkidle");
@@ -190,7 +190,7 @@ test.describe("Project Detail Page", () => {
   });
 
   test("should have correct meta tags for SEO", async ({ page }) => {
-    await page.goto("/zh-TW");
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     const firstCard = page.locator('[data-testid="project-card"]').first();

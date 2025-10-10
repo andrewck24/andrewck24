@@ -2,7 +2,11 @@
  * Project Detail Page
  *
  * 專案詳細頁面路由
- * Route: /[lang]/projects/[slug]
+ * Route: /[lang]/projects/[...slug]
+ *
+ * 支援單層或多層路由結構：
+ * - /[lang]/projects/project-name (單層)
+ * - /[lang]/projects/category/project-name (多層，未來擴展)
  */
 
 import { ProjectDetail } from "@/components/projects/project-detail";
@@ -17,18 +21,16 @@ import { notFound } from "next/navigation";
 interface ProjectPageProps {
   params: Promise<{
     lang: string;
-    slug?: string[];
+    slug: string[];
   }>;
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { lang, slug: slugArray } = await params;
-  const slug = slugArray?.[0];
 
-  // If no slug provided, redirect to homepage
-  if (!slug) {
-    notFound();
-  }
+  // Currently using single-level structure (first segment only)
+  // Future: can support multi-level by joining slugArray
+  const slug = slugArray[0];
 
   // Get project data
   const project = await getProjectBySlug(lang as Locale, slug);
@@ -61,13 +63,9 @@ export async function generateMetadata({
   params,
 }: ProjectPageProps): Promise<Metadata> {
   const { lang, slug: slugArray } = await params;
-  const slug = slugArray?.[0];
 
-  if (!slug) {
-    return {
-      title: "Project Not Found",
-    };
-  }
+  // Currently using single-level structure (first segment only)
+  const slug = slugArray[0];
 
   const project = await getProjectBySlug(lang as Locale, slug);
 

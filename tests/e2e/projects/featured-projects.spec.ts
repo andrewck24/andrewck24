@@ -2,10 +2,10 @@
 import { test, expect } from "@playwright/test";
 
 /**
- * T005: E2E 測試 - 首頁顯示精選專案
+ * T005: E2E 測試 - 作品集頁面顯示精選專案
  *
  * 測試場景 (參考 quickstart.md 2.1):
- * - 訪問 /zh-TW 顯示 3-5 張精選專案卡片
+ * - 訪問 /zh-TW/projects 顯示 3-5 張精選專案卡片
  * - 卡片包含圖片、標題、描述
  * - 桌面顯示 3 欄網格，行動顯示單欄
  * - 首張卡片使用 priority 載入圖片
@@ -13,12 +13,12 @@ import { test, expect } from "@playwright/test";
  * 預期：此測試必須失敗，因為 FeaturedProjects 組件尚未實作
  */
 
-test.describe("Featured Projects on Homepage", () => {
-  test("should display 3-5 featured project cards on zh-TW homepage", async ({
+test.describe("Featured Projects on Projects Page", () => {
+  test("should display 3-5 featured project cards on zh-TW projects page", async ({
     page,
   }) => {
-    // 訪問首頁
-    await page.goto("/zh-TW");
+    // 訪問作品集頁面
+    await page.goto("/zh-TW/projects");
 
     // 等待頁面載入完成
     await page.waitForLoadState("networkidle");
@@ -63,7 +63,7 @@ test.describe("Featured Projects on Homepage", () => {
   }) => {
     // 設定桌面視窗尺寸
     await page.setViewportSize({ width: 1280, height: 720 });
-    await page.goto("/zh-TW");
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     const projectCards = page.locator('[data-testid="project-card"]');
@@ -88,7 +88,7 @@ test.describe("Featured Projects on Homepage", () => {
   }) => {
     // 設定手機視窗尺寸 (iPhone 14 Pro)
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/zh-TW");
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     const gridContainer = page.locator(
@@ -107,7 +107,7 @@ test.describe("Featured Projects on Homepage", () => {
   test("should use priority loading for first project card image", async ({
     page,
   }) => {
-    await page.goto("/zh-TW");
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     const firstCard = page.locator('[data-testid="project-card"]').first();
@@ -125,7 +125,7 @@ test.describe("Featured Projects on Homepage", () => {
   test("should navigate to project detail page when clicking a card", async ({
     page,
   }) => {
-    await page.goto("/zh-TW");
+    await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
     const firstCard = page.locator('[data-testid="project-card"]').first();
