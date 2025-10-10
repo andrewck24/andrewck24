@@ -1,0 +1,184 @@
+---
+title: 企業財務分析平台
+description: 整合 GCP 與 Python 的財務分析系統，提供即時財報分析與視覺化儀表板
+image: /images/projects/example-project-2-hero.jpg
+date: 2024-09-15
+featured: true
+order: 2
+---
+
+## 要解決的問題
+
+企業財務部門在進行財報分析時，面臨以下挑戰：
+
+- **資料分散**：財務資料散落在不同系統（ERP、會計軟體、Excel）
+- **分析耗時**：手動整理資料與製作報表耗費大量時間
+- **缺乏即時性**：無法即時掌握財務狀況與異常
+- **視覺化不足**：傳統 Excel 報表難以呈現趨勢與洞察
+
+需要一個自動化、即時、視覺化的財務分析平台，協助財務團隊快速做出決策。
+
+## 思考過程
+
+### 系統架構設計
+
+採用雲端原生架構，確保可擴展性與高可用性：
+
+**資料層**
+
+- Cloud SQL (PostgreSQL)：儲存結構化財務資料
+- Cloud Storage：存放原始檔案（PDF 財報、Excel）
+- BigQuery：資料倉儲，支援大規模分析查詢
+
+**應用層**
+
+- Cloud Run：運行 Python Flask API（無伺服器，自動擴展）
+- Cloud Functions：處理 ETL 任務（Extract, Transform, Load）
+- Cloud Scheduler：定時觸發資料更新任務
+
+**展示層**
+
+- React + D3.js：互動式儀表板
+- Cloud CDN：全球加速靜態資源
+
+### 資料處理流程
+
+1. **資料擷取 (Extract)**
+   - 連接 ERP API 取得交易資料
+   - 解析 PDF 財報（使用 Google Document AI）
+   - 匯入 Excel 檔案（pandas 處理）
+
+2. **資料轉換 (Transform)**
+   - 資料清洗與標準化
+   - 計算財務指標（ROE, ROA, 毛利率等）
+   - 時間序列分析（YoY, MoM 成長率）
+
+3. **資料載入 (Load)**
+   - 寫入 Cloud SQL（關聯式資料）
+   - 寫入 BigQuery（分析型資料）
+   - 更新儀表板快取
+
+## 採用方案
+
+### 核心功能
+
+**1. 即時財務儀表板**
+
+- 收入與費用趨勢圖
+- 現金流量視覺化
+- 財務比率分析（流動比率、速動比率、負債比率）
+- 預算執行率追蹤
+
+**2. 智慧警示系統**
+
+- 異常交易偵測（基於統計模型）
+- 預算超支預警
+- 現金流量不足警示
+- Email / Slack 通知整合
+
+**3. 財報自動生成**
+
+- 損益表 (P&L Statement) 自動產生
+- 資產負債表 (Balance Sheet) 自動產生
+- 現金流量表 (Cash Flow Statement) 自動產生
+- 支援 PDF / Excel 匯出
+
+**4. 權限管理**
+
+- 角色導向存取控制 (RBAC)
+- 支援 Google Workspace SSO
+- 審計日誌 (Audit log)
+
+### 技術棧
+
+**後端**
+
+- Python 3.11, Flask, SQLAlchemy
+- pandas, NumPy（資料處理）
+- scikit-learn（異常偵測）
+
+**前端**
+
+- React 18, TypeScript
+- D3.js（資料視覺化）
+- Material-UI
+
+**雲端服務 (GCP)**
+
+- Cloud Run, Cloud Functions
+- Cloud SQL, BigQuery
+- Cloud Storage, Cloud Scheduler
+- Document AI, Secret Manager
+
+**DevOps**
+
+- Docker, Cloud Build
+- GitHub Actions（CI/CD）
+- Cloud Monitoring（監控）
+
+## 產生的影響
+
+### 業務影響
+
+**效率提升**
+
+- 財報製作時間：從 2 天縮短至 2 小時（節省 90%）
+- 資料更新頻率：從每月更新提升至每日更新
+- 減少人工錯誤：自動化減少 95% 的手動輸入錯誤
+
+**決策速度**
+
+- 財務主管可即時查看關鍵指標
+- 異常情況在 1 小時內通知
+- 支援快速模擬與情境分析
+
+**成本節省**
+
+- 減少人力成本：自動化取代 1.5 名全職人員工作
+- 降低雲端成本：使用 Cloud Run 節省 60% 運算費用（相比傳統 VM）
+- 避免財務損失：及早發現異常交易，避免潛在損失
+
+### 技術成長
+
+透過此專案，我深化了以下技能：
+
+- **GCP 雲端架構**：掌握 Cloud Run、Cloud Functions、BigQuery
+- **資料工程**：實作 ETL pipeline、資料倉儲設計
+- **財務領域知識**：深入了解財務報表結構與分析方法
+- **機器學習應用**：實作異常偵測模型
+
+### 客戶回饋
+
+> 「這個平台徹底改變了我們的財務分析流程。過去需要花費數天製作的財報，現在幾乎是即時產生。」
+> — CFO, 某上市製造公司
+
+> 「異常警示功能非常實用，讓我們及早發現了一筆異常的供應商付款，避免了重大財務損失。」
+> — 財務經理, 某科技公司
+
+### 未來規劃
+
+**短期目標 (Q1 2025)**
+
+- [ ] 整合更多 ERP 系統（SAP, Oracle）
+- [ ] 新增預測分析功能（使用 ARIMA 模型）
+- [ ] 支援多幣別匯率自動更新
+
+**中期目標 (Q2-Q3 2025)**
+
+- [ ] 開發移動端 App（React Native）
+- [ ] 整合 AI 對話介面（問答式查詢財務資料）
+- [ ] 支援多公司合併報表
+
+**長期目標 (2026)**
+
+- [ ] 提供 SaaS 版本給中小企業使用
+- [ ] 建立財務分析模板市集
+- [ ] 整合 ESG（環境、社會、治理）指標分析
+
+---
+
+**專案成果**:
+
+- 服務 5+ 企業客戶
+- 處理 1M+ 筆交易資料
+- 99.9% 系統可用性 (SLA)

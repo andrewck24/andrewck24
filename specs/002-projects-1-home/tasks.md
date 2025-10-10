@@ -67,11 +67,11 @@
 
 ## Phase 3.2: Tests First (TDD) ⚠️ MUST COMPLETE BEFORE 3.3
 
-**CRITICAL: 這些測試必須先寫且必須失敗，才能開始實作**
+**CRITICAL**: 這些測試必須先寫且必須失敗，才能開始實作
 
 ### E2E Tests (Playwright)
 
-- [ ] **T005** [P] E2E 測試：首頁顯示精選專案
+- [x] **T005** [P] E2E 測試：首頁顯示精選專案
       **檔案**: `tests/e2e/projects/featured-projects.spec.ts`
       **測試內容**:
   - 訪問 `/zh-TW` 顯示 3-5 張精選專案卡片
@@ -81,7 +81,7 @@
     **必須失敗**: 組件尚未實作
     **參考**: quickstart.md 測試場景 2.1
 
-- [ ] **T006** [P] E2E 測試：View Transition 轉場效果
+- [x] **T006** [P] E2E 測試：View Transition 轉場效果
       **檔案**: `tests/e2e/projects/view-transition.spec.ts`
       **測試內容**:
   - 點擊卡片導航至詳細頁面
@@ -90,7 +90,7 @@
     **必須失敗**: 路由和轉場尚未實作
     **參考**: quickstart.md 測試場景 2.2
 
-- [ ] **T007** [P] E2E 測試：專案詳細頁面內容
+- [x] **T007** [P] E2E 測試：專案詳細頁面內容
       **檔案**: `tests/e2e/projects/project-detail.spec.ts`
       **測試內容**:
   - 訪問 `/zh-TW/projects/[slug]` 顯示專案詳情
@@ -101,7 +101,7 @@
 
 ### Component Tests (React Testing Library)
 
-- [ ] **T008** [P] 元件測試：FeaturedProjectCard (hero variant)
+- [x] **T008** [P] 元件測試：FeaturedProjectCard (hero variant)
       **檔案**: `src/components/projects/__tests__/featured-project-card-hero.test.tsx`
       **測試內容**:
   - 渲染標題、描述、圖片
@@ -111,7 +111,7 @@
     **必須失敗**: FeaturedProjectCard 組件未建立
     **參考**: contracts/api-contracts.md Section 3.3
 
-- [ ] **T009** [P] 元件測試：FeaturedProjectCard (compact variant)
+- [x] **T009** [P] 元件測試：FeaturedProjectCard (compact variant)
       **檔案**: `src/components/projects/__tests__/featured-project-card-compact.test.tsx`
       **測試內容**:
   - Mobile: `flex-row`, 圖左文右, `aspect-square`
@@ -120,7 +120,7 @@
     **必須失敗**: FeaturedProjectCard 組件未建立
     **參考**: quickstart.md 測試場景 2.4
 
-- [ ] **T010** [P] 元件測試：FeaturedProjects section
+- [x] **T010** [P] 元件測試：FeaturedProjects section
       **檔案**: `src/components/projects/__tests__/featured-projects.test.tsx`
       **測試內容**:
   - 顯示 3-5 個專案卡片
@@ -128,7 +128,7 @@
   - 無專案時顯示空狀態
     **必須失敗**: FeaturedProjects 組件未建立
 
-- [ ] **T011** [P] 元件測試：ProjectDetail component
+- [x] **T011** [P] 元件測試：ProjectDetail component
       **檔案**: `src/components/projects/__tests__/project-detail.test.tsx`
       **測試內容**:
   - 渲染專案標題、首圖
@@ -138,7 +138,7 @@
 
 ### Unit Tests
 
-- [ ] **T012** [P] 單元測試：projectFrontmatterSchema validation
+- [x] **T012** [P] 單元測試：projectFrontmatterSchema validation
       **檔案**: `src/types/__tests__/project-schema.test.ts`
       **測試內容**:
   - 驗證合法 frontmatter 通過
@@ -149,7 +149,7 @@
   - order 範圍驗證（1-99）
     **必須失敗**: Schema 型別未定義
 
-- [ ] **T013** [P] 單元測試：getFeaturedProjects filtering logic
+- [x] **T013** [P] 單元測試：getFeaturedProjects filtering logic
       **檔案**: `src/lib/data/__tests__/projects.test.ts`
       **測試內容**:
   - 過濾 `featured: true` 專案
@@ -164,7 +164,7 @@
 
 ### Type Definitions
 
-- [ ] **T014** 定義 Project type interfaces
+- [x] **T014** 定義 Project type interfaces
       **檔案**: `src/types/project.ts`
       **內容**: 從 contracts/project-schema.ts 複製並調整為專案型別定義
   - `ProjectFrontmatter`
@@ -177,7 +177,7 @@
 
 ### Data Layer
 
-- [ ] **T015** 建立 projectsSource loader
+- [x] **T015** 建立 projectsSource loader
       **檔案**: `src/lib/source.ts`
       **內容**: 新增 `projectsSource` 使用 fumadocs-mdx loader
 
@@ -192,7 +192,7 @@
   **依賴**: T002 (source.config.ts)
   **驗證**: Import 無錯誤
 
-- [ ] **T016** [P] 實作 getFeaturedProjects()
+- [x] **T016** [P] 實作 getFeaturedProjects()
       **檔案**: `src/lib/data/projects.ts`
       **內容**:
   - 取得所有專案: `projectsSource.getPages()`
@@ -203,7 +203,7 @@
     **依賴**: T015
     **驗證**: T013 單元測試通過
 
-- [ ] **T017** [P] 實作 getProjectBySlug()
+- [x] **T017** [P] 實作 getProjectBySlug()
       **檔案**: `src/lib/data/projects.ts`
       **內容**:
   - 取得單一專案: `projectsSource.getPage([slug], locale)`
@@ -211,7 +211,7 @@
   - 包含 MDX content component
     **驗證**: TypeScript 型別檢查通過
 
-- [ ] **T018** [P] 實作 generateProjectStaticParams()
+- [x] **T018** [P] 實作 generateProjectStaticParams()
       **檔案**: `src/lib/data/projects.ts`
       **內容**:
   - 產生所有專案的 `{ locale, slug }` 組合
@@ -220,7 +220,7 @@
 
 ### Sample Content
 
-- [ ] **T019** [P] 建立 3 個範例專案 MDX (zh-TW)
+- [x] **T019** [P] 建立 3 個範例專案 MDX (zh-TW)
       **檔案**:
   - `content/projects/zh-TW/andrewck24-portfolio.mdx`
   - `content/projects/zh-TW/example-project-2.mdx`
@@ -230,7 +230,7 @@
   - 四個章節（問題、思考、方案、影響）
     **驗證**: fumadocs-mdx 正確解析
 
-- [ ] **T020** [P] 更新 zh-TW meta.json
+- [x] **T020** [P] 更新 zh-TW meta.json
       **檔案**: `content/projects/zh-TW/meta.json`
       **內容**:
 
@@ -243,7 +243,7 @@
 
   **驗證**: 專案順序正確
 
-- [ ] **T021** [P] 準備 placeholder 圖片
+- [x] **T021** [P] 準備 placeholder 圖片
       **檔案**: `public/images/projects/*.jpg`
       **內容**:
   - andrewck24-portfolio-hero.jpg (1200x675)
@@ -253,7 +253,7 @@
 
 ### Components
 
-- [ ] **T022** 實作 FeaturedProjectCard 元件
+- [x] **T022** 實作 FeaturedProjectCard 元件
       **檔案**: `src/components/projects/featured-project-card.tsx`
       **內容**:
   - Props: `{ project: FeaturedProject, variant: 'hero' | 'compact', priority?: boolean }`
@@ -265,7 +265,7 @@
     **依賴**: T014 (types)
     **驗證**: T008, T009 元件測試通過
 
-- [ ] **T023** 實作 FeaturedProjects section 元件
+- [x] **T023** 實作 FeaturedProjects section 元件
       **檔案**: `src/components/projects/featured-projects.tsx`
       **內容**:
   - Props: `{ projects: FeaturedProject[], locale: string }`
@@ -276,7 +276,7 @@
     **依賴**: T022
     **驗證**: T010 元件測試通過
 
-- [ ] **T024** 實作 ProjectDetail 元件
+- [x] **T024** 實作 ProjectDetail 元件
       **檔案**: `src/components/projects/project-detail.tsx`
       **內容**:
   - Props: `{ project: ProjectPageData }`
@@ -287,7 +287,7 @@
     **依賴**: T014 (types)
     **驗證**: T011 元件測試通過
 
-- [ ] **T025** [P] 實作 useViewTransition hook
+- [x] **T025** [P] 實作 useViewTransition hook
       **檔案**: `src/hooks/use-view-transition.ts`
       **內容**:
   - 檢查瀏覽器支援 View Transitions API
@@ -301,7 +301,7 @@
 
 ### Page Components
 
-- [ ] **T026** 建立專案詳細頁面
+- [x] **T026** 建立專案詳細頁面
       **檔案**: `src/app/[lang]/projects/[[...slug]]/page.tsx`
       **內容**:
   - Server Component
@@ -313,7 +313,7 @@
     **依賴**: T017, T024
     **驗證**: T007 E2E 測試通過
 
-- [ ] **T027** 更新首頁加入 FeaturedProjects
+- [x] **T027** 更新首頁加入 FeaturedProjects
       **檔案**: `src/app/[lang]/(home)/page.tsx`
       **內容**:
   - 新增 `getFeaturedProjects(locale)` 呼叫
@@ -434,7 +434,7 @@ Task: "T021 準備 placeholder 圖片"
 
 ## Validation Checklist
 
-_GATE: 確認所有任務符合規範_
+(GATE: 確認所有任務符合規範)
 
 - [x] 所有 contracts 都有對應測試（T005-T013）
 - [x] 所有 entities 都有 model 任務（T014: Project, FeaturedProject）

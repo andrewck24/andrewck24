@@ -517,7 +517,7 @@ test("clicking project card navigates with view transition", async ({
 
 ## Progress Tracking
 
-_This checklist is updated during execution flow_
+(This checklist is updated during execution flow)
 
 **Phase Status**:
 

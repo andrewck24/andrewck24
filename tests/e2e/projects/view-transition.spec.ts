@@ -48,7 +48,7 @@ test.describe("View Transition Effects", () => {
     await page.evaluate(() => {
       // 監聽 View Transition
       const observer = new MutationObserver(() => {
-        if (document.startViewTransition) {
+        if ("startViewTransition" in document) {
           (
             window as Window & { onViewTransition?: () => void }
           ).onViewTransition?.();

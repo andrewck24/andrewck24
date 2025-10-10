@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { z } from "zod";
-
 /**
  * T012: 單元測試 - projectFrontmatterSchema validation
  *
@@ -11,24 +8,11 @@ import { z } from "zod";
  * - image 路徑格式驗證
  * - date 格式驗證（YYYY-MM-DD）
  * - order 範圍驗證（1-99）
- *
- * 預期：此測試必須失敗，因為 Schema 型別未定義
  */
 
-// Import the schema (will fail until implemented)
-// import { projectFrontmatterSchema } from "../project";
+import { projectFrontmatterSchema } from "../project";
 
 describe("Project Frontmatter Schema Validation", () => {
-  // Placeholder schema to make tests fail properly
-  const projectFrontmatterSchema = z.object({
-    title: z.string(),
-    description: z.string(),
-    image: z.string(),
-    date: z.string(),
-    featured: z.boolean().optional(),
-    order: z.number().optional(),
-  });
-
   const validFrontmatter = {
     title: "測試專案",
     description: "這是一個測試專案的描述",
@@ -39,295 +23,206 @@ describe("Project Frontmatter Schema Validation", () => {
   };
 
   it("should accept valid frontmatter", () => {
-    expect(() => {
-      throw new Error(
-        "projectFrontmatterSchema not implemented yet (T012) - Cannot validate valid frontmatter"
-      );
-    }).toThrow();
-
-    // const result = projectFrontmatterSchema.safeParse(validFrontmatter);
-    // expect(result.success).toBe(true);
+    const result = projectFrontmatterSchema.safeParse(validFrontmatter);
+    expect(result.success).toBe(true);
   });
 
   describe("title validation", () => {
     it("should reject titles longer than 100 characters", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema title length validation not implemented yet (T012)"
-        );
-      }).toThrow();
-
-      // const longTitle = {
-      //   ...validFrontmatter,
-      //   title: "A".repeat(101), // 101 characters
-      // };
-      // const result = projectFrontmatterSchema.safeParse(longTitle);
-      // expect(result.success).toBe(false);
-      // if (!result.success) {
-      //   expect(result.error.issues[0].path).toContain("title");
-      // }
+      const longTitle = {
+        ...validFrontmatter,
+        title: "A".repeat(101), // 101 characters
+      };
+      const result = projectFrontmatterSchema.safeParse(longTitle);
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.issues[0].path).toContain("title");
+      }
     });
 
     it("should accept title with exactly 100 characters", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema title boundary validation not implemented yet (T012)"
-        );
-      }).toThrow();
-
-      // const maxLengthTitle = {
-      //   ...validFrontmatter,
-      //   title: "A".repeat(100), // Exactly 100 characters
-      // };
-      // const result = projectFrontmatterSchema.safeParse(maxLengthTitle);
-      // expect(result.success).toBe(true);
+      const maxLengthTitle = {
+        ...validFrontmatter,
+        title: "A".repeat(100), // Exactly 100 characters
+      };
+      const result = projectFrontmatterSchema.safeParse(maxLengthTitle);
+      expect(result.success).toBe(true);
     });
 
     it("should reject empty title", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema title required validation not implemented yet (T012)"
-        );
-      }).toThrow();
-
-      // const emptyTitle = {
-      //   ...validFrontmatter,
-      //   title: "",
-      // };
-      // const result = projectFrontmatterSchema.safeParse(emptyTitle);
-      // expect(result.success).toBe(false);
+      const emptyTitle = {
+        ...validFrontmatter,
+        title: "",
+      };
+      const result = projectFrontmatterSchema.safeParse(emptyTitle);
+      expect(result.success).toBe(false);
     });
   });
 
   describe("description validation", () => {
     it("should reject descriptions longer than 200 characters", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema description length validation not implemented yet (T012)"
-        );
-      }).toThrow();
-
-      // const longDesc = {
-      //   ...validFrontmatter,
-      //   description: "B".repeat(201), // 201 characters
-      // };
-      // const result = projectFrontmatterSchema.safeParse(longDesc);
-      // expect(result.success).toBe(false);
-      // if (!result.success) {
-      //   expect(result.error.issues[0].path).toContain("description");
-      // }
+      const longDesc = {
+        ...validFrontmatter,
+        description: "B".repeat(201), // 201 characters
+      };
+      const result = projectFrontmatterSchema.safeParse(longDesc);
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.issues[0].path).toContain("description");
+      }
     });
 
     it("should accept description with exactly 200 characters", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema description boundary validation not implemented yet (T012)"
-        );
-      }).toThrow();
-
-      // const maxLengthDesc = {
-      //   ...validFrontmatter,
-      //   description: "B".repeat(200),
-      // };
-      // const result = projectFrontmatterSchema.safeParse(maxLengthDesc);
-      // expect(result.success).toBe(true);
+      const maxLengthDesc = {
+        ...validFrontmatter,
+        description: "B".repeat(200),
+      };
+      const result = projectFrontmatterSchema.safeParse(maxLengthDesc);
+      expect(result.success).toBe(true);
     });
 
     it("should reject empty description", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema description required validation not implemented yet (T012)"
-        );
-      }).toThrow();
-
-      // const emptyDesc = {
-      //   ...validFrontmatter,
-      //   description: "",
-      // };
-      // const result = projectFrontmatterSchema.safeParse(emptyDesc);
-      // expect(result.success).toBe(false);
+      const emptyDesc = {
+        ...validFrontmatter,
+        description: "",
+      };
+      const result = projectFrontmatterSchema.safeParse(emptyDesc);
+      expect(result.success).toBe(false);
     });
   });
 
   describe("image path validation", () => {
     it("should accept valid image paths", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema image validation not implemented yet (T012)"
-        );
-      }).toThrow();
+      const validImages = [
+        "/images/projects/test.jpg",
+        "/images/projects/test.png",
+        "/images/projects/test.webp",
+        "/images/projects/test.avif",
+      ];
 
-      // const validImages = [
-      //   "/images/projects/test.jpg",
-      //   "/images/projects/test.png",
-      //   "/images/projects/test.webp",
-      //   "/images/projects/test.avif",
-      // ];
-
-      // validImages.forEach((image) => {
-      //   const result = projectFrontmatterSchema.safeParse({
-      //     ...validFrontmatter,
-      //     image,
-      //   });
-      //   expect(result.success).toBe(true);
-      // });
+      validImages.forEach((image) => {
+        const result = projectFrontmatterSchema.safeParse({
+          ...validFrontmatter,
+          image,
+        });
+        expect(result.success).toBe(true);
+      });
     });
 
     it("should reject invalid image extensions", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema image extension validation not implemented yet (T012)"
-        );
-      }).toThrow();
-
-      // const invalidImage = {
-      //   ...validFrontmatter,
-      //   image: "/images/projects/test.txt",
-      // };
-      // const result = projectFrontmatterSchema.safeParse(invalidImage);
-      // expect(result.success).toBe(false);
+      const invalidImage = {
+        ...validFrontmatter,
+        image: "/images/projects/test.txt",
+      };
+      const result = projectFrontmatterSchema.safeParse(invalidImage);
+      expect(result.success).toBe(false);
     });
   });
 
   describe("date validation", () => {
     it("should accept valid date format (YYYY-MM-DD)", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema date validation not implemented yet (T012)"
-        );
-      }).toThrow();
+      const validDates = ["2024-10-10", "2023-01-01", "2025-12-31"];
 
-      // const validDates = ["2024-10-10", "2023-01-01", "2025-12-31"];
-
-      // validDates.forEach((date) => {
-      //   const result = projectFrontmatterSchema.safeParse({
-      //     ...validFrontmatter,
-      //     date,
-      //   });
-      //   expect(result.success).toBe(true);
-      // });
+      validDates.forEach((date) => {
+        const result = projectFrontmatterSchema.safeParse({
+          ...validFrontmatter,
+          date,
+        });
+        expect(result.success).toBe(true);
+      });
     });
 
     it("should reject invalid date formats", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema date format validation not implemented yet (T012)"
-        );
-      }).toThrow();
+      const invalidDates = [
+        "10-10-2024",
+        "2024/10/10",
+        "Oct 10, 2024",
+        "invalid",
+      ];
 
-      // const invalidDates = ["10-10-2024", "2024/10/10", "Oct 10, 2024", "invalid"];
-
-      // invalidDates.forEach((date) => {
-      //   const result = projectFrontmatterSchema.safeParse({
-      //     ...validFrontmatter,
-      //     date,
-      //   });
-      //   expect(result.success).toBe(false);
-      // });
+      invalidDates.forEach((date) => {
+        const result = projectFrontmatterSchema.safeParse({
+          ...validFrontmatter,
+          date,
+        });
+        expect(result.success).toBe(false);
+      });
     });
   });
 
   describe("featured field validation", () => {
     it("should accept featured as optional boolean", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema featured validation not implemented yet (T012)"
-        );
-      }).toThrow();
+      // featured: true
+      const featured = projectFrontmatterSchema.safeParse({
+        ...validFrontmatter,
+        featured: true,
+      });
+      expect(featured.success).toBe(true);
 
-      // // featured: true
-      // const featured = projectFrontmatterSchema.safeParse({
-      //   ...validFrontmatter,
-      //   featured: true,
-      // });
-      // expect(featured.success).toBe(true);
+      // featured: false
+      const notFeatured = projectFrontmatterSchema.safeParse({
+        ...validFrontmatter,
+        featured: false,
+      });
+      expect(notFeatured.success).toBe(true);
 
-      // // featured: false
-      // const notFeatured = projectFrontmatterSchema.safeParse({
-      //   ...validFrontmatter,
-      //   featured: false,
-      // });
-      // expect(notFeatured.success).toBe(true);
-
-      // // featured omitted (should default to false)
-      // const { featured: _, ...withoutFeatured } = validFrontmatter;
-      // const noFeatured = projectFrontmatterSchema.safeParse(withoutFeatured);
-      // expect(noFeatured.success).toBe(true);
+      // featured omitted (should default to false)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { featured: _, ...withoutFeatured } = validFrontmatter;
+      const noFeatured = projectFrontmatterSchema.safeParse(withoutFeatured);
+      expect(noFeatured.success).toBe(true);
     });
   });
 
   describe("order field validation", () => {
     it("should accept order values between 1-99", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema order validation not implemented yet (T012)"
-        );
-      }).toThrow();
+      const validOrders = [1, 50, 99];
 
-      // const validOrders = [1, 50, 99];
-
-      // validOrders.forEach((order) => {
-      //   const result = projectFrontmatterSchema.safeParse({
-      //     ...validFrontmatter,
-      //     order,
-      //   });
-      //   expect(result.success).toBe(true);
-      // });
+      validOrders.forEach((order) => {
+        const result = projectFrontmatterSchema.safeParse({
+          ...validFrontmatter,
+          order,
+        });
+        expect(result.success).toBe(true);
+      });
     });
 
     it("should reject order values outside 1-99 range", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema order range validation not implemented yet (T012)"
-        );
-      }).toThrow();
+      const invalidOrders = [0, -1, 100, 1000];
 
-      // const invalidOrders = [0, -1, 100, 1000];
-
-      // invalidOrders.forEach((order) => {
-      //   const result = projectFrontmatterSchema.safeParse({
-      //     ...validFrontmatter,
-      //     order,
-      //   });
-      //   expect(result.success).toBe(false);
-      // });
+      invalidOrders.forEach((order) => {
+        const result = projectFrontmatterSchema.safeParse({
+          ...validFrontmatter,
+          order,
+        });
+        expect(result.success).toBe(false);
+      });
     });
 
     it("should accept order as optional", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema order optional validation not implemented yet (T012)"
-        );
-      }).toThrow();
-
-      // const { order: _, ...withoutOrder } = validFrontmatter;
-      // const result = projectFrontmatterSchema.safeParse(withoutOrder);
-      // expect(result.success).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { order: _, ...withoutOrder } = validFrontmatter;
+      const result = projectFrontmatterSchema.safeParse(withoutOrder);
+      expect(result.success).toBe(true);
     });
   });
 
   describe("comprehensive validation", () => {
     it("should provide helpful error messages for multiple invalid fields", () => {
-      expect(() => {
-        throw new Error(
-          "projectFrontmatterSchema error messages not implemented yet (T012)"
-        );
-      }).toThrow();
+      const invalidFrontmatter = {
+        title: "A".repeat(101), // Too long
+        description: "B".repeat(201), // Too long
+        image: "/images/test.txt", // Invalid extension
+        date: "invalid-date", // Invalid format
+        order: 100, // Out of range
+      };
 
-      // const invalidFrontmatter = {
-      //   title: "A".repeat(101), // Too long
-      //   description: "B".repeat(201), // Too long
-      //   image: "/images/test.txt", // Invalid extension
-      //   date: "invalid-date", // Invalid format
-      //   order: 100, // Out of range
-      // };
-
-      // const result = projectFrontmatterSchema.safeParse(invalidFrontmatter);
-      // expect(result.success).toBe(false);
-      // if (!result.success) {
-      //   // Should have multiple errors
-      //   expect(result.error.issues.length).toBeGreaterThan(1);
-      // }
+      const result = projectFrontmatterSchema.safeParse(invalidFrontmatter);
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        // Should have multiple errors
+        expect(result.error.issues.length).toBeGreaterThan(1);
+      }
     });
   });
 });
