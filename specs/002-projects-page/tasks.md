@@ -325,13 +325,20 @@
     **依賴**: T016, T023
     **驗證**: T005 E2E 測試通過
 
-- [ ] **T028** [P] (Optional) 更新導航連結
-      **檔案**: 根據現有導航結構（可能在 `src/components/layout/nav.tsx`）
-      **內容**:
-  - 新增 "Projects" 連結至導航選單
-  - 連結至 `/[locale]/projects`（未來專案列表頁）
-  - 目前導向首頁的 Featured Projects section
-    **驗證**: 點擊連結正確導航
+- [x] **T028** [P] 更新作品集相關路由連結
+      **檔案**:
+  - `src/components/home/hero/cta-buttons.tsx`（首頁 CTA 按鈕）
+  - `src/lib/layout.shared.tsx`（導航選單）
+    **內容**:
+  1. **首頁 CTA 按鈕** (`cta-buttons.tsx:41`)：
+     - 將「檢視作品集」按鈕路由從 `/${locale}/portfolio` 改為 `/${locale}/projects`
+  2. **導航選單** (`layout.shared.tsx`)：
+     - 新增 "Projects"/"專案"/"プロジェクト" 連結至 `links` 陣列
+     - 路由指向 `/${locale}/projects`
+     - 加入多語言文字處理函數 `getProjectsText()`
+       **驗證**:
+  - 首頁 CTA 按鈕點擊後正確導向 `/[locale]/projects`
+  - 導航選單顯示 Projects 連結且導向正確
 
 ---
 

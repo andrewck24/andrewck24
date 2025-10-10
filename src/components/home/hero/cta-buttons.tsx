@@ -38,7 +38,7 @@ export function CtaButtons({ locale, social }: CtaButtonsProps) {
           data-testid="view-portfolio-btn"
           className="max-sm:flex-1"
         >
-          <Link href={`/${locale}/portfolio`}>檢視作品集</Link>
+          <Link href={`/${locale}/projects`}>檢視作品集</Link>
         </Button>
         <Button
           asChild
