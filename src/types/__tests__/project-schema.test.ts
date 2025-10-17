@@ -13,14 +13,32 @@
 import { projectFrontmatterSchema } from "../project";
 
 describe("Project Frontmatter Schema Validation", () => {
-  const validFrontmatter = {
+  // Valid static frontmatter
+  const validStaticFrontmatter = {
     title: "測試專案",
     description: "這是一個測試專案的描述",
-    image: "/images/projects/test.jpg",
+    imageType: "static" as const,
+    image: "/images/projects/hero/zh-TW/test.jpg",
     date: "2024-10-10",
     featured: true,
     order: 1,
   };
+
+  // Valid generated frontmatter
+  const validDynamicFrontmatter = {
+    title: "動態 OG 專案",
+    description: "使用動態 OG Image 的專案",
+    imageType: "generated" as const,
+    ogImage: {
+      background: "/images/projects/og-backgrounds/common/tech.jpg",
+    },
+    date: "2024-10-10",
+    featured: true,
+    order: 2,
+  };
+
+  // Use static as default for backward compatibility tests
+  const validFrontmatter = validStaticFrontmatter;
 
   it("should accept valid frontmatter", () => {
     const result = projectFrontmatterSchema.safeParse(validFrontmatter);
@@ -91,28 +109,37 @@ describe("Project Frontmatter Schema Validation", () => {
     });
   });
 
-  describe("image path validation", () => {
-    it("should accept valid image paths", () => {
+  describe("image path validation (static mode)", () => {
+    it("should accept valid image paths with locale", () => {
       const validImages = [
-        "/images/projects/test.jpg",
-        "/images/projects/test.png",
-        "/images/projects/test.webp",
-        "/images/projects/test.avif",
+        "/images/projects/hero/zh-TW/test.jpg",
+        "/images/projects/hero/en/test.png",
+        "/images/projects/hero/ja/test.webp",
+        "/images/projects/hero/zh-TW/my-project.avif",
       ];
 
       validImages.forEach((image) => {
         const result = projectFrontmatterSchema.safeParse({
-          ...validFrontmatter,
+          ...validStaticFrontmatter,
           image,
         });
         expect(result.success).toBe(true);
       });
     });
 
+    it("should reject old image path format (without locale)", () => {
+      const oldFormatImage = {
+        ...validStaticFrontmatter,
+        image: "/images/projects/test.jpg",
+      };
+      const result = projectFrontmatterSchema.safeParse(oldFormatImage);
+      expect(result.success).toBe(false);
+    });
+
     it("should reject invalid image extensions", () => {
       const invalidImage = {
-        ...validFrontmatter,
-        image: "/images/projects/test.txt",
+        ...validStaticFrontmatter,
+        image: "/images/projects/hero/zh-TW/test.txt",
       };
       const result = projectFrontmatterSchema.safeParse(invalidImage);
       expect(result.success).toBe(false);
@@ -207,12 +234,99 @@ describe("Project Frontmatter Schema Validation", () => {
     });
   });
 
+  describe("imageType validation", () => {
+    it("should accept 'static' imageType", () => {
+      const result = projectFrontmatterSchema.safeParse(validStaticFrontmatter);
+      expect(result.success).toBe(true);
+    });
+
+    it("should accept 'generated' imageType", () => {
+      const result = projectFrontmatterSchema.safeParse(
+        validDynamicFrontmatter
+      );
+      expect(result.success).toBe(true);
+    });
+
+    it("should default to 'static' if imageType is omitted", () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { imageType: _, ...withoutImageType } = validStaticFrontmatter;
+      const result = projectFrontmatterSchema.safeParse(withoutImageType);
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.imageType).toBe("static");
+      }
+    });
+  });
+
+  describe("ogImage validation (generated mode)", () => {
+    it("should accept ogImage with background (common folder)", () => {
+      const withCommonBg = {
+        ...validDynamicFrontmatter,
+        ogImage: {
+          background: "/images/projects/og-backgrounds/common/bg.jpg",
+        },
+      };
+      const result = projectFrontmatterSchema.safeParse(withCommonBg);
+      expect(result.success).toBe(true);
+    });
+
+    it("should accept ogImage with background (locale-specific)", () => {
+      const validLocales = ["zh-TW", "en", "ja"];
+
+      validLocales.forEach((locale) => {
+        const withLocaleBg = {
+          ...validDynamicFrontmatter,
+          ogImage: {
+            background: `/images/projects/og-backgrounds/${locale}/bg.png`,
+          },
+        };
+        const result = projectFrontmatterSchema.safeParse(withLocaleBg);
+        expect(result.success).toBe(true);
+      });
+    });
+
+    it("should accept ogImage with custom className", () => {
+      const withClassName = {
+        ...validDynamicFrontmatter,
+        ogImage: {
+          background: "/images/projects/og-backgrounds/common/bg.jpg",
+          className: "custom-og-style",
+        },
+      };
+      const result = projectFrontmatterSchema.safeParse(withClassName);
+      expect(result.success).toBe(true);
+    });
+
+    it("should accept ogImage without background (gradient fallback)", () => {
+      const withoutBackground = {
+        ...validDynamicFrontmatter,
+        ogImage: {
+          className: "gradient-blue",
+        },
+      };
+      const result = projectFrontmatterSchema.safeParse(withoutBackground);
+      expect(result.success).toBe(true);
+    });
+
+    it("should reject invalid ogImage background path", () => {
+      const invalidBg = {
+        ...validDynamicFrontmatter,
+        ogImage: {
+          background: "/images/projects/og-backgrounds/invalid.txt",
+        },
+      };
+      const result = projectFrontmatterSchema.safeParse(invalidBg);
+      expect(result.success).toBe(false);
+    });
+  });
+
   describe("comprehensive validation", () => {
     it("should provide helpful error messages for multiple invalid fields", () => {
       const invalidFrontmatter = {
         title: "A".repeat(101), // Too long
         description: "B".repeat(201), // Too long
-        image: "/images/test.txt", // Invalid extension
+        imageType: "static" as const,
+        image: "/images/test.txt", // Invalid extension & old format
         date: "invalid-date", // Invalid format
         order: 100, // Out of range
       };

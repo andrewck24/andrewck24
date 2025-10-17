@@ -2,18 +2,11 @@
  * Project Detail Page
  *
  * 專案詳細頁面路由
- * Route: /[lang]/projects/[...slug]
- *
- * 支援單層或多層路由結構：
- * - /[lang]/projects/project-name (單層)
- * - /[lang]/projects/category/project-name (多層，未來擴展)
+ * Route: /[lang]/projects/[slug]
  */
 
 import { ProjectDetail } from "@/components/projects/project-detail";
-import {
-  generateProjectStaticParams,
-  getProjectBySlug,
-} from "@/lib/data/projects";
+import { generateProjectStaticParams, getProject } from "@/lib/data/projects";
 import type { Locale } from "@/types/project";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -21,30 +14,22 @@ import { notFound } from "next/navigation";
 interface ProjectPageProps {
   params: Promise<{
     lang: string;
-    slug: string[];
+    slug: string;
   }>;
 }
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { lang, slug: slugArray } = await params;
-
-  // Currently using single-level structure (first segment only)
-  // Future: can support multi-level by joining slugArray
-  const slug = slugArray[0];
+export default async function ProjectDetailPage({ params }: ProjectPageProps) {
+  const { lang, slug } = await params;
 
   // Get project data
-  const project = await getProjectBySlug(lang as Locale, slug);
+  const project = await getProject(lang as Locale, slug);
 
   // 404 if project doesn't exist
   if (!project) {
     notFound();
   }
 
-  return (
-    <main className="container mx-auto px-4 py-12">
-      <ProjectDetail project={project} />
-    </main>
-  );
+  return <ProjectDetail project={project} />;
 }
 
 // Generate static params for all projects
@@ -54,7 +39,7 @@ export async function generateStaticParams() {
   // Convert to Next.js format
   return params.map((param) => ({
     lang: param.locale,
-    slug: [param.slug],
+    slug: param.slug,
   }));
 }
 
@@ -62,12 +47,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: ProjectPageProps): Promise<Metadata> {
-  const { lang, slug: slugArray } = await params;
+  const { lang, slug } = await params;
 
-  // Currently using single-level structure (first segment only)
-  const slug = slugArray[0];
-
-  const project = await getProjectBySlug(lang as Locale, slug);
+  const project = await getProject(lang as Locale, slug);
 
   if (!project) {
     return {
@@ -75,18 +57,26 @@ export async function generateMetadata({
     };
   }
 
+  // 根據 imageType 決定 OG image 策略
+  // - static: 直接在 metadata 中指定圖片路徑
+  // - generated: 不設定 images，讓 opengraph-image.tsx 動態生成
+  const openGraphImages =
+    project.imageType === "static" && project.image
+      ? [
+          {
+            url: project.image,
+            alt: project.title,
+          },
+        ]
+      : undefined;
+
   return {
     title: project.title,
     description: project.description,
     openGraph: {
       title: project.title,
       description: project.description,
-      images: [
-        {
-          url: project.image,
-          alt: project.title,
-        },
-      ],
+      images: openGraphImages,
       type: "article",
       publishedTime: project.date,
     },

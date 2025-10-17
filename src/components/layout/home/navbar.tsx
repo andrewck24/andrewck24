@@ -22,7 +22,7 @@ import { useNav } from "fumadocs-ui/contexts/layout";
 import { type ComponentProps, Fragment, useState } from "react";
 
 const navItemVariants = cva(
-  "inline-flex items-center gap-1 p-2 text-fd-muted-foreground transition-colors hover:text-fd-accent-foreground data-[active=true]:text-fd-primary [&_svg]:size-4"
+  "text-fd-muted-foreground hover:text-fd-accent-foreground data-[active=true]:text-fd-primary inline-flex items-center gap-1 p-2 transition-colors [&_svg]:size-4"
 );
 
 export function Navbar(props: HomeLayoutProps & ComponentProps<"div">) {
@@ -39,7 +39,7 @@ export function Navbar(props: HomeLayoutProps & ComponentProps<"div">) {
         id="nd-nav"
         {...props}
         className={cn(
-          "mx-4 mt-4 w-full rounded-xl border border-transparent backdrop-blur-sm transition-colors",
+          "mx-4 mt-4 w-full rounded-xl border border-transparent backdrop-blur-sm transition-colors lg:mx-12",
           (!isTransparent || value.length > 0) &&
             "bg-fd-background/60 border-border",
           props.className

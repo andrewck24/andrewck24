@@ -25,6 +25,28 @@ export function CtaButtons({ locale, social }: CtaButtonsProps) {
     },
   ];
 
+  const getProjectsText = () => {
+    switch (locale) {
+      case "zh-TW":
+        return "檢視作品集";
+      case "ja":
+        return "ポートフォリオを見る";
+      default:
+        return "View Portfolio";
+    }
+  };
+
+  const getAboutText = () => {
+    switch (locale) {
+      case "zh-TW":
+        return "關於我";
+      case "ja":
+        return "私について";
+      default:
+        return "About Me";
+    }
+  };
+
   return (
     <div
       className="flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start"
@@ -35,19 +57,16 @@ export function CtaButtons({ locale, social }: CtaButtonsProps) {
           asChild
           size="lg"
           variant="destructive"
-          data-testid="view-portfolio-btn"
           className="max-sm:flex-1"
         >
-          <Link href={`/${locale}/projects`}>檢視作品集</Link>
+          <Link href={`/${locale}/projects`} data-testid="view-portfolio-btn">
+            {getProjectsText()}
+          </Link>
         </Button>
-        <Button
-          asChild
-          size="lg"
-          variant="outline"
-          data-testid="view-about-btn"
-          className="max-sm:flex-1"
-        >
-          <Link href={`/${locale}/about`}>關於我</Link>
+        <Button asChild size="lg" variant="outline" className="max-sm:flex-1">
+          <Link href={`/${locale}/about`} data-testid="view-about-btn">
+            {getAboutText()}
+          </Link>
         </Button>
       </div>
       <div className="flex items-center justify-center gap-4">

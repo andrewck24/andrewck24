@@ -1,4 +1,4 @@
-import { FeaturedProjects } from "@/components/projects/featured-projects";
+import { Projects } from "@/components/projects";
 import { getFeaturedProjects } from "@/lib/data/projects";
 import type { Locale } from "@/types/project";
 import type { Metadata } from "next";
@@ -12,32 +12,10 @@ interface ProjectsPageProps {
 export default async function ProjectsPage({ params }: ProjectsPageProps) {
   const { lang } = await params;
 
-  // Fetch featured projects
-  const featuredProjects = await getFeaturedProjects(lang as Locale);
+  // Fetch featured projects for the locale
+  const projects = await getFeaturedProjects(lang as Locale);
 
-  return (
-    <main className="container mx-auto px-4 py-12">
-      {/* Page Header */}
-      <header className="mb-12">
-        <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-gray-100">
-          {lang === "zh-TW" && "專案作品集"}
-          {lang === "en" && "Projects Portfolio"}
-          {lang === "ja" && "プロジェクトポートフォリオ"}
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400">
-          {lang === "zh-TW" &&
-            "精選專案展示，涵蓋全端開發、雲端架構與財務分析等領域"}
-          {lang === "en" &&
-            "Featured projects showcasing full-stack development, cloud architecture, and financial analysis"}
-          {lang === "ja" &&
-            "フルスタック開発、クラウドアーキテクチャ、財務分析などの分野をカバーする注目プロジェクト"}
-        </p>
-      </header>
-
-      {/* Featured Projects Section */}
-      <FeaturedProjects projects={featuredProjects} locale={lang as Locale} />
-    </main>
-  );
+  return <Projects projects={projects} locale={lang as Locale} />;
 }
 
 // Generate metadata for SEO
@@ -48,14 +26,14 @@ export async function generateMetadata({
 
   const titles = {
     "zh-TW": "專案作品集",
-    en: "Projects Portfolio",
-    ja: "プロジェクトポートフォリオ",
+    en: "Projects",
+    ja: "プロジェクト",
   };
 
   const descriptions = {
-    "zh-TW": "精選專案展示，涵蓋全端開發、雲端架構與財務分析等領域",
-    en: "Featured projects showcasing full-stack development, cloud architecture, and financial analysis",
-    ja: "フルスタック開発、クラウドアーキテクチャ、財務分析などの分野をカバーする注目プロジェクト",
+    "zh-TW": "精選專案展示，涵蓋流程改善、介面設計與全端開發等領域",
+    en: "Featured projects showcasing process improvement, interface design, and full-stack development",
+    ja: "プロセス改善、インターフェース設計、フルスタック開発などの注目プロジェクト",
   };
 
   return {

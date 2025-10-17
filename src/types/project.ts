@@ -44,14 +44,44 @@ export const projectFrontmatterSchema = z.object({
     .min(1, "描述不可為空")
     .max(200, "描述不可超過 200 字元"),
 
+  // Image type selector
+  imageType: z.enum(["static", "generated"]).default("static"),
+
+  // Static image path (for imageType: "static")
   image: z
     .string()
     .regex(
-      /^\/images\/projects\/[a-z0-9-]+\.(jpg|jpeg|png|webp|avif)$/i,
-      "圖片路徑格式: /images/projects/*.{jpg|jpeg|png|webp|avif}"
-    ),
+      /^\/images\/projects\/hero\/(zh-TW|en|ja)\/[a-z0-9-]+\.(jpg|jpeg|png|webp|avif)$/i,
+      "圖片路徑格式: /images/projects/hero/{locale}/*.{jpg|jpeg|png|webp|avif}"
+    )
+    .optional(),
 
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "日期格式: YYYY-MM-DD"),
+  // Generated OG Image config (for imageType: "generated")
+  ogImage: z
+    .object({
+      text: z.string().optional(),
+      background: z
+        .string()
+        .regex(
+          /^\/images\/projects\/og-backgrounds\/(common|zh-TW|en|ja)\/[a-z0-9-]+\.(jpg|jpeg|png|webp|avif)$/i,
+          "背景圖路徑格式: /images/projects/og-backgrounds/{common|locale}/*.{jpg|jpeg|png|webp|avif}"
+        )
+        .optional(),
+      className: z.string().optional(),
+    })
+    .optional(),
+
+  date: z
+    .union([
+      z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "日期格式: YYYY-MM-DD"),
+      z.date(),
+    ])
+    .transform((val) => {
+      if (val instanceof Date) {
+        return val.toISOString().split("T")[0];
+      }
+      return val;
+    }),
 
   featured: z.boolean().optional().default(false),
 
@@ -90,8 +120,21 @@ export interface ProjectFrontmatter {
   /** 專案簡述（≤200 字元） */
   description: string;
 
-  /** 專案首圖路徑（/images/projects/*.{jpg|jpeg|png|webp|avif}） */
-  image: string;
+  /** 圖片類型選擇 */
+  imageType?: "static" | "generated";
+
+  /** 靜態圖片路徑（當 imageType: "static"） */
+  image?: string;
+
+  /** 動態 OG Image 配置（當 imageType: "generated"） */
+  ogImage?: {
+    /** 自訂圖片文字內容（純文字） */
+    text?: string;
+    /** 背景圖路徑（可選） */
+    background?: string;
+    /** 自訂 CSS className（可選） */
+    className?: string;
+  };
 
   /** 專案日期（ISO 8601: YYYY-MM-DD） */
   date: string;

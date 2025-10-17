@@ -1,7 +1,10 @@
 ---
 title: 企業財務分析平台
 description: 整合 GCP 與 Python 的財務分析系統，提供即時財報分析與視覺化儀表板
-image: /images/projects/example-project-2-hero.jpg
+imageType: generated
+ogImage:
+  text: 企業財務分析平台
+  background: /images/projects/og-backgrounds/common/tech-background.jpg
 date: 2024-09-15
 featured: true
 order: 2
@@ -44,19 +47,22 @@ order: 2
 ### 資料處理流程
 
 1. **資料擷取 (Extract)**
-   - 連接 ERP API 取得交易資料
-   - 解析 PDF 財報（使用 Google Document AI）
-   - 匯入 Excel 檔案（pandas 處理）
+
+- 連接 ERP API 取得交易資料
+- 解析 PDF 財報（使用 Google Document AI）
+- 匯入 Excel 檔案（pandas 處理）
 
 2. **資料轉換 (Transform)**
-   - 資料清洗與標準化
-   - 計算財務指標（ROE, ROA, 毛利率等）
-   - 時間序列分析（YoY, MoM 成長率）
+
+- 資料清洗與標準化
+- 計算財務指標（ROE, ROA, 毛利率等）
+- 時間序列分析（YoY, MoM 成長率）
 
 3. **資料載入 (Load)**
-   - 寫入 Cloud SQL（關聯式資料）
-   - 寫入 BigQuery（分析型資料）
-   - 更新儀表板快取
+
+- 寫入 Cloud SQL（關聯式資料）
+- 寫入 BigQuery（分析型資料）
+- 更新儀表板快取
 
 ## 採用方案
 

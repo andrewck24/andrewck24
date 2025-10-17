@@ -1,11 +1,5 @@
-/**
- * Featured Projects Section Component
- *
- * 展示精選專案列表區塊
- */
-
+import { FeaturedProjectCard } from "@/components/projects/featured-project-card";
 import type { FeaturedProject, Locale } from "@/types/project";
-import { FeaturedProjectCard } from "./featured-project-card";
 
 export interface FeaturedProjectsProps {
   projects: FeaturedProject[];
@@ -24,19 +18,17 @@ export function FeaturedProjects({ projects, locale }: FeaturedProjectsProps) {
   if (projects.length === 0) {
     return (
       <section
-        className="py-12"
+        className="w-full py-12"
         aria-labelledby="featured-projects-heading"
         role="region"
         aria-label={sectionTitles[locale]}
       >
-        <h2
-          id="featured-projects-heading"
-          className="mb-8 text-3xl font-bold text-gray-900 dark:text-gray-100"
-        >
-          {sectionTitles[locale]}
-        </h2>
-        <p className="text-center text-gray-600 dark:text-gray-400">
-          目前沒有精選專案
+        <p className="text-muted-foreground text-center">
+          {locale === "zh-TW" && "目前沒有中文精選專案介紹。"}
+          {locale === "en" &&
+            "Featured projects are not available in English at the moment."}
+          {locale === "ja" &&
+            "現在、日本語の注目プロジェクトは利用できません。"}
         </p>
       </section>
     );
@@ -44,22 +36,13 @@ export function FeaturedProjects({ projects, locale }: FeaturedProjectsProps) {
 
   return (
     <section
-      className="py-12"
+      className="w-full py-12"
       aria-labelledby="featured-projects-heading"
       role="region"
       aria-label={sectionTitles[locale]}
     >
-      {/* Section Title */}
-      <h2
-        id="featured-projects-heading"
-        className="mb-8 text-3xl font-bold text-gray-900 dark:text-gray-100"
-      >
-        {sectionTitles[locale]}
-      </h2>
-
-      {/* Projects Grid */}
       <div
-        className="grid grid-cols-1 gap-6 md:grid-cols-3"
+        className="grid grid-cols-1 gap-6 md:grid-cols-2"
         data-testid="featured-projects-grid"
       >
         {projects.map((project, index) => (

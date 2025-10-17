@@ -8,6 +8,14 @@ const config = {
   experimental: {
     viewTransition: true,
   },
+  images: {
+    localPatterns: [
+      {
+        pathname: "/images/**",
+        search: "",
+      },
+    ],
+  },
 };
 
 export default withMDX(config);

@@ -43,11 +43,19 @@ export async function getFeaturedProjects(
   return limitedPages.map((page) => {
     const data = page.data as unknown as ProjectMetadata;
     return {
-      ...data,
+      // 只提取 ProjectFrontmatter 定義的欄位
+      title: data.title,
+      description: data.description,
+      imageType: data.imageType,
+      image: data.image,
+      ogImage: data.ogImage,
+      date: data.date,
+      featured: true as const,
+      order: data.order,
+      // 自動產生的 metadata
       slug: page.slugs[0] || "",
       locale,
       url: page.url,
-      featured: true as const,
     };
   });
 }
@@ -61,31 +69,37 @@ export async function getFeaturedProjects(
  *
  * @example
  * ```ts
- * const project = await getProjectBySlug("zh-TW", "portfolio-website");
- * if (!project) {
- *   notFound();
- * }
+ * const project = await getProject("zh-TW", "portfolio-website");
+ * if (!project) notFound();
  * ```
  */
-export async function getProjectBySlug(
+export async function getProject(
   locale: Locale,
   slug: string
 ): Promise<ProjectPageData | null> {
   const page = projectsSource.getPage([slug], locale);
 
-  if (!page) {
-    return null;
-  }
+  if (!page) return null;
 
   const data = page.data as unknown as ProjectMetadata & {
     body: React.ComponentType;
   };
 
   return {
-    ...data,
+    // 只提取 ProjectFrontmatter 定義的欄位
+    title: data.title,
+    description: data.description,
+    imageType: data.imageType,
+    image: data.image,
+    ogImage: data.ogImage,
+    date: data.date,
+    featured: data.featured,
+    order: data.order,
+    // 自動產生的 metadata
     slug: page.slugs[0] || slug,
     locale,
     url: page.url,
+    // ProjectPageData 特有欄位
     content: data.body,
     body: "", // fumadocs-mdx 不提供原始 body 字串，若需要可從 MDX 解析
   };
@@ -134,7 +148,16 @@ export async function getAllProjects(
   return pages.map((page) => {
     const data = page.data as unknown as ProjectMetadata;
     return {
-      ...data,
+      // 只提取 ProjectFrontmatter 定義的欄位
+      title: data.title,
+      description: data.description,
+      imageType: data.imageType,
+      image: data.image,
+      ogImage: data.ogImage,
+      date: data.date,
+      featured: data.featured,
+      order: data.order,
+      // 自動產生的 metadata
       slug: page.slugs[0] || "",
       locale,
       url: page.url,

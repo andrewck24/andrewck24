@@ -2,7 +2,8 @@
 
 ## General Principles
 
-開發時應符合 [constitution](/.specify/memory/constitution.md) 中的原則與規範。
+1. 開發時應符合 [constitution](/.specify/memory/constitution.md) 中的原則與規範。
+2. 配色應使用 [globals.css](/src/app/globals.css) 中定義的 CSS 變數。
 
 ## Web Interface Guidelines
 
