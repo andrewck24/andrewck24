@@ -10,7 +10,9 @@ export const size = {
 
 export const contentType = "image/png";
 
-export const runtime = "edge";
+// Use nodejs runtime because fumadocs-mdx requires fs/promises
+// Edge runtime doesn't support Node.js file system APIs
+export const runtime = "nodejs";
 
 export const revalidate = 3600;
 
