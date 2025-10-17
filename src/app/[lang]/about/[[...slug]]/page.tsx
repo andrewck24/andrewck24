@@ -29,7 +29,7 @@ export default async function AboutPage({ params }: PageProps) {
     <div
       data-testid="about-page"
       className={cn(
-        "relative mx-4 backdrop-blur-lg",
+        "relative backdrop-blur-lg",
         "flex flex-col items-center justify-start gap-4 lg:flex-row lg:items-start lg:justify-center"
       )}
     >

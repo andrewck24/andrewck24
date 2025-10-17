@@ -1,5 +1,5 @@
-import { BackgroundAnimation } from "@/components/layout/home/background-animation";
 import { LanguageToggle } from "@/components/language-toggle";
+import { BackgroundAnimation } from "@/components/layout/home/background-animation";
 import { Menu } from "@/components/layout/home/menu";
 import { Navbar, NavbarLinkItem } from "@/components/layout/home/navbar";
 import {
@@ -61,7 +61,7 @@ export function HomeLayout(
         id="nd-home-layout"
         {...rest}
         className={cn(
-          "*:max-w-fd-container flex flex-1 flex-col pt-22",
+          "*:max-w-fd-container flex w-full flex-1 flex-col items-center justify-start overflow-x-hidden px-4 pt-22 lg:px-12",
           rest.className
         )}
       >
