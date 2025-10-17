@@ -10,7 +10,9 @@ export const size = {
 
 export const contentType = "image/png";
 
-export const runtime = "nodejs";
+export const runtime = "edge";
+
+export const revalidate = 3600;
 
 // Image generation
 export default async function Image({
