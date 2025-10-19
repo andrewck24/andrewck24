@@ -27,41 +27,12 @@ export const revalidate = 3600;
 export default async function Image({
   params,
 }: {
-  params: Promise<{ lang: string; slug: string[] }>;
+  params: Promise<{ lang: string; slug: string }>;
 }) {
   const { lang, slug } = await params;
   const locale = lang as Locale;
 
-  // 取得第一個 slug segment
-  const noteSlug = Array.isArray(slug) ? slug[0] : slug;
-
-  if (!noteSlug) {
-    // 返回預設圖片
-    return new ImageResponse(
-      (
-        <div
-          style={{
-            fontSize: 64,
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "white",
-            fontWeight: "bold",
-          }}
-        >
-          Notes
-        </div>
-      ),
-      {
-        ...size,
-      }
-    );
-  }
-
-  const note = await getNote(locale, noteSlug);
+  const note = await getNote(locale, slug);
 
   // 如果筆記不存在或使用靜態圖片，返回預設圖片
   if (!note || note.imageType !== "generated") {

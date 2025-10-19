@@ -175,13 +175,19 @@
 ### Implementation (ONLY after tests are failing) ✅
 
 - [x] **T047** 建立 `src/app/[lang]/notes/page.tsx` - notes 列表頁 (顯示 featured notes)
-- [x] **T048** 更新 `src/app/[lang]/notes/[[...slug]]/page.tsx` - notes 詳細頁 (使用 Article 元件)
-- [x] **T049** 建立 `src/app/[lang]/notes/[[...slug]]/opengraph-image.tsx` - notes OG image 動態生成 (runtime: nodejs)
+- [x] **T048** 建立 `src/app/[lang]/notes/[slug]/page.tsx` - notes 詳細頁 (使用 Article 元件)
+  - 原本使用 `[[...slug]]` optional catch-all route，但導致以下問題：
+    - 與 `/notes/page.tsx` 產生路由衝突（route specificity conflict）
+    - 無法在 catch-all route 中使用 `opengraph-image.tsx`（Turbopack 限制）
+  - 改為使用 `[slug]` dynamic route 解決上述問題
+- [x] **T049** 建立 `src/app/[lang]/notes/[slug]/opengraph-image.tsx` - notes OG image 動態生成 (runtime: nodejs)
+  - 支援三種背景格式：CSS gradient、solid color、image path
+  - 背景格式偵測邏輯與 ArticleImage 一致
 - [N/A] **T050** 新增 `src/app/[lang]/notes/layout.tsx` - notes section layout (Not needed - using existing layout)
 
 **Dependencies**: T038 (notes data layer 完成) → T044-T046 (tests) → T047-T050 (implementation sequential)
 
-**Status**: ✅ Completed - Build passing, notes routes working (2025-10-19)
+**Status**: ✅ Completed - Route structure refactored from [[...slug]] to [slug], dev server running without errors (2025-10-19)
 
 ---
 

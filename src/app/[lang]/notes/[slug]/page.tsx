@@ -12,7 +12,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 interface PageProps {
-  params: Promise<{ lang: string; slug: string[] }>;
+  params: Promise<{ lang: string; slug: string }>;
 }
 
 // i18n 返回連結文字
@@ -26,14 +26,7 @@ export default async function Page({ params }: PageProps) {
   const { lang, slug } = await params;
   const locale = lang as Locale;
 
-  // 取第一個 segment 作為 note slug
-  const noteSlug = Array.isArray(slug) ? slug[0] : slug;
-
-  if (!noteSlug) {
-    notFound();
-  }
-
-  const note = await getNote(locale, noteSlug);
+  const note = await getNote(locale, slug);
 
   if (!note) {
     notFound();
@@ -51,10 +44,10 @@ export default async function Page({ params }: PageProps) {
 export async function generateStaticParams() {
   const params = await generateNoteStaticParams();
 
-  // 轉換為 Next.js 期望的格式：{ lang, slug: string[] }
+  // 轉換為 Next.js 期望的格式：{ lang, slug }
   return params.map((param) => ({
     lang: param.locale,
-    slug: [param.slug],
+    slug: param.slug,
   }));
 }
 
@@ -63,20 +56,25 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { lang, slug } = await params;
   const locale = lang as Locale;
-  const noteSlug = Array.isArray(slug) ? slug[0] : slug;
 
-  if (!noteSlug) {
-    return {};
-  }
-
-  const note = await getNote(locale, noteSlug);
+  const note = await getNote(locale, slug);
 
   if (!note) {
     return {};
   }
 
-  return {
+  // 基本 metadata
+  const metadata: Metadata = {
     title: note.title,
     description: note.description,
   };
+
+  // 如果有 OG image 配置，加入 openGraph
+  if (note.imageType === "static" && note.image) {
+    metadata.openGraph = {
+      images: [note.image],
+    };
+  }
+
+  return metadata;
 }
