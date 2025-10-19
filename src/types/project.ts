@@ -2,19 +2,24 @@
  * Project Schema - Type Definitions
  *
  * 定義 Projects 功能所有資料結構的 TypeScript 介面
+ * 繼承自 ArticleMetadata 基礎型別
  */
 
 import { z } from "zod";
+import {
+  articleMetadataSchema,
+  SUPPORTED_LOCALES,
+  type ArticleMetadata,
+  type ArticlePageData,
+  type Locale,
+} from "./article";
+
+// Re-export for backwards compatibility
+export type { Locale } from "./article";
 
 // ============================================================================
 // Enums & Constants
 // ============================================================================
-
-/**
- * 支援的語言
- */
-export const SUPPORTED_LOCALES = ["zh-TW", "en", "ja"] as const;
-export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
 /**
  * Featured Projects 顯示數量上限
@@ -35,63 +40,22 @@ export const ORDER_MAX = 99;
  * Project Frontmatter Schema
  *
  * 用於 MDX 檔案 frontmatter 的 Zod schema
+ * 繼承 ArticleMetadata 並新增 projects 專屬欄位
  */
-export const projectFrontmatterSchema = z.object({
-  title: z.string().min(1, "標題不可為空").max(100, "標題不可超過 100 字元"),
+export const projectFrontmatterSchema = articleMetadataSchema
+  .omit({ slug: true, locale: true, url: true })
+  .extend({
+    /** 是否為精選專案（預設: false） */
+    featured: z.boolean().optional().default(false),
 
-  description: z
-    .string()
-    .min(1, "描述不可為空")
-    .max(200, "描述不可超過 200 字元"),
-
-  // Image type selector
-  imageType: z.enum(["static", "generated"]).default("static"),
-
-  // Static image path (for imageType: "static")
-  image: z
-    .string()
-    .regex(
-      /^\/images\/projects\/hero\/(zh-TW|en|ja)\/[a-z0-9-]+\.(jpg|jpeg|png|webp|avif)$/i,
-      "圖片路徑格式: /images/projects/hero/{locale}/*.{jpg|jpeg|png|webp|avif}"
-    )
-    .optional(),
-
-  // Generated OG Image config (for imageType: "generated")
-  ogImage: z
-    .object({
-      text: z.string().optional(),
-      background: z
-        .string()
-        .regex(
-          /^\/images\/projects\/og-backgrounds\/(common|zh-TW|en|ja)\/[a-z0-9-]+\.(jpg|jpeg|png|webp|avif)$/i,
-          "背景圖路徑格式: /images/projects/og-backgrounds/{common|locale}/*.{jpg|jpeg|png|webp|avif}"
-        )
-        .optional(),
-      className: z.string().optional(),
-    })
-    .optional(),
-
-  date: z
-    .union([
-      z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "日期格式: YYYY-MM-DD"),
-      z.date(),
-    ])
-    .transform((val) => {
-      if (val instanceof Date) {
-        return val.toISOString().split("T")[0];
-      }
-      return val;
-    }),
-
-  featured: z.boolean().optional().default(false),
-
-  order: z
-    .number()
-    .int("order 必須為整數")
-    .min(ORDER_MIN, `order 最小值為 ${ORDER_MIN}`)
-    .max(ORDER_MAX, `order 最大值為 ${ORDER_MAX}`)
-    .optional(),
-});
+    /** 排序順序（1-99，僅用於 featured=true 的專案） */
+    order: z
+      .number()
+      .int("order 必須為整數")
+      .min(ORDER_MIN, `order 最小值為 ${ORDER_MIN}`)
+      .max(ORDER_MAX, `order 最大值為 ${ORDER_MAX}`)
+      .optional(),
+  });
 
 /**
  * Project Metadata Schema
@@ -150,16 +114,14 @@ export interface ProjectFrontmatter {
  * Project Metadata
  *
  * 完整的專案資料，包含 frontmatter 和自動產生的 metadata
+ * 繼承自 ArticleMetadata
  */
-export interface ProjectMetadata extends ProjectFrontmatter {
-  /** 專案 slug（檔名不含副檔名） */
-  slug: string;
+export interface ProjectMetadata extends ArticleMetadata {
+  /** 是否為精選專案（預設: false） */
+  featured?: boolean;
 
-  /** 語言代碼 */
-  locale: Locale;
-
-  /** 完整 URL 路徑（/[locale]/projects/[slug]） */
-  url: string;
+  /** 排序順序（1-99，僅用於 featured=true 的專案） */
+  order?: number;
 }
 
 /**
@@ -176,13 +138,7 @@ export interface FeaturedProject extends ProjectMetadata {
  *
  * 專案詳細頁面的完整資料
  */
-export interface ProjectPageData extends ProjectMetadata {
-  /** MDX 內容（已編譯的 React component） */
-  content: React.ComponentType;
-
-  /** MDX 檔案的原始 body 內容 */
-  body: string;
-}
+export type ProjectPageData = ArticlePageData<ProjectMetadata>;
 
 // ============================================================================
 // Type Guards
@@ -195,6 +151,15 @@ export function isFeaturedProject(
   project: ProjectMetadata
 ): project is FeaturedProject {
   return project.featured === true;
+}
+
+/**
+ * 檢查 article 是否為 ProjectMetadata
+ */
+export function isProjectMetadata(
+  article: ArticleMetadata
+): article is ProjectMetadata {
+  return "featured" in article && "order" in article;
 }
 
 /**

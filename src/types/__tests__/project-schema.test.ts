@@ -308,15 +308,51 @@ describe("Project Frontmatter Schema Validation", () => {
       expect(result.success).toBe(true);
     });
 
-    it("should reject invalid ogImage background path", () => {
-      const invalidBg = {
+    it("should accept CSS gradient as background", () => {
+      const gradientBg = {
         ...validDynamicFrontmatter,
         ogImage: {
-          background: "/images/projects/og-backgrounds/invalid.txt",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         },
       };
-      const result = projectFrontmatterSchema.safeParse(invalidBg);
-      expect(result.success).toBe(false);
+      const result = projectFrontmatterSchema.safeParse(gradientBg);
+      expect(result.success).toBe(true);
+    });
+
+    it("should accept solid color as background", () => {
+      const colorBgs = [
+        "#667eea",
+        "rgb(102, 126, 234)",
+        "rgba(102, 126, 234, 0.8)",
+        "hsl(235, 72%, 61%)",
+      ];
+
+      colorBgs.forEach((background) => {
+        const result = projectFrontmatterSchema.safeParse({
+          ...validDynamicFrontmatter,
+          ogImage: { background },
+        });
+        expect(result.success).toBe(true);
+      });
+    });
+
+    it("should reject invalid background format", () => {
+      const invalidBgs = ["invalid-value", "notacolor", "background-image"];
+
+      invalidBgs.forEach((background) => {
+        const result = projectFrontmatterSchema.safeParse({
+          ...validDynamicFrontmatter,
+          ogImage: { background },
+        });
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          // Should have background validation error
+          const bgError = result.error.issues.find((issue) =>
+            issue.path.includes("background")
+          );
+          expect(bgError).toBeDefined();
+        }
+      });
     });
   });
 
