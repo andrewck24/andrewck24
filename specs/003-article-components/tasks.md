@@ -77,16 +77,18 @@
 
 **Status**: ✅ Tests failing as expected (Red Phase completed)
 
-### Implementation (ONLY after tests are failing)
+### Implementation (ONLY after tests are failing) ✅
 
-- [ ] **T018** 建立 `src/components/article/card.tsx` - ArticleCard 元件架構 (props interface, skeleton)
-- [ ] **T019** 實作 ArticleCard hero variant - 2-column grid layout (desktop), stacked (mobile) 於 `src/components/article/card.tsx`
-- [ ] **T020** 實作 ArticleCard compact variant - row layout (image 1/3, content 2/3) 於 `src/components/article/card.tsx`
-- [ ] **T021** 整合 ArticleImage 元件於 ArticleCard (priority prop forwarding) 於 `src/components/article/card.tsx`
-- [ ] **T022** 實作 Next.js Link navigation (支援 contentType prop) 和 hover transitions 於 `src/components/article/card.tsx`
-- [ ] **T023** 新增 data-testid="article-card" 和 accessibility attributes 於 `src/components/article/card.tsx`
+- [x] **T018** 建立 `src/components/article/card.tsx` - ArticleCard 元件架構 (props interface, skeleton)
+- [x] **T019** 實作 ArticleCard hero variant - 2-column grid layout (desktop), stacked (mobile) 於 `src/components/article/card.tsx`
+- [x] **T020** 實作 ArticleCard compact variant - row layout (image 1/3, content 2/3) 於 `src/components/article/card.tsx`
+- [x] **T021** 整合 ArticleImage 元件於 ArticleCard (priority prop forwarding) 於 `src/components/article/card.tsx`
+- [x] **T022** 實作 Next.js Link navigation (支援 contentType prop) 和 hover transitions 於 `src/components/article/card.tsx`
+- [x] **T023** 新增 data-testid="article-card" 和 accessibility attributes 於 `src/components/article/card.tsx`
 
 **Dependencies**: T014 (ArticleImage 完成) → T015-T017 (tests) → T018-T023 (implementation sequential)
+
+**Status**: ✅ Completed - All 20 tests passing (Green Phase completed, 2025-10-19)
 
 ---
 

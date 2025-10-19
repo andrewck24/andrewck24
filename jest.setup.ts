@@ -39,11 +39,13 @@ jest.mock("next/link", () => ({
   default: ({
     children,
     href,
+    ...rest
   }: {
     children: React.ReactNode;
     href: string;
+    [key: string]: unknown;
   }) => {
-    return React.createElement("a", { href }, children);
+    return React.createElement("a", { href, ...rest }, children);
   },
 }));
 
