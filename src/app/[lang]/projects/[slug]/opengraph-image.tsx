@@ -55,16 +55,27 @@ export default async function Image({
   }
 
   // 動態生成的 OG Image（imageType: "generated"）
-  // 使用與 GeneratedHero 相同的邏輯
+  // 支援三種背景格式：CSS gradient、solid color、image path
   const ogImage = project.ogImage;
-  const backgroundImage = ogImage?.background;
+  const background = ogImage?.background;
   const text = ogImage?.text;
 
-  // OG Image 需要絕對 URL
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const absoluteBackgroundUrl = backgroundImage
-    ? `${baseUrl}${backgroundImage}`
-    : undefined;
+  // 背景格式偵測（與 ArticleImage 相同邏輯）
+  const isImagePath = background?.startsWith("/");
+
+  // 處理背景樣式
+  let backgroundStyle: string;
+  if (isImagePath && background) {
+    // Image path: 需要轉換為絕對 URL
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    backgroundStyle = `url(${baseUrl}${background})`;
+  } else if (background) {
+    // CSS gradient 或 solid color: 直接使用
+    backgroundStyle = background;
+  } else {
+    // 預設 gradient
+    backgroundStyle = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+  }
 
   return new ImageResponse(
     (
@@ -75,9 +86,8 @@ export default async function Image({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          background: absoluteBackgroundUrl
-            ? `url(${absoluteBackgroundUrl})`
-            : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          background: isImagePath ? undefined : backgroundStyle,
+          backgroundImage: isImagePath ? backgroundStyle : undefined,
           backgroundSize: "cover",
           backgroundPosition: "center",
           position: "relative",
