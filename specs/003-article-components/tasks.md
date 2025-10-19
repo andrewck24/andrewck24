@@ -104,15 +104,17 @@
 
 **Status**: ✅ Tests failing as expected (Red Phase completed)
 
-### Implementation (ONLY after tests are failing)
+### Implementation (ONLY after tests are failing) ✅
 
-- [ ] **T027** 建立 `src/components/article/index.tsx` - Article 元件架構 (props interface, skeleton)
-- [ ] **T028** 實作 Article header section - ArticleImage, title, description, date 於 `src/components/article/index.tsx`
-- [ ] **T029** 整合 MDX content rendering (prose container, semantic HTML) 於 `src/components/article/index.tsx`
-- [ ] **T030** 實作 back link 導航 (contentType → URL, backLinkText i18n) 於 `src/components/article/index.tsx`
-- [ ] **T031** 新增 responsive layout (mx-4 / lg:mx-12) 和 data-testid="article-section" 於 `src/components/article/index.tsx`
+- [x] **T027** 建立 `src/components/article/index.tsx` - Article 元件架構 (props interface, skeleton)
+- [x] **T028** 實作 Article header section - ArticleImage, title, description, date 於 `src/components/article/index.tsx`
+- [x] **T029** 整合 MDX content rendering (prose container, semantic HTML) 於 `src/components/article/index.tsx`
+- [x] **T030** 實作 back link 導航 (contentType → URL, backLinkText i18n) 於 `src/components/article/index.tsx`
+- [x] **T031** 新增 responsive layout (mx-4 / lg:mx-12) 和 data-testid="article-section" 於 `src/components/article/index.tsx`
 
 **Dependencies**: T023 (ArticleCard 完成) → T024-T026 (tests) → T027-T031 (implementation sequential)
+
+**Status**: ✅ Completed - All 26 tests passing (Green Phase completed, 2025-10-19)
 
 ---
 
