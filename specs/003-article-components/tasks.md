@@ -96,11 +96,13 @@
 
 **目標**: 泛用化 ProjectDetail → Article
 
-### Tests First (MUST FAIL)
+### Tests First (MUST FAIL) ✅
 
-- [ ] **T024** [P] 撰寫 Article unit tests - header section 渲染 (title, description, date) 於 `src/components/article/__tests__/index.test.tsx`
-- [ ] **T025** [P] 撰寫 Article unit tests - MDX content rendering 於 `src/components/article/__tests__/index.test.tsx`
-- [ ] **T026** [P] 撰寫 Article unit tests - back link navigation (contentType prop) 於 `src/components/article/__tests__/index.test.tsx`
+- [x] **T024** [P] 撰寫 Article unit tests - header section 渲染 (title, description, date) 於 `src/components/article/__tests__/index.test.tsx`
+- [x] **T025** [P] 撰寫 Article unit tests - MDX content rendering 於 `src/components/article/__tests__/index.test.tsx`
+- [x] **T026** [P] 撰寫 Article unit tests - back link navigation (contentType prop) 於 `src/components/article/__tests__/index.test.tsx`
+
+**Status**: ✅ Tests failing as expected (Red Phase completed)
 
 ### Implementation (ONLY after tests are failing)
 
