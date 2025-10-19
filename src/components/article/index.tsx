@@ -1,12 +1,19 @@
 /**
- * Article Component
+ * Article Components - Main Export
  *
- * 泛用型文章詳細頁面元件
- * 整合 ArticleImage、MDX 內容渲染、導航功能
- * 泛用化自 ProjectDetail
+ * 泛用型文章元件系統
+ * 整合 ArticleImage、ArticleCard、Article
  */
 
-import { ArticleImage } from "@/components/article/image";
+// Re-export all article components
+export { ArticleImage } from "./image";
+export type { ArticleImageProps } from "./image";
+
+export { ArticleCard } from "./card";
+export type { ArticleCardProps } from "./card";
+
+// Article Component (detail page)
+import { ArticleImage } from "./image";
 import type { ArticleMetadata, ArticlePageData } from "@/types/article";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";

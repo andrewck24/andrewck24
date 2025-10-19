@@ -181,19 +181,21 @@
 
 ---
 
-## Phase 3.8: Migration & Cleanup
+## Phase 3.8: Migration & Cleanup ✅
 
 **目標**: 移除舊元件，完成遷移
 
-- [ ] **T051** 驗證所有 projects 頁面使用 article 元件 (手動測試 list, detail, OG image)
-- [ ] **T052** 驗證所有 notes 頁面正常運作 (手動測試 list, detail, OG image)
-- [ ] **T053** 移除 `src/components/custom/generated-hero.tsx` (確認無 import references)
-- [ ] **T054** 移除 `src/components/projects/project-detail-image.tsx` (確認無 import references)
-- [ ] **T055** 移除 `src/components/projects/project-detail.tsx` (確認無 import references)
-- [ ] **T056** 移除 `src/components/projects/featured-project-card.tsx` (確認無 import references)
-- [ ] **T057** 更新 `src/components/article/index.ts` - export ArticleImage, ArticleCard, Article (barrel export)
+- [x] **T051** 驗證所有 projects 頁面使用 article 元件 (手動測試 list, detail, OG image)
+- [x] **T052** 驗證所有 notes 頁面正常運作 (手動測試 list, detail, OG image)
+- [x] **T053** 移除 `src/components/custom/generated-hero.tsx` (確認無 import references)
+- [x] **T054** 移除 `src/components/projects/project-detail-image.tsx` (確認無 import references)
+- [x] **T055** 移除 `src/components/projects/project-detail.tsx` (確認無 import references)
+- [x] **T056** 移除 `src/components/projects/featured-project-card.tsx` (確認無 import references)
+- [x] **T057** 更新 `src/components/article/index.tsx` - export ArticleImage, ArticleCard, Article (barrel export)
 
 **Dependencies**: T050 (notes 完成) → T051-T057 (sequential cleanup)
+
+**Status**: ✅ Completed - Barrel export verified, build passing (2025-10-19)
 
 ---
 
