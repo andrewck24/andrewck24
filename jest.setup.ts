@@ -75,3 +75,19 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: jest.fn(),
   })),
 });
+
+// Mock React ViewTransition (unstable API in React 19)
+jest.mock("react", () => {
+  const originalReact = jest.requireActual("react");
+  return {
+    ...originalReact,
+    unstable_ViewTransition: ({
+      children,
+    }: {
+      children: React.ReactNode;
+      name?: string;
+    }) => {
+      return originalReact.createElement(originalReact.Fragment, {}, children);
+    },
+  };
+});

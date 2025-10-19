@@ -51,15 +51,17 @@
 
 **Status**: ✅ Tests failing as expected (Red Phase completed)
 
-### Implementation (ONLY after tests are failing)
+### Implementation (ONLY after tests are failing) ✅
 
-- [ ] **T010** 建立 `src/components/article/image.tsx` - ArticleImage 元件架構 (props interface, skeleton)
-- [ ] **T011** 實作 ArticleImage static mode - Next.js Image component 整合於 `src/components/article/image.tsx`
-- [ ] **T012** 實作 ArticleImage generated mode - background 格式判斷邏輯 (startsWith('/') detection) 於 `src/components/article/image.tsx`
-- [ ] **T013** 整合 ViewTransition wrapper 和 viewTransitionName inline style 於 `src/components/article/image.tsx`
-- [ ] **T014** 新增 data-testid="article-image-container" 和 error handling (missing image fallback) 於 `src/components/article/image.tsx`
+- [x] **T010** 建立 `src/components/article/image.tsx` - ArticleImage 元件架構 (props interface, skeleton)
+- [x] **T011** 實作 ArticleImage static mode - Next.js Image component 整合於 `src/components/article/image.tsx`
+- [x] **T012** 實作 ArticleImage generated mode - background 格式判斷邏輯 (startsWith('/') detection) 於 `src/components/article/image.tsx`
+- [x] **T013** 整合 ViewTransition wrapper 和 viewTransitionName inline style 於 `src/components/article/image.tsx`
+- [x] **T014** 新增 data-testid="article-image-container" 和 error handling (missing image fallback) 於 `src/components/article/image.tsx`
 
 **Dependencies**: T007-T009 (tests) → T010-T014 (implementation sequential)
+
+**Status**: ✅ Completed - All 15 tests passing (Green Phase completed, 2025-10-19)
 
 ---
 

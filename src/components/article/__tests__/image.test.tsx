@@ -90,10 +90,14 @@ describe("ArticleImage Component", () => {
         />
       );
 
-      const div = container.querySelector(
+      const containerDiv = container.querySelector(
         '[data-testid="article-image-container"]'
       );
-      expect(div).toHaveStyle({
+      expect(containerDiv).toBeInTheDocument();
+
+      // Check the inner generated content div
+      const innerDiv = containerDiv?.querySelector("div");
+      expect(innerDiv).toHaveStyle({
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
       });
     });
@@ -110,10 +114,14 @@ describe("ArticleImage Component", () => {
         />
       );
 
-      const div = container.querySelector(
+      const containerDiv = container.querySelector(
         '[data-testid="article-image-container"]'
       );
-      expect(div).toHaveStyle({
+      expect(containerDiv).toBeInTheDocument();
+
+      // Check the inner generated content div
+      const innerDiv = containerDiv?.querySelector("div");
+      expect(innerDiv).toHaveStyle({
         background: "#667eea",
       });
     });
@@ -130,10 +138,14 @@ describe("ArticleImage Component", () => {
         />
       );
 
-      const div = container.querySelector(
+      const containerDiv = container.querySelector(
         '[data-testid="article-image-container"]'
       );
-      expect(div).toHaveStyle({
+      expect(containerDiv).toBeInTheDocument();
+
+      // Check the inner generated content div
+      const innerDiv = containerDiv?.querySelector("div");
+      expect(innerDiv).toHaveStyle({
         backgroundImage: "url(/images/projects/og-backgrounds/common/bg.jpg)",
       });
     });
@@ -150,10 +162,14 @@ describe("ArticleImage Component", () => {
         />
       );
 
-      const div = container.querySelector(
+      const containerDiv = container.querySelector(
         '[data-testid="article-image-container"]'
       );
-      expect(div).toHaveStyle({
+      expect(containerDiv).toBeInTheDocument();
+
+      // Check the inner generated content div
+      const innerDiv = containerDiv?.querySelector("div");
+      expect(innerDiv).toHaveStyle({
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
       });
     });
@@ -203,7 +219,10 @@ describe("ArticleImage Component", () => {
         />
       );
 
-      const element = container.querySelector('[style*="viewTransitionName"]');
+      const element = container.querySelector(
+        '[data-testid="article-image-container"]'
+      );
+      expect(element).toBeInTheDocument();
       expect(element).toHaveStyle({
         viewTransitionName: "article-image-my-article",
       });
@@ -229,11 +248,14 @@ describe("ArticleImage Component", () => {
       );
 
       const staticElement = staticContainer.querySelector(
-        '[style*="viewTransitionName"]'
+        '[data-testid="article-image-container"]'
       );
       const generatedElement = generatedContainer.querySelector(
-        '[style*="viewTransitionName"]'
+        '[data-testid="article-image-container"]'
       );
+
+      expect(staticElement).toBeInTheDocument();
+      expect(generatedElement).toBeInTheDocument();
 
       expect(staticElement).toHaveStyle({
         viewTransitionName: "article-image-same-slug",
