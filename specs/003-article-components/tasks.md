@@ -69,11 +69,13 @@
 
 **目標**: 泛用化 FeaturedProjectCard → ArticleCard
 
-### Tests First (MUST FAIL)
+### Tests First (MUST FAIL) ✅
 
-- [ ] **T015** [P] 撰寫 ArticleCard unit tests - hero variant 佈局測試於 `src/components/article/__tests__/card.test.tsx`
-- [ ] **T016** [P] 撰寫 ArticleCard unit tests - compact variant 佈局測試於 `src/components/article/__tests__/card.test.tsx`
-- [ ] **T017** [P] 撰寫 ArticleCard unit tests - navigation 和 hover effects 於 `src/components/article/__tests__/card.test.tsx`
+- [x] **T015** [P] 撰寫 ArticleCard unit tests - hero variant 佈局測試於 `src/components/article/__tests__/card.test.tsx`
+- [x] **T016** [P] 撰寫 ArticleCard unit tests - compact variant 佈局測試於 `src/components/article/__tests__/card.test.tsx`
+- [x] **T017** [P] 撰寫 ArticleCard unit tests - navigation 和 hover effects 於 `src/components/article/__tests__/card.test.tsx`
+
+**Status**: ✅ Tests failing as expected (Red Phase completed)
 
 ### Implementation (ONLY after tests are failing)
 
