@@ -169,8 +169,14 @@ export async function generateNoteStaticParams(): Promise<
   const params = notesSource.generateParams();
 
   // 轉換格式：從 { lang, slug } 轉為 { locale, slug }
-  return params.map((param) => ({
-    locale: param.lang,
-    slug: Array.isArray(param.slug) ? param.slug[0] : param.slug || "",
-  }));
+  // 過濾掉 index 頁面（slug 為 undefined 或空陣列）
+  return params
+    .filter((param) => {
+      const slug = Array.isArray(param.slug) ? param.slug[0] : param.slug;
+      return slug && slug.length > 0;
+    })
+    .map((param) => ({
+      locale: param.lang,
+      slug: Array.isArray(param.slug) ? param.slug[0]! : param.slug!,
+    }));
 }

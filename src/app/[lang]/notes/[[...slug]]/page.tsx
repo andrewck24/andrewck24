@@ -1,67 +1,82 @@
-import {
-  DocsBody,
-  DocsDescription,
-  DocsPage,
-  DocsTitle,
-} from "@/components/layout/page";
-import { getMDXComponents } from "@/lib/mdx-components";
-import { notesSource } from "@/lib/source";
-import type { TOCItemType } from "fumadocs-core/server";
-import { createRelativeLink } from "fumadocs-ui/mdx";
-import type { MDXProps } from "mdx/types";
+/**
+ * Notes Detail Page
+ *
+ * 使用 Article 元件顯示筆記詳細頁面
+ * T048: Implementation
+ */
+
+import { Article } from "@/components/article";
+import { getNote, generateNoteStaticParams } from "@/lib/data/notes";
+import type { Locale } from "@/types/note";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import type { FC } from "react";
 
 interface PageProps {
-  params: Promise<{ lang: string; slug?: string[] }>;
+  params: Promise<{ lang: string; slug: string[] }>;
 }
 
-interface MDXPageData {
-  title?: string;
-  description?: string;
-  toc: TOCItemType[];
-  full?: boolean;
-  body: FC<MDXProps>;
-}
+// i18n 返回連結文字
+const backLinkTexts: Record<Locale, string> = {
+  "zh-TW": "返回筆記列表",
+  en: "Back to Notes",
+  ja: "ノート一覧に戻る",
+};
 
 export default async function Page({ params }: PageProps) {
   const { lang, slug } = await params;
-  const page = notesSource.getPage(slug, lang);
-  if (!page) notFound();
+  const locale = lang as Locale;
 
-  const pageData = page.data as MDXPageData;
-  const MDXContent = pageData.body;
+  // 取第一個 segment 作為 note slug
+  const noteSlug = Array.isArray(slug) ? slug[0] : slug;
+
+  if (!noteSlug) {
+    notFound();
+  }
+
+  const note = await getNote(locale, noteSlug);
+
+  if (!note) {
+    notFound();
+  }
 
   return (
-    <DocsPage toc={pageData.toc} full={pageData.full}>
-      <DocsTitle>{pageData.title}</DocsTitle>
-      <DocsDescription>{pageData.description}</DocsDescription>
-      <DocsBody>
-        <MDXContent
-          components={getMDXComponents({
-            // this allows you to link to other pages with relative file paths
-            a: createRelativeLink(notesSource, page),
-          })}
-        />
-      </DocsBody>
-    </DocsPage>
+    <Article
+      article={note}
+      contentType="notes"
+      backLinkText={backLinkTexts[locale]}
+    />
   );
 }
 
 export async function generateStaticParams() {
-  return notesSource.generateParams();
+  const params = await generateNoteStaticParams();
+
+  // 轉換為 Next.js 期望的格式：{ lang, slug: string[] }
+  return params.map((param) => ({
+    lang: param.locale,
+    slug: [param.slug],
+  }));
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { lang, slug } = await params;
-  const page = notesSource.getPage(slug, lang);
-  if (!page) notFound();
+  const locale = lang as Locale;
+  const noteSlug = Array.isArray(slug) ? slug[0] : slug;
+
+  if (!noteSlug) {
+    return {};
+  }
+
+  const note = await getNote(locale, noteSlug);
+
+  if (!note) {
+    return {};
+  }
 
   return {
-    title: page.data.title,
-    description: page.data.description,
+    title: note.title,
+    description: note.description,
   };
 }
