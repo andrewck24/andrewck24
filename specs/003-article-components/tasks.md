@@ -43,11 +43,13 @@
 
 **目標**: 整合 GeneratedHero + ProjectDetailImage → ArticleImage
 
-### Tests First (MUST FAIL)
+### Tests First (MUST FAIL) ✅
 
-- [ ] **T007** [P] 撰寫 ArticleImage unit tests - static mode 渲染測試於 `src/components/article/__tests__/image.test.tsx`
-- [ ] **T008** [P] 撰寫 ArticleImage unit tests - generated mode (gradient/color/image) 背景格式偵測於 `src/components/article/__tests__/image.test.tsx`
-- [ ] **T009** [P] 撰寫 ArticleImage unit tests - view transition name 驗證於 `src/components/article/__tests__/image.test.tsx`
+- [x] **T007** [P] 撰寫 ArticleImage unit tests - static mode 渲染測試於 `src/components/article/__tests__/image.test.tsx`
+- [x] **T008** [P] 撰寫 ArticleImage unit tests - generated mode (gradient/color/image) 背景格式偵測於 `src/components/article/__tests__/image.test.tsx`
+- [x] **T009** [P] 撰寫 ArticleImage unit tests - view transition name 驗證於 `src/components/article/__tests__/image.test.tsx`
+
+**Status**: ✅ Tests failing as expected (Red Phase completed)
 
 ### Implementation (ONLY after tests are failing)
 
