@@ -30,7 +30,7 @@ export interface ArticleImageProps {
 
   /** Generated OG image config (optional when imageType="generated") */
   ogImage?: {
-    text?: string;
+    icon?: string;
     background?: string; // CSS gradient / color / image path
     className?: string;
   };
@@ -66,7 +66,7 @@ export interface ArticleImageProps {
 **Then**:
 
 - Display `<div>` with background-image: `url(/images/bg.jpg)`
-- Display `ogImage.text` as centered heading (if provided)
+- Display `ogImage.icon` as centered image (if provided)
 - Apply `ogImage.className` (if provided)
 - Wrap with `ViewTransition` using name `article-image-{slug}`
 
@@ -77,7 +77,7 @@ export interface ArticleImageProps {
 **Then**:
 
 - Display `<div>` with background: `linear-gradient(...)`
-- Display `ogImage.text` as centered heading (if provided)
+- Display `ogImage.icon` as centered image (if provided)
 - Apply default fallback gradient if `background` is undefined
 
 ### B4: Generated Mode with Solid Color
@@ -87,7 +87,7 @@ export interface ArticleImageProps {
 **Then**:
 
 - Display `<div>` with background-color: `#667eea`
-- Display `ogImage.text` as centered heading (if provided)
+- Display `ogImage.icon` as centered image (if provided)
 
 ### B5: View Transition Support
 

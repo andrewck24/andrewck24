@@ -58,16 +58,16 @@ export default async function Image({
   // 支援三種背景格式：CSS gradient、solid color、image path
   const ogImage = project.ogImage;
   const background = ogImage?.background;
-  const text = ogImage?.text;
+  const icon = ogImage?.icon;
 
   // 背景格式偵測（與 ArticleImage 相同邏輯）
   const isImagePath = background?.startsWith("/");
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   // 處理背景樣式
   let backgroundStyle: string;
   if (isImagePath && background) {
     // Image path: 需要轉換為絕對 URL
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
     backgroundStyle = `url(${baseUrl}${background})`;
   } else if (background) {
     // CSS gradient 或 solid color: 直接使用
@@ -76,6 +76,9 @@ export default async function Image({
     // 預設 gradient
     backgroundStyle = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
   }
+
+  // 處理 icon 路徑（需要轉換為絕對 URL）
+  const iconUrl = icon ? `${baseUrl}${icon}` : null;
 
   return new ImageResponse(
     (
@@ -94,19 +97,16 @@ export default async function Image({
           padding: 80,
         }}
       >
-        {text ? (
-          <h1
+        {iconUrl ? (
+          <img
+            src={iconUrl}
+            alt="Project icon"
             style={{
-              fontSize: "4rem",
-              fontWeight: "bold",
-              color: "#fff",
-              textAlign: "center",
-              lineHeight: 1.3,
-              maxWidth: "90%",
+              maxWidth: "40%",
+              maxHeight: "40%",
+              objectFit: "contain",
             }}
-          >
-            {text}
-          </h1>
+          />
         ) : null}
       </div>
     ),

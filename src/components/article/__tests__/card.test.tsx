@@ -258,7 +258,7 @@ describe("ArticleCard Component", () => {
         imageType: "generated",
         image: undefined,
         ogImage: {
-          text: "Generated Image",
+          icon: "/images/generated.svg",
           background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         },
       };

@@ -84,7 +84,7 @@ describe("ArticleImage Component", () => {
           title="Test"
           imageType="generated"
           ogImage={{
-            text: "Test Text",
+            icon: "/images/test.svg",
             background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           }}
         />
@@ -157,7 +157,7 @@ describe("ArticleImage Component", () => {
           title="Test"
           imageType="generated"
           ogImage={{
-            text: "Test",
+            icon: "/images/test.svg",
           }}
         />
       );
@@ -174,19 +174,24 @@ describe("ArticleImage Component", () => {
       });
     });
 
-    it("should display ogImage text as heading", () => {
+    it("should display ogImage icon when provided", () => {
       render(
         <ArticleImage
           slug="test"
           title="Test"
           imageType="generated"
           ogImage={{
-            text: "Custom Text",
+            icon: "/images/custom-icon.svg",
           }}
         />
       );
 
-      expect(screen.getByText("Custom Text")).toBeInTheDocument();
+      const icon = screen.getByAltText("Article icon");
+      expect(icon).toBeInTheDocument();
+      expect(icon).toHaveAttribute(
+        "src",
+        expect.stringContaining("custom-icon.svg")
+      );
     });
 
     it("should apply custom className from ogImage", () => {
@@ -196,7 +201,7 @@ describe("ArticleImage Component", () => {
           title="Test"
           imageType="generated"
           ogImage={{
-            text: "Test",
+            icon: "/images/test.svg",
             className: "custom-og-style",
           }}
         />
@@ -243,7 +248,7 @@ describe("ArticleImage Component", () => {
           slug="same-slug"
           title="Test"
           imageType="generated"
-          ogImage={{ text: "Test" }}
+          ogImage={{ icon: "/images/test.svg" }}
         />
       );
 

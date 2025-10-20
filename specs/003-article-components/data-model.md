@@ -97,11 +97,11 @@ export const articleMetadataSchema = z.object({
 
 ### Fields
 
-| Field        | Type     | Required | Description    | Examples                   |
-| ------------ | -------- | -------- | -------------- | -------------------------- |
-| `text`       | `string` | ❌       | 顯示文字       | `"專案標題"`, `"文章主題"` |
-| `background` | `string` | ❌       | 背景樣式       | 見下方 Format Support      |
-| `className`  | `string` | ❌       | 自訂 CSS class | `"custom-og-style"`        |
+| Field        | Type     | Required | Description    | Examples                        |
+| ------------ | -------- | -------- | -------------- | ------------------------------- |
+| `icon`       | `string` | ❌       | 圖示圖片路徑   | `"/image/notes/note-title.png"` |
+| `background` | `string` | ❌       | 背景樣式       | 見下方 Format Support           |
+| `className`  | `string` | ❌       | 自訂 CSS class | `"custom-og-style"`             |
 
 ### Background Format Support
 
@@ -118,7 +118,7 @@ export const articleMetadataSchema = z.object({
 
 ```typescript
 export interface OGImageConfig {
-  text?: string;
+  icon?: string;
   background?: string;
   className?: string;
 }
@@ -128,7 +128,7 @@ export interface OGImageConfig {
 
 ```typescript
 export const ogImageConfigSchema = z.object({
-  text: z.string().optional(),
+  icon: z.string().optional(),
   background: z
     .string()
     .refine(
@@ -246,7 +246,7 @@ title: "深入理解 TypeScript 泛型"
 description: "從基礎到進階，掌握 TypeScript 泛型的核心概念"
 imageType: generated
 ogImage:
-  text: "TypeScript 泛型"
+  icon: "/images/notes/typescript-generic.png"
   background: "linear-gradient(135deg, #007acc 0%, #0098ff 100%)"
 date: 2025-10-19
 featured: true

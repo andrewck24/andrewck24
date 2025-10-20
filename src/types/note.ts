@@ -5,14 +5,14 @@
  * 繼承自 ArticleMetadata 基礎型別
  */
 
-import { z } from "zod";
 import {
   articleMetadataSchema,
   SUPPORTED_LOCALES,
   type ArticleMetadata,
   type ArticlePageData,
   type Locale,
-} from "./article";
+} from "@/types/article";
+import { z } from "zod";
 
 // ============================================================================
 // Constants
@@ -97,8 +97,8 @@ export interface NoteFrontmatter {
 
   /** 動態 OG Image 配置（當 imageType: "generated"） */
   ogImage?: {
-    /** 自訂圖片文字內容（純文字） */
-    text?: string;
+    /** 圖示圖片路徑 */
+    icon?: string;
     /** 背景樣式（gradient/color/image） */
     background?: string;
     /** 自訂 CSS className（可選） */
@@ -230,5 +230,5 @@ export interface NoteListResult {
 // Re-export from article
 // ============================================================================
 
-export type { Locale, ArticleMetadata, ArticlePageData };
 export { SUPPORTED_LOCALES } from "./article";
+export type { ArticleMetadata, ArticlePageData, Locale };

@@ -18,7 +18,7 @@ export interface ArticleImageProps {
 
   /** Generated OG image config (optional when imageType="generated") */
   ogImage?: {
-    text?: string;
+    icon?: string;
     background?: string; // CSS gradient / color / image path
     className?: string;
   };
@@ -105,7 +105,7 @@ export function ArticleImage({
 
 interface GeneratedContentProps {
   ogImage?: {
-    text?: string;
+    icon?: string;
     background?: string;
     className?: string;
   };
@@ -136,27 +136,16 @@ function GeneratedContent({ ogImage }: GeneratedContentProps) {
         padding: "2rem",
       }}
     >
-      {ogImage?.text && (
-        <div
+      {ogImage?.icon && (
+        <Image
+          src={ogImage.icon}
+          alt="Article icon"
           style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexWrap: "wrap",
-            fontSize: "2rem",
-            fontWeight: "bold",
-            color: "#fff",
-            textAlign: "center",
-            lineHeight: 1.3,
-            height: "80%",
-            maxHeight: "80%",
-            aspectRatio: "1 / 1",
-            wordBreak: "break-word",
-            overflowWrap: "break-word",
+            maxWidth: "40%",
+            maxHeight: "40%",
+            objectFit: "contain",
           }}
-        >
-          {ogImage.text}
-        </div>
+        />
       )}
     </div>
   );

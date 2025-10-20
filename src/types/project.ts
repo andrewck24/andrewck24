@@ -5,17 +5,17 @@
  * 繼承自 ArticleMetadata 基礎型別
  */
 
-import { z } from "zod";
 import {
   articleMetadataSchema,
   SUPPORTED_LOCALES,
   type ArticleMetadata,
   type ArticlePageData,
   type Locale,
-} from "./article";
+} from "@/types/article";
+import { z } from "zod";
 
 // Re-export for backwards compatibility
-export type { Locale } from "./article";
+export type { Locale } from "@/types/article";
 
 // ============================================================================
 // Enums & Constants
@@ -92,8 +92,8 @@ export interface ProjectFrontmatter {
 
   /** 動態 OG Image 配置（當 imageType: "generated"） */
   ogImage?: {
-    /** 自訂圖片文字內容（純文字） */
-    text?: string;
+    /** 圖示圖片路徑 */
+    icon?: string;
     /** 背景圖路徑（可選） */
     background?: string;
     /** 自訂 CSS className（可選） */

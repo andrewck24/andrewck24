@@ -28,8 +28,8 @@ export type Locale = (typeof SUPPORTED_LOCALES)[number];
  * 支援三種 background 格式：CSS gradient / 純色 / 圖片路徑
  */
 export const ogImageConfigSchema = z.object({
-  /** 顯示文字 */
-  text: z.string().optional(),
+  /** 圖示圖片路徑 */
+  icon: z.string().optional(),
 
   /**
    * 背景樣式
@@ -125,8 +125,8 @@ export const articleMetadataSchema = z.object({
  * 動態生成 OG Image 的配置
  */
 export interface OGImageConfig {
-  /** 顯示文字 */
-  text?: string;
+  /** 圖示圖片路徑 */
+  icon?: string;
 
   /** 背景樣式（支援 gradient/color/image） */
   background?: string;
