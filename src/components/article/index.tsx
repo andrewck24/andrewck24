@@ -1,26 +1,11 @@
-/**
- * Article Components - Main Export
- *
- * 泛用型文章元件系統
- * 整合 ArticleImage、ArticleCard、Article
- */
-
-// Re-export all article components
-export { ArticleImage } from "./image";
-export type { ArticleImageProps } from "./image";
-
-export { ArticleCard } from "./card";
-export type { ArticleCardProps } from "./card";
-
-// Article Component (detail page)
-import { ArticleImage } from "./image";
+import { ArticleCard, type ArticleCardProps } from "@/components/article/card";
+import {
+  ArticleImage,
+  type ArticleImageProps,
+} from "@/components/article/image";
 import type { ArticleMetadata, ArticlePageData } from "@/types/article";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-
-// ============================================================================
-// Types
-// ============================================================================
 
 export interface ArticleProps<T extends ArticleMetadata = ArticleMetadata> {
   /** Article page data (metadata + MDX content) */
@@ -32,10 +17,6 @@ export interface ArticleProps<T extends ArticleMetadata = ArticleMetadata> {
   /** Custom back link text (i18n) */
   backLinkText?: string;
 }
-
-// ============================================================================
-// Component
-// ============================================================================
 
 export function Article<T extends ArticleMetadata = ArticleMetadata>({
   article,
@@ -63,6 +44,7 @@ export function Article<T extends ArticleMetadata = ArticleMetadata>({
           image={article.image}
           ogImage={article.ogImage}
           priority={true}
+          className="mb-8 aspect-video"
         />
 
         {/* Header Section */}
@@ -110,3 +92,10 @@ export function Article<T extends ArticleMetadata = ArticleMetadata>({
     </div>
   );
 }
+
+export {
+  ArticleCard,
+  ArticleImage,
+  type ArticleCardProps,
+  type ArticleImageProps,
+};

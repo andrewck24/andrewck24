@@ -1,20 +1,7 @@
-/**
- * ArticleImage Component
- *
- * 泛用型文章主視覺元件
- * 整合 GeneratedHero 和 ProjectDetailImage 的功能
- * 支援 static 和 generated 兩種模式
- */
-
 "use client";
-
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { unstable_ViewTransition as ViewTransition } from "react";
-
-// ============================================================================
-// Types
-// ============================================================================
 
 export interface ArticleImageProps {
   /** Article slug (用於 view transition name) */
@@ -42,10 +29,6 @@ export interface ArticleImageProps {
   /** Image priority (for LCP optimization) */
   priority?: boolean;
 }
-
-// ============================================================================
-// Component
-// ============================================================================
 
 export function ArticleImage({
   slug,
@@ -77,7 +60,7 @@ export function ArticleImage({
       <ViewTransition name={`article-image-${slug}`}>
         <div
           className={cn(
-            "relative mb-8 aspect-video overflow-hidden rounded-lg",
+            "relative h-full w-full overflow-hidden rounded-lg",
             ogImage?.className,
             className
           )}
@@ -97,7 +80,7 @@ export function ArticleImage({
     <ViewTransition name={`article-image-${slug}`}>
       <div
         className={cn(
-          "relative mb-8 aspect-video overflow-hidden rounded-lg",
+          "relative h-full w-full overflow-hidden rounded-lg",
           className
         )}
         data-testid="article-image-container"
@@ -119,10 +102,6 @@ export function ArticleImage({
     </ViewTransition>
   );
 }
-
-// ============================================================================
-// Internal Components
-// ============================================================================
 
 interface GeneratedContentProps {
   ogImage?: {
@@ -158,20 +137,26 @@ function GeneratedContent({ ogImage }: GeneratedContentProps) {
       }}
     >
       {ogImage?.text && (
-        <h1
+        <div
           style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexWrap: "wrap",
             fontSize: "2rem",
             fontWeight: "bold",
             color: "#fff",
             textAlign: "center",
             lineHeight: 1.3,
-            maxWidth: "100%",
-            wordBreak: "keep-all",
+            height: "80%",
+            maxHeight: "80%",
+            aspectRatio: "1 / 1",
+            wordBreak: "break-word",
             overflowWrap: "break-word",
           }}
         >
           {ogImage.text}
-        </h1>
+        </div>
       )}
     </div>
   );
