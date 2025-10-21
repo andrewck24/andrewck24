@@ -34,7 +34,7 @@ test.describe("View Transition Effects", () => {
     }
 
     // 記錄初始狀態
-    const firstCard = page.locator('[data-testid="project-card"]').first();
+    const firstCard = page.locator('[data-testid="article-card"]').first();
     const initialImage = firstCard.locator("img");
     const initialImageSrc = await initialImage.getAttribute("src");
 
@@ -93,7 +93,7 @@ test.describe("View Transition Effects", () => {
     });
     expect(isViewTransitionSupported).toBe(false);
 
-    const firstCard = page.locator('[data-testid="project-card"]').first();
+    const firstCard = page.locator('[data-testid="article-card"]').first();
 
     // 點擊卡片（應該直接跳轉，無轉場）
     await firstCard.click();
@@ -118,7 +118,7 @@ test.describe("View Transition Effects", () => {
     await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
-    const firstCard = page.locator('[data-testid="project-card"]').first();
+    const firstCard = page.locator('[data-testid="article-card"]').first();
     await firstCard.click();
 
     // 等待導航完成
@@ -146,7 +146,7 @@ test.describe("View Transition Effects", () => {
     await page.waitForLoadState("networkidle");
 
     // 導航至詳細頁面
-    const firstCard = page.locator('[data-testid="project-card"]').first();
+    const firstCard = page.locator('[data-testid="article-card"]').first();
     await firstCard.click();
     await page.waitForLoadState("networkidle");
 

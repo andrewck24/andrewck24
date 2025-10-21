@@ -12,6 +12,11 @@
 /out/
 /build
 *.tsbuildinfo
+/playwright-report/
+/test-results/
+lighthouse-*.json
+analyze-lighthouse.js
+analyze-performance.js
 
 # misc
 .DS_Store

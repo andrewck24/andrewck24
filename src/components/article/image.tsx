@@ -140,6 +140,8 @@ function GeneratedContent({ ogImage }: GeneratedContentProps) {
         <Image
           src={ogImage.icon}
           alt="Article icon"
+          width={400}
+          height={400}
           style={{
             maxWidth: "40%",
             maxHeight: "40%",
