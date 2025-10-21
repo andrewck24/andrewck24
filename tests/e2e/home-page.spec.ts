@@ -1,7 +1,7 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
-test.describe("Homepage", () => {
-  test("should load homepage successfully", async ({ page }) => {
+test.describe("Home Page", () => {
+  test("should load home page successfully", async ({ page }) => {
     await page.goto("/");
 
     // Wait for the page to load

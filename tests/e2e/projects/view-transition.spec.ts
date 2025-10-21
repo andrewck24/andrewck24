@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { test, expect, chromium, firefox } from "@playwright/test";
+import { chromium, expect, firefox, test } from "@playwright/test";
 
 /**
  * T006: E2E 測試 - View Transition 轉場效果
