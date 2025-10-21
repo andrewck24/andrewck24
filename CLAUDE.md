@@ -130,8 +130,5 @@
 
 ## Active Technologies
 
-專案當前使用的技術堆疊（依功能分支記錄）：
-
-- TypeScript 5.9, React 19.1.1, Next.js 15.5.3 (with experimental.viewTransition) (002-projects-1-home)
-- fumadocs-mdx 12.0.1, fumadocs-ui 15.8.2, shadcn/ui components, motion 12.23.22 (002-projects-1-home)
-- File-based (MDX files in content/projects/) (002-projects-1-home)
+- TypeScript 5.9 (strict mode enabled) + Next.js 15.5.3, React 19.1.1, fumadocs-mdx 12.0.1, fumadocs-ui 15.8.2, motion 12.23.22, shadcn/ui components (003-article-components)
+- File-based (MDX files in `content/projects/` and `content/notes/`), fumadocs-mdx for content parsing (003-article-components)

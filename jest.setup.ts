@@ -39,11 +39,13 @@ jest.mock("next/link", () => ({
   default: ({
     children,
     href,
+    ...rest
   }: {
     children: React.ReactNode;
     href: string;
+    [key: string]: unknown;
   }) => {
-    return React.createElement("a", { href }, children);
+    return React.createElement("a", { href, ...rest }, children);
   },
 }));
 
@@ -74,4 +76,20 @@ Object.defineProperty(window, "matchMedia", {
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn(),
   })),
+});
+
+// Mock React ViewTransition (unstable API in React 19)
+jest.mock("react", () => {
+  const originalReact = jest.requireActual("react");
+  return {
+    ...originalReact,
+    unstable_ViewTransition: ({
+      children,
+    }: {
+      children: React.ReactNode;
+      name?: string;
+    }) => {
+      return originalReact.createElement(originalReact.Fragment, {}, children);
+    },
+  };
 });

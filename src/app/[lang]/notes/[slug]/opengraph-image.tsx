@@ -1,5 +1,12 @@
-import { getProject } from "@/lib/data/projects";
-import { Locale } from "@/types/project";
+/**
+ * Notes Dynamic OG Image
+ *
+ * 動態生成筆記的 Open Graph 圖片
+ * T049: Implementation
+ */
+
+import { getNote } from "@/lib/data/notes";
+import { Locale } from "@/types/note";
 import { ImageResponse } from "next/og";
 
 // Image metadata
@@ -25,11 +32,10 @@ export default async function Image({
   const { lang, slug } = await params;
   const locale = lang as Locale;
 
-  const project = await getProject(locale, slug);
+  const note = await getNote(locale, slug);
 
-  // 如果專案不存在或使用靜態圖片，返回 null（讓 Next.js 使用 metadata 中的圖片）
-  if (!project || project.imageType !== "generated") {
-    // 返回預設圖片
+  // 如果筆記不存在或使用靜態圖片，返回預設圖片
+  if (!note || note.imageType !== "generated") {
     return new ImageResponse(
       (
         <div
@@ -45,7 +51,7 @@ export default async function Image({
             fontWeight: "bold",
           }}
         >
-          {project?.title || "Project"}
+          {note?.title || "Note"}
         </div>
       ),
       {
@@ -56,7 +62,7 @@ export default async function Image({
 
   // 動態生成的 OG Image（imageType: "generated"）
   // 支援三種背景格式：CSS gradient、solid color、image path
-  const ogImage = project.ogImage;
+  const ogImage = note.ogImage;
   const background = ogImage?.background;
   const icon = ogImage?.icon;
 
@@ -100,7 +106,7 @@ export default async function Image({
         {iconUrl ? (
           <img
             src={iconUrl}
-            alt="Project icon"
+            alt="Note icon"
             style={{
               maxWidth: "40%",
               maxHeight: "40%",

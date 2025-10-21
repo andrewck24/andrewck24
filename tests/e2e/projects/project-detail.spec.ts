@@ -18,7 +18,7 @@ test.describe("Project Detail Page", () => {
     await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
-    const firstCard = page.locator('[data-testid="project-card"]').first();
+    const firstCard = page.locator('[data-testid="article-card"]').first();
     const firstCardLink = firstCard.locator("a");
     const projectUrl = await firstCardLink.getAttribute("href");
 
@@ -95,7 +95,7 @@ test.describe("Project Detail Page", () => {
     await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
-    const firstCard = page.locator('[data-testid="project-card"]').first();
+    const firstCard = page.locator('[data-testid="article-card"]').first();
     await firstCard.click();
     await page.waitForLoadState("networkidle");
 
@@ -131,7 +131,7 @@ test.describe("Project Detail Page", () => {
     // 測試中文路由
     await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
-    const zhCard = page.locator('[data-testid="project-card"]').first();
+    const zhCard = page.locator('[data-testid="article-card"]').first();
     const zhCardLink = await zhCard.locator("a").getAttribute("href");
     expect(zhCardLink).toMatch(/^\/zh-TW\/projects\/.+/);
 
@@ -139,7 +139,7 @@ test.describe("Project Detail Page", () => {
     const enResponse = await page.goto("/en/projects");
     if (enResponse?.status() === 200) {
       await page.waitForLoadState("networkidle");
-      const enCards = page.locator('[data-testid="project-card"]');
+      const enCards = page.locator('[data-testid="article-card"]');
       if ((await enCards.count()) > 0) {
         const enCardLink = await enCards
           .first()
@@ -153,7 +153,7 @@ test.describe("Project Detail Page", () => {
     const jaResponse = await page.goto("/ja/projects");
     if (jaResponse?.status() === 200) {
       await page.waitForLoadState("networkidle");
-      const jaCards = page.locator('[data-testid="project-card"]');
+      const jaCards = page.locator('[data-testid="article-card"]');
       if ((await jaCards.count()) > 0) {
         const jaCardLink = await jaCards
           .first()
@@ -172,7 +172,7 @@ test.describe("Project Detail Page", () => {
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     const scrollBeforeClick = await page.evaluate(() => window.scrollY);
 
-    const firstCard = page.locator('[data-testid="project-card"]').first();
+    const firstCard = page.locator('[data-testid="article-card"]').first();
     await firstCard.click();
     await page.waitForLoadState("networkidle");
 
@@ -193,7 +193,7 @@ test.describe("Project Detail Page", () => {
     await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
-    const firstCard = page.locator('[data-testid="project-card"]').first();
+    const firstCard = page.locator('[data-testid="article-card"]').first();
     const projectTitle = await firstCard
       .getByRole("heading", { level: 3 })
       .textContent();

@@ -5,7 +5,7 @@
  * Route: /[lang]/projects/[slug]
  */
 
-import { ProjectDetail } from "@/components/projects/project-detail";
+import { Article } from "@/components/article";
 import { generateProjectStaticParams, getProject } from "@/lib/data/projects";
 import type { Locale } from "@/types/project";
 import type { Metadata } from "next";
@@ -29,7 +29,13 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
     notFound();
   }
 
-  return <ProjectDetail project={project} />;
+  return (
+    <Article
+      article={project}
+      contentType="projects"
+      backLinkText="返回專案列表"
+    />
+  );
 }
 
 // Generate static params for all projects

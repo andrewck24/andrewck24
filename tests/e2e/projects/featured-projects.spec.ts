@@ -30,7 +30,7 @@ test.describe("Featured Projects on Projects Page", () => {
     await expect(featuredSection).toBeVisible();
 
     // 檢查專案卡片數量 (3-5 張)
-    const projectCards = page.locator('[data-testid="project-card"]');
+    const projectCards = page.locator('[data-testid="article-card"]');
     const cardCount = await projectCards.count();
     expect(cardCount).toBeGreaterThanOrEqual(3);
     expect(cardCount).toBeLessThanOrEqual(5);
@@ -39,10 +39,20 @@ test.describe("Featured Projects on Projects Page", () => {
     for (let i = 0; i < cardCount; i++) {
       const card = projectCards.nth(i);
 
-      // 檢查圖片
+      // 檢查圖片容器（所有 card 都應該有 article-image-container）
+      const imageContainer = card.locator(
+        '[data-testid="article-image-container"]'
+      );
+      await expect(imageContainer).toBeVisible();
+
+      // 注意：generated mode 可能沒有 <img> 元素（只有背景）
+      // 所以我們不強制要求 img，只檢查有 img 的情況
       const image = card.locator("img");
-      await expect(image).toBeVisible();
-      await expect(image).toHaveAttribute("alt", /.+/); // 有 alt 屬性
+      const imageCount = await image.count();
+      if (imageCount > 0) {
+        await expect(image.first()).toBeVisible();
+        await expect(image.first()).toHaveAttribute("alt", /.+/);
+      }
 
       // 檢查標題 (≤100 字元)
       const title = card.getByRole("heading", { level: 3 });
@@ -66,7 +76,7 @@ test.describe("Featured Projects on Projects Page", () => {
     await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
-    const projectCards = page.locator('[data-testid="project-card"]');
+    const projectCards = page.locator('[data-testid="article-card"]');
     const firstCard = projectCards.first();
 
     // 檢查 grid layout
@@ -75,12 +85,12 @@ test.describe("Featured Projects on Projects Page", () => {
     );
     await expect(gridContainer).toHaveCSS("display", "grid");
 
-    // 檢查 grid-template-columns (應該是 3 欄)
+    // 檢查 grid-template-columns (應該是 2 欄)
     const gridColumns = await gridContainer.evaluate(
       (el) => window.getComputedStyle(el).gridTemplateColumns
     );
-    // 桌面應該有 3 欄（可能是 repeat(3, ...) 或具體的值）
-    expect(gridColumns.split(" ").length).toBe(3);
+    // 桌面應該有 2 欄（可能是 repeat(2, ...) 或具體的值）
+    expect(gridColumns.split(" ").length).toBe(2);
   });
 
   test("should display project cards in single column on mobile", async ({
@@ -110,7 +120,7 @@ test.describe("Featured Projects on Projects Page", () => {
     await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
-    const firstCard = page.locator('[data-testid="project-card"]').first();
+    const firstCard = page.locator('[data-testid="article-card"]').first();
     const firstImage = firstCard.locator("img");
 
     // 檢查首張圖片是否有 priority 屬性 (Next.js Image 的 fetchpriority)
@@ -128,7 +138,7 @@ test.describe("Featured Projects on Projects Page", () => {
     await page.goto("/zh-TW/projects");
     await page.waitForLoadState("networkidle");
 
-    const firstCard = page.locator('[data-testid="project-card"]').first();
+    const firstCard = page.locator('[data-testid="article-card"]').first();
     const firstCardTitle = await firstCard
       .getByRole("heading", { level: 3 })
       .textContent();

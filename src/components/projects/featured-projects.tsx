@@ -1,4 +1,4 @@
-import { FeaturedProjectCard } from "@/components/projects/featured-project-card";
+import { ArticleCard } from "@/components/article/card";
 import type { FeaturedProject, Locale } from "@/types/project";
 
 export interface FeaturedProjectsProps {
@@ -46,11 +46,12 @@ export function FeaturedProjects({ projects, locale }: FeaturedProjectsProps) {
         data-testid="featured-projects-grid"
       >
         {projects.map((project, index) => (
-          <FeaturedProjectCard
+          <ArticleCard
             key={project.slug}
-            project={project}
+            article={project}
             variant={index === 0 ? "hero" : "compact"} // 首張為 hero，其他為 compact
             priority={index === 0} // 首張圖片使用 priority loading
+            contentType="projects"
           />
         ))}
       </div>

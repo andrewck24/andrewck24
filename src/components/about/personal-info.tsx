@@ -4,7 +4,6 @@ import { Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 
 export function PersonalInfo({ data }: { data: MDXPageData }) {
-  console.log(data.title, data.description);
   return (
     <div
       data-testid="about-personal-info"
