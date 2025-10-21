@@ -3,28 +3,6 @@ import { i18n } from "@/lib/i18n";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 export function baseOptions(locale: string): BaseLayoutProps {
-  const getProjectsText = () => {
-    switch (locale) {
-      case "zh-TW":
-        return "專案";
-      case "ja":
-        return "プロジェクト";
-      default:
-        return "Projects";
-    }
-  };
-
-  const getNotesText = () => {
-    switch (locale) {
-      case "zh-TW":
-        return "筆記";
-      case "ja":
-        return "ノート";
-      default:
-        return "Notes";
-    }
-  };
-
   const getAboutText = () => {
     switch (locale) {
       case "zh-TW":
@@ -36,6 +14,28 @@ export function baseOptions(locale: string): BaseLayoutProps {
     }
   };
 
+  // const getNotesText = () => {
+  //   switch (locale) {
+  //     case "zh-TW":
+  //       return "筆記";
+  //     case "ja":
+  //       return "ノート";
+  //     default:
+  //       return "Notes";
+  //   }
+  // };
+
+  const getProjectsText = () => {
+    switch (locale) {
+      case "zh-TW":
+        return "專案";
+      case "ja":
+        return "プロジェクト";
+      default:
+        return "Projects";
+    }
+  };
+
   return {
     i18n,
     nav: {
@@ -44,17 +44,18 @@ export function baseOptions(locale: string): BaseLayoutProps {
       transparentMode: "top",
     },
     githubUrl: "https://github.com/andrewck24",
+    searchToggle: { enabled: false },
     links: [
       {
         type: "main",
         text: getProjectsText(),
         url: `/${locale}/projects`,
       },
-      {
-        type: "main",
-        text: getNotesText(),
-        url: `/${locale}/notes`,
-      },
+      // {
+      //   type: "main",
+      //   text: getNotesText(),
+      //   url: `/${locale}/notes`,
+      // },
       {
         type: "main",
         text: getAboutText(),
