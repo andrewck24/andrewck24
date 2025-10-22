@@ -104,7 +104,7 @@ import { ArticleCard } from "@/components/article/card";
   title="專案標題"
   imageType="generated"
   ogImage={{
-    text: "專案標題",
+    icon: "/images/icons/my-project.png",
     background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
   }}
 />
@@ -118,7 +118,7 @@ import { ArticleCard } from "@/components/article/card";
   title="筆記標題"
   imageType="generated"
   ogImage={{
-    text: "筆記",
+    icon: "/images/icons/my-note.png",
     background: "#667eea"
   }}
 />
@@ -132,7 +132,7 @@ import { ArticleCard } from "@/components/article/card";
   title="文章"
   imageType="generated"
   ogImage={{
-    text: "主題",
+    icon: "/images/icons/my-article.png",
     background: "/images/projects/og-backgrounds/common/bg.jpg"
   }}
 />
@@ -275,9 +275,9 @@ export default async function Image({ params }) {
         padding: 80,
       }}
     >
-      {article.ogImage?.text && (
+      {article.ogImage?.icon && (
         <h1 style={{ fontSize: "4rem", fontWeight: "bold", color: "#fff" }}>
-          {article.ogImage.text}
+          {article.ogImage.icon}
         </h1>
       )}
     </div>,
@@ -419,7 +419,7 @@ npm run type-check
 title: "我的筆記"
 imageType: generated
 ogImage:
-  text: "主題"
+  icon: "/images/icons/note-icon.png"
   background: "linear-gradient(...)"
 ---
 ```

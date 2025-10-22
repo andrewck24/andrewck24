@@ -33,7 +33,7 @@ export interface ArticleMetadata {
   imageType?: "static" | "generated";
   image?: string;
   ogImage?: {
-    text?: string;
+    icon?: string;
     background?: string;  // 支援 gradient/color/image
     className?: string;
   };
@@ -263,7 +263,7 @@ export default async function Image({ params }: { params: Promise<{...}> }) {
 
   return new ImageResponse(
     <div style={{ background: backgroundStyle, ... }}>
-      {article.ogImage?.text}
+      {article.ogImage?.icon}
     </div>,
     { width: 1200, height: 675 }
   );
@@ -285,7 +285,7 @@ export default async function Image({ params }: { params: Promise<{...}> }) {
 ```typescript
 // src/types/article.ts
 const articleImageSchema = z.object({
-  text: z.string().optional(),
+  icon: z.string().optional(),
   background: z
     .string()
     .refine((val) => {
@@ -368,7 +368,7 @@ title: "我的第一篇技術筆記"
 description: "學習 TypeScript 泛型的心得"
 imageType: generated
 ogImage:
-  text: "TypeScript 泛型"
+  icon: "/images/icons/typescript.png"
   background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
 date: 2025-10-19
 featured: true
