@@ -255,7 +255,7 @@ export default defineConfig({
 import { docs, about } from "@/.source";
 import { i18n } from "@/lib/i18n";
 import { loader } from "fumadocs-core/source";
-import { createMDXSource } from "fumadocs-mdx";
+import { createMDXSource } from "fumadocs-mdx/runtime/next";
 
 // Existing docs source
 export const source = loader({

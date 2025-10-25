@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { unstable_ViewTransition as ViewTransition } from "react";
+import { ViewTransition } from "react";
 
 export interface ArticleImageProps {
   /** Article slug (用於 view transition name) */
@@ -39,6 +39,8 @@ export function ArticleImage({
   className,
   priority = false,
 }: ArticleImageProps) {
+  const viewTransitionName = `article-image-${slug}`;
+
   // Fallback to generated mode if static mode but image is missing
   const effectiveImageType =
     imageType === "static" && !image ? "generated" : imageType;
@@ -57,7 +59,7 @@ export function ArticleImage({
   // Render generated mode
   if (effectiveImageType === "generated") {
     return (
-      <ViewTransition name={`article-image-${slug}`}>
+      <ViewTransition name={viewTransitionName}>
         <div
           className={cn(
             "relative h-full w-full overflow-hidden rounded-lg",
@@ -65,9 +67,7 @@ export function ArticleImage({
             className
           )}
           data-testid="article-image-container"
-          style={{
-            viewTransitionName: `article-image-${slug}`,
-          }}
+          style={{ viewTransitionName: viewTransitionName }}
         >
           <GeneratedContent ogImage={ogImage} />
         </div>
@@ -77,16 +77,14 @@ export function ArticleImage({
 
   // Render static mode
   return (
-    <ViewTransition name={`article-image-${slug}`}>
+    <ViewTransition name={viewTransitionName}>
       <div
         className={cn(
           "relative h-full w-full overflow-hidden rounded-lg",
           className
         )}
         data-testid="article-image-container"
-        style={{
-          viewTransitionName: `article-image-${slug}`,
-        }}
+        style={{ viewTransitionName: viewTransitionName }}
       >
         <Image
           src={image || ""}

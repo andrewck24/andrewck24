@@ -103,7 +103,7 @@ export interface ArticlePageData<T extends ArticleMetadata = ArticleMetadata> {
 import { projects, projectsMeta, notes, meta } from "@/.source"; // fumadocs-mdx 自動生成
 import { i18n } from "@/lib/i18n";
 import { loader } from "fumadocs-core/source";
-import { createMDXSource } from "fumadocs-mdx";
+import { createMDXSource } from "fumadocs-mdx/runtime/next";
 
 // Projects source (已存在)
 export const projectsSource = loader({
@@ -187,7 +187,7 @@ export async function getFeaturedNotes(
 ### Rationale
 
 1. **Next.js 15 支援度**: experimental.viewTransition flag 已啟用於 next.config
-2. **向後相容**: React 19 仍將 View Transitions API 標記為 unstable
+2. **向後相容**: React 19.2 的 View Transitions API 已是穩定版本
 3. **元件重構影響**: ArticleImage 整合 ProjectDetailImage 時需保留相同的 transition name
 4. **測試覆蓋**: 現有 E2E 測試已驗證 view transition 運作
 

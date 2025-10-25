@@ -28,6 +28,7 @@ jest.mock("next/image", () => ({
       alt: alt ?? "",
       width,
       height,
+      loading: priority ? "eager" : "lazy", // Set loading based on priority
       ...imgProps,
     });
   },
@@ -78,12 +79,12 @@ Object.defineProperty(window, "matchMedia", {
   })),
 });
 
-// Mock React ViewTransition (unstable API in React 19)
+// Mock React ViewTransition (API in React 19)
 jest.mock("react", () => {
   const originalReact = jest.requireActual("react");
   return {
     ...originalReact,
-    unstable_ViewTransition: ({
+    ViewTransition: ({
       children,
     }: {
       children: React.ReactNode;

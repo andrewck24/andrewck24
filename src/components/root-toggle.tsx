@@ -26,7 +26,7 @@ export function RootToggle({
   options: Option[];
 } & ComponentProps<"button">) {
   const [open, setOpen] = useState(false);
-  const { closeOnRedirect } = useSidebar();
+  const { closeOnRedirect: closeOnRedirectRef } = useSidebar();
   const pathname = usePathname();
 
   const selected = useMemo(() => {
@@ -34,7 +34,7 @@ export function RootToggle({
   }, [options, pathname]);
 
   const onClick = () => {
-    closeOnRedirect.current = false;
+    closeOnRedirectRef.current = false;
     setOpen(false);
   };
 
@@ -66,7 +66,7 @@ export function RootToggle({
           <ChevronsUpDown className="text-fd-muted-foreground ms-auto size-4 shrink-0" />
         </PopoverTrigger>
       )}
-      <PopoverContent className="flex w-(--radix-popover-trigger-width) flex-col gap-1 overflow-hidden p-1">
+      <PopoverContent className="fd-scroll-container flex w-(--radix-popover-trigger-width) flex-col gap-1 overflow-hidden p-1">
         {options.map((item) => {
           const isActive = selected && item.url === selected.url;
           if (!isActive && item.unlisted) return;

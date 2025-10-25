@@ -8,7 +8,7 @@ import { z } from "zod";
 
 // You can customise Zod schemas for frontmatter and `meta.json` here
 // see https://fumadocs.dev/docs/mdx/collections#define-docs
-export const { docs: notes, meta } = defineDocs({
+export const notes = defineDocs({
   dir: "content/notes",
   docs: {
     schema: frontmatterSchema,
@@ -18,7 +18,7 @@ export const { docs: notes, meta } = defineDocs({
   },
 });
 
-export const { docs: about } = defineDocs({
+export const about = defineDocs({
   dir: "content/about",
   docs: {
     schema: frontmatterSchema,
@@ -26,7 +26,7 @@ export const { docs: about } = defineDocs({
 });
 
 // Projects collection with featured and order fields
-export const { docs: projects, meta: projectsMeta } = defineDocs({
+export const projects = defineDocs({
   dir: "content/projects",
   docs: {
     schema: frontmatterSchema.extend({

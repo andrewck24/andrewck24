@@ -36,8 +36,7 @@ export function HomeLayout(
     links,
     githubUrl,
     i18n,
-    disableThemeSwitch = false,
-    themeSwitch = { enabled: !disableThemeSwitch },
+    themeSwitch = { enabled: true },
     searchToggle,
     backgroundAnimation = false,
     ...rest
