@@ -33,7 +33,7 @@ export interface ArticleMetadata {
   imageType?: "static" | "generated";
   image?: string;
   ogImage?: {
-    text?: string;
+    icon?: string;
     background?: string;  // 支援 gradient/color/image
     className?: string;
   };
@@ -103,7 +103,7 @@ export interface ArticlePageData<T extends ArticleMetadata = ArticleMetadata> {
 import { projects, projectsMeta, notes, meta } from "@/.source"; // fumadocs-mdx 自動生成
 import { i18n } from "@/lib/i18n";
 import { loader } from "fumadocs-core/source";
-import { createMDXSource } from "fumadocs-mdx";
+import { createMDXSource } from "fumadocs-mdx/runtime/next";
 
 // Projects source (已存在)
 export const projectsSource = loader({
@@ -187,7 +187,7 @@ export async function getFeaturedNotes(
 ### Rationale
 
 1. **Next.js 15 支援度**: experimental.viewTransition flag 已啟用於 next.config
-2. **向後相容**: React 19 仍將 View Transitions API 標記為 unstable
+2. **向後相容**: React 19.2 的 View Transitions API 已是穩定版本
 3. **元件重構影響**: ArticleImage 整合 ProjectDetailImage 時需保留相同的 transition name
 4. **測試覆蓋**: 現有 E2E 測試已驗證 view transition 運作
 
@@ -263,7 +263,7 @@ export default async function Image({ params }: { params: Promise<{...}> }) {
 
   return new ImageResponse(
     <div style={{ background: backgroundStyle, ... }}>
-      {article.ogImage?.text}
+      {article.ogImage?.icon}
     </div>,
     { width: 1200, height: 675 }
   );
@@ -285,7 +285,7 @@ export default async function Image({ params }: { params: Promise<{...}> }) {
 ```typescript
 // src/types/article.ts
 const articleImageSchema = z.object({
-  text: z.string().optional(),
+  icon: z.string().optional(),
   background: z
     .string()
     .refine((val) => {
@@ -368,7 +368,7 @@ title: "我的第一篇技術筆記"
 description: "學習 TypeScript 泛型的心得"
 imageType: generated
 ogImage:
-  text: "TypeScript 泛型"
+  icon: "/images/icons/typescript.png"
   background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
 date: 2025-10-19
 featured: true

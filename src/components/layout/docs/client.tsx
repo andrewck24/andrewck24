@@ -1,5 +1,7 @@
 "use client";
 import type { Option } from "@/components/root-toggle";
+import { SearchToggle } from "@/components/search-toggle";
+import { SidebarCollapseTrigger } from "@/components/sidebar";
 import { buttonVariants } from "@/components/ui/button";
 import { isTabActive } from "@/lib/is-active";
 import { cn } from "@/lib/utils";
@@ -10,11 +12,7 @@ import { useSidebar } from "fumadocs-ui/contexts/sidebar";
 import { Sidebar as SidebarIcon } from "lucide-react";
 import { type ComponentProps, useMemo } from "react";
 
-export function Navbar({
-  mode,
-  ...props
-}: ComponentProps<"header"> & { mode: "top" | "auto" }) {
-  const { open, collapsed } = useSidebar();
+export function Navbar(props: ComponentProps<"header">) {
   const { isTransparent } = useNav();
 
   return (
@@ -22,11 +20,8 @@ export function Navbar({
       id="nd-subnav"
       {...props}
       className={cn(
-        "fixed top-(--fd-banner-height) right-(--removed-body-scroll-bar-size,0) left-0 z-10 flex h-(--fd-nav-height) flex-col px-(--fd-layout-offset) backdrop-blur-sm transition-colors",
-        (!isTransparent || open) && "bg-fd-background/80",
-        mode === "auto" &&
-          !collapsed &&
-          "ps-[calc(var(--fd-layout-offset)+var(--fd-sidebar-width))]",
+        "fixed top-(--fd-banner-height) right-(--removed-body-scroll-bar-size,0) left-0 z-30 flex items-center border-b ps-4 pe-2.5 backdrop-blur-sm transition-colors",
+        !isTransparent && "bg-fd-background/80",
         props.className
       )}
     >
@@ -43,7 +38,7 @@ export function LayoutBody(props: ComponentProps<"main">) {
       id="nd-docs-layout"
       {...props}
       className={cn(
-        "fd-notebook-layout flex flex-1 flex-col pt-(--fd-nav-height) transition-[padding]",
+        "fd-default-layout flex flex-1 flex-col pt-(--fd-nav-height) transition-[padding]",
         !collapsed && "mx-(--fd-layout-offset)",
         props.className
       )}
@@ -59,26 +54,32 @@ export function LayoutBody(props: ComponentProps<"main">) {
   );
 }
 
-export function NavbarSidebarTrigger({
-  className,
-  ...props
-}: ComponentProps<"button">) {
-  const { setOpen } = useSidebar();
+export function CollapsibleControl() {
+  const { collapsed } = useSidebar();
 
   return (
-    <button
-      {...props}
+    <div
       className={cn(
-        buttonVariants({
-          variant: "ghost",
-          size: "icon",
-          className,
-        })
+        "bg-fd-muted text-fd-muted-foreground fixed z-10 flex rounded-xl border p-0.5 shadow-lg transition-opacity max-xl:end-4 max-md:hidden xl:start-4",
+        !collapsed && "pointer-events-none opacity-0"
       )}
-      onClick={() => setOpen((prev) => !prev)}
+      style={{
+        top: "calc(var(--fd-banner-height) + var(--fd-tocnav-height) + var(--spacing) * 4)",
+      }}
     >
-      <SidebarIcon />
-    </button>
+      <SidebarCollapseTrigger
+        className={cn(
+          buttonVariants({
+            variant: "ghost",
+            size: "icon",
+            className: "rounded-lg",
+          })
+        )}
+      >
+        <SidebarIcon />
+      </SidebarCollapseTrigger>
+      <SearchToggle className="rounded-lg" hideIfDisabled />
+    </div>
   );
 }
 

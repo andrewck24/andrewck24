@@ -8,10 +8,10 @@
 
 "use client";
 
+import { ArticleImage } from "@/components/article/image";
 import { cn } from "@/lib/utils";
 import type { ArticleMetadata } from "@/types/article";
 import Link from "next/link";
-import { ArticleImage } from "./image";
 
 // ============================================================================
 // Types

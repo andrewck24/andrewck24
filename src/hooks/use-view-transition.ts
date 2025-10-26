@@ -5,8 +5,7 @@
  */
 
 "use client";
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export interface UseViewTransitionReturn {
   /**
@@ -38,14 +37,13 @@ export interface UseViewTransitionReturn {
  * ```
  */
 export function useViewTransition(): UseViewTransitionReturn {
-  const [isSupported, setIsSupported] = useState(false);
-
-  useEffect(() => {
+  const [isSupported] = useState(() => {
     // 檢查 document.startViewTransition 是否存在
     if (typeof document !== "undefined") {
-      setIsSupported("startViewTransition" in document);
+      return "startViewTransition" in document;
     }
-  }, []);
+    return false;
+  });
 
   return { isSupported };
 }

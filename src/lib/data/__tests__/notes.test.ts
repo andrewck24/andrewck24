@@ -5,8 +5,8 @@
  * Tests: T032-T034 (TDD Red Phase)
  */
 
-import { getFeaturedNotes, getNote, getAllNotes } from "../notes";
-import { notesSource } from "../../source";
+import { getAllNotes, getFeaturedNotes, getNote } from "@/lib/data/notes";
+import { notesSource } from "@/lib/source";
 
 // Mock notesSource
 jest.mock("../../source", () => ({
@@ -115,7 +115,7 @@ describe("Notes Data Layer", () => {
             description: "Description",
             imageType: "generated" as const,
             ogImage: {
-              text: "OG Text",
+              icon: "/images/test.png",
               background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
             },
             date: "2025-01-01",
@@ -136,7 +136,7 @@ describe("Notes Data Layer", () => {
         url: "/zh-TW/notes/note-1",
         imageType: "generated",
         ogImage: {
-          text: "OG Text",
+          icon: "/images/test.png",
           background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         },
         date: "2025-01-01",
@@ -219,7 +219,7 @@ describe("Notes Data Layer", () => {
           date: "2025-01-01",
           imageType: "generated" as const,
           ogImage: {
-            text: "Custom OG Text",
+            icon: "/images/test.png",
             background: "#667eea",
             className: "custom-class",
           },
@@ -231,7 +231,7 @@ describe("Notes Data Layer", () => {
 
       expect(result?.imageType).toBe("generated");
       expect(result?.ogImage).toEqual({
-        text: "Custom OG Text",
+        icon: "/images/test.png",
         background: "#667eea",
         className: "custom-class",
       });

@@ -178,7 +178,7 @@ export function PageTOCPopover(props: ComponentProps<"div">) {
     return () => {
       window.removeEventListener("click", onClick);
     };
-  }, [onClick]);
+  }, []);
 
   return (
     <TocPopoverContext.Provider
@@ -222,11 +222,10 @@ export function PageLastUpdate({
   ...props
 }: Omit<ComponentProps<"p">, "children"> & { date: Date | string }) {
   const { text } = useI18n();
-  const [date, setDate] = useState("");
 
-  useEffect(() => {
-    // to the timezone of client
-    setDate(new Date(value).toLocaleDateString());
+  const date = useMemo(() => {
+    if (typeof window === "undefined") return ""; // SSR
+    return new Date(value).toLocaleDateString();
   }, [value]);
 
   return (
@@ -399,7 +398,7 @@ export function PageTOC(props: ComponentProps<"div">) {
       id="nd-toc"
       {...props}
       className={cn(
-        "fixed bottom-0 pt-12 pr-(--removed-body-scroll-bar-size,0) pb-2 max-xl:hidden",
+        "xl:on-root:[--fd-toc-width:286px] fixed bottom-0 pt-12 pr-(--removed-body-scroll-bar-size,0) pb-2 max-xl:hidden",
         props.className
       )}
       style={{

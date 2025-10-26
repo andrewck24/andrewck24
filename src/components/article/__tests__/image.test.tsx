@@ -9,8 +9,8 @@
  * - T009: View transition name validation
  */
 
+import { ArticleImage } from "@/components/article/image";
 import { render, screen } from "@testing-library/react";
-import { ArticleImage } from "../image";
 
 describe("ArticleImage Component", () => {
   // T007: Static mode rendering tests
