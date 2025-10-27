@@ -5,6 +5,16 @@
 1. 開發時應符合 [constitution](/.specify/memory/constitution.md) 中的原則與規範。
 2. 配色應使用 [globals.css](/src/app/globals.css) 中定義的 CSS 變數。
 
+## Docs Guidelines
+
+1. 文件內容應清晰、簡潔，並使用統一的術語和風格。
+2. 使用 zh-TW 作為主要語言，若特定專有名詞沒有台灣習慣用法，則使用英文，用詞應精準：
+   - component -> 元件：指可重複使用的 UI 元素，如按鈕、表單欄位等。（不可使用「組件」）
+   - code -> 程式碼：指程式碼片段或整體程式碼。(不可使用「代碼」)
+   - algorithm -> 演算法：指解決問題的方法或步驟。(不可使用「算法」)
+   - UI -> UI/使用者介面：指使用者與系統互動的界面。(不可使用「用戶介面」)
+   - avatar -> 頭貼/大頭照：指用戶的個人圖片。(不可使用「頭像」)
+
 ## Web Interface Guidelines
 
 <!-- See https://vercel.com/design/guidelines -->
@@ -129,6 +139,9 @@
 - SHOULD: Avoid gradient banding (use masks when needed)
 
 ## Active Technologies
+
+- TypeScript 5.9 (strict mode) + Node.js 20+ + Next.js 16.0.0, React 19.2.0, fumadocs-mdx 13.0.0, fumadocs-ui 16.0.1, fumadocs-core 16.0.1, Zod 3.x, lucide-react 0.546.0 (004-mdx-frontmatter-1)
+- MDX files in `content/projects/` and `content/notes/`, static image files in `/public/images/{projects|notes}/{locale}/` (004-mdx-frontmatter-1)
 
 - TypeScript 5.9 (strict mode enabled) + Next.js 15.5.3, React 19.1.1, fumadocs-mdx 12.0.1, fumadocs-ui 15.8.2, motion 12.23.22, shadcn/ui components (003-article-components)
 - File-based (MDX files in `content/projects/` and `content/notes/`), fumadocs-mdx for content parsing (003-article-components)
