@@ -51,6 +51,7 @@ describe("Article Component", () => {
     date: "2025-10-19",
     imageType: "static",
     image: "/test-image.jpg",
+    tags: [],
     content: MockMDXContent,
     body: "",
   };

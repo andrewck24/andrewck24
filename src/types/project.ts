@@ -1,24 +1,61 @@
 /**
- * Project Schema - Type Definitions
+ * Project Type Definitions
  *
- * 定義 Projects 功能所有資料結構的 TypeScript 介面
- * 繼承自 ArticleMetadata 基礎型別
+ * 專案相關的型別定義、常數與輔助函式
+ * 核心 schema 定義於 @/types/article
  */
 
 import {
-  articleMetadataSchema,
-  SUPPORTED_LOCALES,
-  type ArticleMetadata,
+  projectArticleSchema,
+  type ProjectArticle,
+  type BaseArticle,
+  type ArticleCardData,
   type ArticlePageData,
   type Locale,
+  isProjectArticle,
+  isFeaturedProject as isFeaturedProjectBase,
 } from "@/types/article";
-import { z } from "zod";
-
-// Re-export for backwards compatibility
-export type { Locale } from "@/types/article";
 
 // ============================================================================
-// Enums & Constants
+// Re-exports (主要型別)
+// ============================================================================
+
+/**
+ * Project Metadata (使用統一的 ProjectArticle 型別)
+ */
+export type ProjectMetadata = ProjectArticle;
+
+/**
+ * Project Card Data
+ * 包含 metadata 和導航欄位的專案資料（用於卡片元件）
+ */
+export type ProjectCardData = ArticleCardData<ProjectArticle>;
+
+/**
+ * Project Page Data
+ * 包含 MDX 內容的完整專案資料
+ */
+export type ProjectPageData = ArticlePageData<ProjectArticle>;
+
+/**
+ * Featured Project
+ * 精選專案（featured: true）
+ */
+export interface FeaturedProject extends ProjectArticle {
+  featured: true;
+}
+
+/**
+ * Featured Project Card Data
+ * 精選專案的卡片資料（用於列表頁）
+ */
+export type FeaturedProjectCardData = ArticleCardData<FeaturedProject>;
+
+// Re-export locale type
+export type { Locale };
+
+// ============================================================================
+// Constants
 // ============================================================================
 
 /**
@@ -33,114 +70,6 @@ export const ORDER_MIN = 1;
 export const ORDER_MAX = 99;
 
 // ============================================================================
-// Zod Schemas
-// ============================================================================
-
-/**
- * Project Frontmatter Schema
- *
- * 用於 MDX 檔案 frontmatter 的 Zod schema
- * 繼承 ArticleMetadata 並新增 projects 專屬欄位
- */
-export const projectFrontmatterSchema = articleMetadataSchema
-  .omit({ slug: true, locale: true, url: true })
-  .extend({
-    /** 是否為精選專案（預設: false） */
-    featured: z.boolean().optional().default(false),
-
-    /** 排序順序（1-99，僅用於 featured=true 的專案） */
-    order: z
-      .number()
-      .int("order 必須為整數")
-      .min(ORDER_MIN, `order 最小值為 ${ORDER_MIN}`)
-      .max(ORDER_MAX, `order 最大值為 ${ORDER_MAX}`)
-      .optional(),
-  });
-
-/**
- * Project Metadata Schema
- *
- * 包含 frontmatter + 自動產生的 metadata
- */
-export const projectMetadataSchema = projectFrontmatterSchema.extend({
-  slug: z.string().min(1),
-  locale: z.enum(SUPPORTED_LOCALES),
-  url: z.string().url(),
-});
-
-// ============================================================================
-// TypeScript Interfaces
-// ============================================================================
-
-/**
- * Project Frontmatter
- *
- * MDX 檔案中的 YAML frontmatter 結構
- */
-export interface ProjectFrontmatter {
-  /** 專案標題（≤100 字元） */
-  title: string;
-
-  /** 專案簡述（≤200 字元） */
-  description: string;
-
-  /** 圖片類型選擇 */
-  imageType?: "static" | "generated";
-
-  /** 靜態圖片路徑（當 imageType: "static"） */
-  image?: string;
-
-  /** 動態 OG Image 配置（當 imageType: "generated"） */
-  ogImage?: {
-    /** 圖示圖片路徑 */
-    icon?: string;
-    /** 背景圖路徑（可選） */
-    background?: string;
-    /** 自訂 CSS className（可選） */
-    className?: string;
-  };
-
-  /** 專案日期（ISO 8601: YYYY-MM-DD） */
-  date: string;
-
-  /** 是否為精選專案（預設: false） */
-  featured?: boolean;
-
-  /** 排序順序（1-99，僅用於 featured=true 的專案） */
-  order?: number;
-}
-
-/**
- * Project Metadata
- *
- * 完整的專案資料，包含 frontmatter 和自動產生的 metadata
- * 繼承自 ArticleMetadata
- */
-export interface ProjectMetadata extends ArticleMetadata {
-  /** 是否為精選專案（預設: false） */
-  featured?: boolean;
-
-  /** 排序順序（1-99，僅用於 featured=true 的專案） */
-  order?: number;
-}
-
-/**
- * Featured Project
- *
- * 精選專案（featured: true 的專案子集）
- */
-export interface FeaturedProject extends ProjectMetadata {
-  featured: true;
-}
-
-/**
- * Project Page Data
- *
- * 專案詳細頁面的完整資料
- */
-export type ProjectPageData = ArticlePageData<ProjectMetadata>;
-
-// ============================================================================
 // Type Guards
 // ============================================================================
 
@@ -148,28 +77,30 @@ export type ProjectPageData = ArticlePageData<ProjectMetadata>;
  * 檢查專案是否為精選專案
  */
 export function isFeaturedProject(
-  project: ProjectMetadata
+  project: ProjectArticle
 ): project is FeaturedProject {
-  return project.featured === true;
+  return isFeaturedProjectBase(project);
 }
 
 /**
- * 檢查 article 是否為 ProjectMetadata
+ * 檢查 article 是否為 ProjectArticle
  */
 export function isProjectMetadata(
-  article: ArticleMetadata
-): article is ProjectMetadata {
-  return "featured" in article && "order" in article;
+  article: BaseArticle
+): article is ProjectArticle {
+  return isProjectArticle(article);
 }
 
+// ============================================================================
+// Validation Functions
+// ============================================================================
+
 /**
- * 驗證專案 frontmatter 是否合法
+ * 驗證專案資料是否合法
  */
-export function validateProjectFrontmatter(
-  data: unknown
-): data is ProjectFrontmatter {
+export function validateProjectMetadata(data: unknown): data is ProjectArticle {
   try {
-    projectFrontmatterSchema.parse(data);
+    projectArticleSchema.parse(data);
     return true;
   } catch {
     return false;

@@ -3,11 +3,11 @@ import {
   ArticleImage,
   type ArticleImageProps,
 } from "@/components/article/image";
-import type { ArticleMetadata, ArticlePageData } from "@/types/article";
+import type { BaseArticle, ArticlePageData } from "@/types/article";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export interface ArticleProps<T extends ArticleMetadata = ArticleMetadata> {
+export interface ArticleProps<T extends BaseArticle = BaseArticle> {
   /** Article page data (metadata + MDX content) */
   article: ArticlePageData<T>;
 
@@ -18,7 +18,7 @@ export interface ArticleProps<T extends ArticleMetadata = ArticleMetadata> {
   backLinkText?: string;
 }
 
-export function Article<T extends ArticleMetadata = ArticleMetadata>({
+export function Article<T extends BaseArticle = BaseArticle>({
   article,
   contentType = "projects",
   backLinkText,

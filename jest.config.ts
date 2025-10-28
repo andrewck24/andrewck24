@@ -21,6 +21,8 @@ const config: Config = {
   ],
   coverageDirectory: "coverage",
   coverageReporters: ["text", "lcov", "html"],
+  // Allow fumadocs modules to be transformed by Jest
+  transformIgnorePatterns: ["/node_modules/(?!(fumadocs-core|fumadocs-mdx)/)"],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

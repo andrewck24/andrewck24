@@ -11,7 +11,7 @@
 
 import { render, screen } from "@testing-library/react";
 import { ArticleCard } from "../card";
-import type { ArticleMetadata } from "@/types/article";
+import type { BaseArticle, ArticlePageData } from "@/types/article";
 
 // Mock ArticleImage component
 jest.mock("../image", () => ({
@@ -36,7 +36,7 @@ jest.mock("../image", () => ({
 }));
 
 describe("ArticleCard Component", () => {
-  const mockArticle: ArticleMetadata = {
+  const mockArticle: ArticlePageData<BaseArticle> = {
     title: "Test Article",
     description: "This is a test article description for testing purposes.",
     slug: "test-article",
@@ -45,6 +45,9 @@ describe("ArticleCard Component", () => {
     date: "2025-10-19",
     imageType: "static",
     image: "/test.jpg",
+    tags: [],
+    content: () => null,
+    body: "",
   };
 
   // T015: Hero variant layout tests
@@ -253,7 +256,7 @@ describe("ArticleCard Component", () => {
     });
 
     it("should handle articles with generated image type", () => {
-      const generatedImageArticle: ArticleMetadata = {
+      const generatedImageArticle: ArticlePageData<BaseArticle> = {
         ...mockArticle,
         imageType: "generated",
         image: undefined,
@@ -270,7 +273,7 @@ describe("ArticleCard Component", () => {
     });
 
     it("should handle different locales correctly", () => {
-      const enArticle: ArticleMetadata = {
+      const enArticle: ArticlePageData<BaseArticle> = {
         ...mockArticle,
         locale: "en",
         url: "/en/projects/test-article",

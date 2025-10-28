@@ -1,6 +1,18 @@
 import "@testing-library/jest-dom";
 import { ImageProps } from "next/image";
 import React from "react";
+import { z } from "zod";
+
+// Mock fumadocs-mdx/config
+jest.mock("fumadocs-mdx/config", () => ({
+  frontmatterSchema: z.object({
+    title: z.string().min(1).max(100),
+    description: z.string().min(1).max(200),
+    icon: z.string().optional(),
+    full: z.boolean().optional(),
+    _openapi: z.any().optional(),
+  }),
+}));
 
 // Mock Next.js router
 jest.mock("next/navigation", () => ({

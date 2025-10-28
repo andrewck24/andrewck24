@@ -10,16 +10,16 @@
 
 import { ArticleImage } from "@/components/article/image";
 import { cn } from "@/lib/utils";
-import type { ArticleMetadata } from "@/types/article";
+import type { ArticleCardData, BaseArticle } from "@/types/article";
 import Link from "next/link";
 
 // ============================================================================
 // Types
 // ============================================================================
 
-export interface ArticleCardProps<T extends ArticleMetadata = ArticleMetadata> {
-  /** Article metadata */
-  article: T;
+export interface ArticleCardProps<T extends BaseArticle = BaseArticle> {
+  /** Article card data (with fumadocs-generated fields) */
+  article: ArticleCardData<T>;
 
   /** Card layout variant */
   variant?: "hero" | "compact";
@@ -38,7 +38,7 @@ export interface ArticleCardProps<T extends ArticleMetadata = ArticleMetadata> {
 // Component
 // ============================================================================
 
-export function ArticleCard<T extends ArticleMetadata = ArticleMetadata>({
+export function ArticleCard<T extends BaseArticle = BaseArticle>({
   article,
   variant = "compact",
   priority = false,
@@ -90,7 +90,7 @@ export function ArticleCard<T extends ArticleMetadata = ArticleMetadata>({
         </h3>
 
         {/* Description */}
-        <p className="mb-4 flex-grow text-sm text-gray-600 dark:text-gray-400">
+        <p className="mb-4 grow text-sm text-gray-600 dark:text-gray-400">
           {article.description}
         </p>
 

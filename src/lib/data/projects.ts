@@ -6,8 +6,9 @@
 
 import { projectsSource } from "@/lib/source";
 import type {
-  FeaturedProject,
+  FeaturedProjectCardData,
   Locale,
+  ProjectCardData,
   ProjectMetadata,
   ProjectPageData,
 } from "@/types/project";
@@ -25,7 +26,7 @@ import type {
  */
 export async function getFeaturedProjects(
   locale: Locale
-): Promise<FeaturedProject[]> {
+): Promise<FeaturedProjectCardData[]> {
   // 取得所有頁面
   const pages = projectsSource.getPages(locale);
 
@@ -50,6 +51,7 @@ export async function getFeaturedProjects(
       image: data.image,
       ogImage: data.ogImage,
       date: data.date,
+      tags: data.tags || [],
       featured: true as const,
       order: data.order,
       // 自動產生的 metadata
@@ -93,6 +95,7 @@ export async function getProject(
     image: data.image,
     ogImage: data.ogImage,
     date: data.date,
+    tags: data.tags || [],
     featured: data.featured,
     order: data.order,
     // 自動產生的 metadata
@@ -142,7 +145,7 @@ export async function generateProjectStaticParams(): Promise<
  */
 export async function getAllProjects(
   locale: Locale
-): Promise<ProjectMetadata[]> {
+): Promise<ProjectCardData[]> {
   const pages = projectsSource.getPages(locale);
 
   return pages.map((page) => {
@@ -155,6 +158,7 @@ export async function getAllProjects(
       image: data.image,
       ogImage: data.ogImage,
       date: data.date,
+      tags: data.tags || [],
       featured: data.featured,
       order: data.order,
       // 自動產生的 metadata

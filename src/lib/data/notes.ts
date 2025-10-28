@@ -7,8 +7,9 @@
 
 import { notesSource } from "@/lib/source";
 import type {
-  FeaturedNote,
+  FeaturedNoteCardData,
   Locale,
+  NoteCardData,
   NoteMetadata,
   NotePageData,
 } from "@/types/note";
@@ -28,7 +29,7 @@ import type {
  */
 export async function getFeaturedNotes(
   locale: Locale
-): Promise<FeaturedNote[]> {
+): Promise<FeaturedNoteCardData[]> {
   // 取得所有頁面
   const pages = notesSource.getPages(locale);
 
@@ -55,7 +56,6 @@ export async function getFeaturedNotes(
       date: data.date,
       featured: true as const,
       tags: data.tags,
-      category: data.category,
       // 自動產生的 metadata
       slug: page.slugs[0] || "",
       locale,
@@ -101,7 +101,6 @@ export async function getNote(
     date: data.date,
     featured: data.featured,
     tags: data.tags,
-    category: data.category,
     // 自動產生的 metadata
     slug: page.slugs[0] || slug,
     locale,
@@ -125,7 +124,7 @@ export async function getNote(
  *
  * T037: Implementation
  */
-export async function getAllNotes(locale: Locale): Promise<NoteMetadata[]> {
+export async function getAllNotes(locale: Locale): Promise<NoteCardData[]> {
   const pages = notesSource.getPages(locale);
 
   return pages.map((page) => {
@@ -140,7 +139,6 @@ export async function getAllNotes(locale: Locale): Promise<NoteMetadata[]> {
       date: data.date,
       featured: data.featured,
       tags: data.tags,
-      category: data.category,
       // 自動產生的 metadata
       slug: page.slugs[0] || "",
       locale,
