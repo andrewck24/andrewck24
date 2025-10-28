@@ -346,27 +346,27 @@
     - ✅ 確認無 githubUrl/demoUrl 欄位
   - 成功標準: ✅ dev server 正常啟動，無 schema 驗證錯誤
 
-- [ ] **T020** 更新專案頁面元件使用強化的 Article
-  - 檔案: `src/app/[lang]/projects/[slug]/page.tsx` 或類似檔案
+- [x] **T020** 更新專案頁面元件使用強化的 Article ✅ 完成（已正確整合）
+  - 檔案: `src/app/[lang]/projects/[slug]/page.tsx`
   - 更新 Article 元件用法:
-    - 傳遞 contentType="projects"
-    - 以 ProjectArticle 型別傳遞文章資料
-    - 提供 backLinkText (i18n 為 "返回專案列表")
-  - 驗證型別安全: TypeScript 應接受 ProjectArticle 資料
-  - 測試渲染: 檢查 Article Info 顯示專案連結
+    - 傳遞 contentType="projects" ✅
+    - 以 ProjectArticle 型別傳遞文章資料 ✅
+    - 提供 backLinkText (i18n 為 "返回專案列表") ✅
+  - 驗證型別安全: TypeScript 應接受 ProjectArticle 資料 ✅
+  - 測試渲染: 檢查 Article Info 顯示專案連結 ✅
   - 相依性: T014 (Article 元件已強化)、T018 (專案已更新)
-  - 成功標準: 專案頁面以 Article Info 側邊欄渲染
+  - 成功標準: 專案頁面以 Article Info 側邊欄渲染 ✅
 
-- [ ] **T021** 更新筆記頁面元件使用強化的 Article
-  - 檔案: `src/app/[lang]/notes/[slug]/page.tsx` 或類似檔案
+- [x] **T021** 更新筆記頁面元件使用強化的 Article ✅ 完成（已正確整合）
+  - 檔案: `src/app/[lang]/notes/[slug]/page.tsx`
   - 更新 Article 元件用法:
-    - 傳遞 contentType="notes"
-    - 以 NoteArticle 型別傳遞文章資料
-    - 提供 backLinkText (i18n 為 "返回筆記列表")
-  - 驗證型別安全: TypeScript 應接受 NoteArticle 資料
-  - 驗證無專案連結: ArticleInfo 不應為筆記渲染連結
+    - 傳遞 contentType="notes" ✅
+    - 以 NoteArticle 型別傳遞文章資料 ✅
+    - 提供 backLinkText (i18n 為 "返回筆記列表") ✅
+  - 驗證型別安全: TypeScript 應接受 NoteArticle 資料 ✅
+  - 驗證無專案連結: ArticleInfo 不應為筆記渲染連結 ✅
   - 相依性: T014 (Article 元件已強化)、T019 (筆記已更新)
-  - 成功標準: 筆記頁面以 Article Info 渲染 (無專案連結)
+  - 成功標準: 筆記頁面以 Article Info 渲染 (無專案連結) ✅
 
 ---
 
