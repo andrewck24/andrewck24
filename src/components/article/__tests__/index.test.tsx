@@ -1,12 +1,12 @@
 /**
- * T024-T026: Article Component Tests
+ * T007-T008: Article Component Tests (including ArticleInfo)
  *
  * TDD Red Phase - These tests MUST FAIL before implementation
  *
  * Test Coverage:
- * - T024: Header section rendering (title, description, date)
- * - T025: MDX content rendering
- * - T026: Back link navigation (contentType prop)
+ * - T007: ArticleInfo internal component (date, tags, links, language toggle)
+ * - T008: Article component integration and layout
+ * - Existing tests: Header section, MDX content, back link navigation
  */
 
 import { render, screen } from "@testing-library/react";
@@ -329,6 +329,202 @@ describe("Article Component", () => {
       expect(screen.getByRole("heading", { level: 3 })).toHaveTextContent(
         "Subsection 1.1"
       );
+    });
+  });
+
+  // T007: ArticleInfo Component Tests
+  describe("ArticleInfo Component", () => {
+    const mockArticleWithTags: ArticlePageData = {
+      ...mockArticle,
+      tags: ["next.js", "typescript", "tailwind"],
+    };
+
+    const mockProjectArticle: ArticlePageData = {
+      ...mockArticleWithTags,
+      githubUrl: "https://github.com/andrewck24/andrewck24",
+      demoUrl: "https://andrewck24.vercel.com",
+    };
+
+    describe("ArticleInfo rendering", () => {
+      it("should render ArticleInfo aside element", () => {
+        render(
+          <Article article={mockArticleWithTags} contentType="projects" />
+        );
+
+        const articleInfo = screen.getByTestId("article-info");
+        expect(articleInfo).toBeInTheDocument();
+        expect(articleInfo.tagName).toBe("ASIDE");
+      });
+
+      it("should format date in ArticleInfo for zh-TW locale", () => {
+        render(
+          <Article article={mockArticleWithTags} contentType="projects" />
+        );
+
+        const dateElement = screen.getByTestId("article-date");
+        expect(dateElement.tagName).toBe("TIME");
+        expect(dateElement).toHaveAttribute("dateTime", "2025-10-19");
+        expect(dateElement).toHaveTextContent(/2025.*10.*19/);
+      });
+
+      it("should format date in ArticleInfo for en locale", () => {
+        const enArticle = { ...mockArticleWithTags, locale: "en" as const };
+        render(<Article article={enArticle} contentType="projects" />);
+
+        const dateElement = screen.getByTestId("article-date");
+        expect(dateElement).toHaveTextContent(/October|2025/);
+      });
+
+      it("should format date in ArticleInfo for ja locale", () => {
+        const jaArticle = { ...mockArticleWithTags, locale: "ja" as const };
+        render(<Article article={jaArticle} contentType="projects" />);
+
+        const dateElement = screen.getByTestId("article-date");
+        expect(dateElement).toHaveTextContent(/2025.*10.*19/);
+      });
+    });
+
+    describe("Tags display", () => {
+      it("should render all tags using Badge component", () => {
+        render(
+          <Article article={mockArticleWithTags} contentType="projects" />
+        );
+
+        const tagsContainer = screen.getByTestId("article-tags");
+        expect(tagsContainer).toBeInTheDocument();
+
+        expect(screen.getByText("next.js")).toBeInTheDocument();
+        expect(screen.getByText("typescript")).toBeInTheDocument();
+        expect(screen.getByText("tailwind")).toBeInTheDocument();
+      });
+
+      it("should not render tags section when tags array is empty", () => {
+        render(<Article article={mockArticle} contentType="projects" />);
+
+        expect(screen.queryByTestId("article-tags")).not.toBeInTheDocument();
+      });
+
+      it("should render single tag correctly", () => {
+        const singleTagArticle = { ...mockArticle, tags: ["react"] };
+        render(<Article article={singleTagArticle} contentType="projects" />);
+
+        expect(screen.getByTestId("article-tags")).toBeInTheDocument();
+        expect(screen.getByText("react")).toBeInTheDocument();
+      });
+    });
+
+    describe("Project links (Projects only)", () => {
+      it("should render GitHub link when githubUrl is provided", () => {
+        render(<Article article={mockProjectArticle} contentType="projects" />);
+
+        const linksContainer = screen.getByTestId("project-links");
+        expect(linksContainer).toBeInTheDocument();
+
+        const githubLink = screen.getByRole("link", { name: /github/i });
+        expect(githubLink).toHaveAttribute(
+          "href",
+          "https://github.com/andrewck24/andrewck24"
+        );
+        expect(githubLink).toHaveAttribute("target", "_blank");
+        expect(githubLink).toHaveAttribute("rel", "noopener noreferrer");
+      });
+
+      it("should render Demo link when demoUrl is provided", () => {
+        render(<Article article={mockProjectArticle} contentType="projects" />);
+
+        const demoLink = screen.getByRole("link", { name: /demo/i });
+        expect(demoLink).toHaveAttribute(
+          "href",
+          "https://andrewck24.vercel.com"
+        );
+        expect(demoLink).toHaveAttribute("target", "_blank");
+      });
+
+      it("should not render project links for notes contentType", () => {
+        const noteArticle = { ...mockArticleWithTags };
+        render(<Article article={noteArticle} contentType="notes" />);
+
+        expect(screen.queryByTestId("project-links")).not.toBeInTheDocument();
+      });
+
+      it("should render only GitHub link when demoUrl is missing", () => {
+        const githubOnlyArticle = {
+          ...mockProjectArticle,
+          demoUrl: undefined,
+        };
+        render(<Article article={githubOnlyArticle} contentType="projects" />);
+
+        expect(
+          screen.getByRole("link", { name: /github/i })
+        ).toBeInTheDocument();
+        expect(
+          screen.queryByRole("link", { name: /demo/i })
+        ).not.toBeInTheDocument();
+      });
+
+      it("should render only Demo link when githubUrl is missing", () => {
+        const demoOnlyArticle = {
+          ...mockProjectArticle,
+          githubUrl: undefined,
+        };
+        render(<Article article={demoOnlyArticle} contentType="projects" />);
+
+        expect(
+          screen.queryByRole("link", { name: /github/i })
+        ).not.toBeInTheDocument();
+        expect(screen.getByRole("link", { name: /demo/i })).toBeInTheDocument();
+      });
+
+      it("should not render project links when both URLs are missing", () => {
+        render(
+          <Article article={mockArticleWithTags} contentType="projects" />
+        );
+
+        expect(screen.queryByTestId("project-links")).not.toBeInTheDocument();
+      });
+    });
+
+    describe("Language toggle", () => {
+      it("should render LanguageToggle component", () => {
+        render(
+          <Article article={mockArticleWithTags} contentType="projects" />
+        );
+
+        const languageToggle = screen.getByTestId("language-toggle");
+        expect(languageToggle).toBeInTheDocument();
+      });
+    });
+
+    describe("Accessibility", () => {
+      it("should have accessible names for project links", () => {
+        render(<Article article={mockProjectArticle} contentType="projects" />);
+
+        const githubLink = screen.getByRole("link", { name: /github/i });
+        const demoLink = screen.getByRole("link", { name: /demo/i });
+
+        expect(githubLink).toHaveAccessibleName();
+        expect(demoLink).toHaveAccessibleName();
+      });
+
+      it("should have data-testid for E2E testing", () => {
+        render(<Article article={mockProjectArticle} contentType="projects" />);
+
+        expect(screen.getByTestId("article-info")).toBeInTheDocument();
+        expect(screen.getByTestId("article-date")).toBeInTheDocument();
+        expect(screen.getByTestId("article-tags")).toBeInTheDocument();
+        expect(screen.getByTestId("project-links")).toBeInTheDocument();
+        expect(screen.getByTestId("language-toggle")).toBeInTheDocument();
+      });
+    });
+
+    describe("Responsive layout", () => {
+      it("should have responsive grid layout classes on desktop", () => {
+        render(<Article article={mockProjectArticle} contentType="projects" />);
+
+        // ArticleInfo should be in a layout that supports responsive grid
+        const articleInfo = screen.getByTestId("article-info");
+        expect(articleInfo).toHaveClass(expect.stringMatching(/lg:/));
+      });
     });
   });
 });

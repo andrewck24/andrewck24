@@ -4,6 +4,11 @@
 
 1. 開發時應符合 [constitution](/.specify/memory/constitution.md) 中的原則與規範。
 2. 配色應使用 [globals.css](/src/app/globals.css) 中定義的 CSS 變數。
+3. 撰寫 commit message 時，應遵循以下原則：
+   - 依據 [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/contributing-docs/commit-message-guidelines.md)
+   - 若非涉及範疇過於廣泛，都應該加上 範疇 (scope)，例如：`feat(docs): ...`、`fix(ui): ...`
+   - 若有關聯的 issue，請在 commit message 中加入 `Closes #<issue-number>`
+   - 使用英文撰寫
 
 ## Docs Guidelines
 
@@ -142,6 +147,3 @@
 
 - TypeScript 5.9 (strict mode) + Node.js 20+ + Next.js 16.0.0, React 19.2.0, fumadocs-mdx 13.0.0, fumadocs-ui 16.0.1, fumadocs-core 16.0.1, Zod 3.x, lucide-react 0.546.0 (004-mdx-frontmatter-1)
 - MDX files in `content/projects/` and `content/notes/`, static image files in `/public/images/{projects|notes}/{locale}/` (004-mdx-frontmatter-1)
-
-- TypeScript 5.9 (strict mode enabled) + Next.js 15.5.3, React 19.1.1, fumadocs-mdx 12.0.1, fumadocs-ui 15.8.2, motion 12.23.22, shadcn/ui components (003-article-components)
-- File-based (MDX files in `content/projects/` and `content/notes/`), fumadocs-mdx for content parsing (003-article-components)

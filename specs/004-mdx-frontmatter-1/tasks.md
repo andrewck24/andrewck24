@@ -5,7 +5,7 @@
 
 ## 執行流程 (main)
 
-```
+```plaintext
 1. 載入 plan.md ✅
    → 技術堆疊: TypeScript 5.9, Next.js 16.0.0, React 19.2.0, fumadocs-mdx 13.0.0
    → 結構: 單一 Next.js App Router 應用
@@ -87,12 +87,13 @@
 
 ## Phase 3.2: 測試優先 (TDD) ⚠️ 必須在 3.3 之前完成
 
-**關鍵: 這些測試必須撰寫且必須失敗，才能進行任何實作**
+**關鍵**: 這些測試必須撰寫且必須失敗，才能進行任何實作
 
 ### 單元測試 (Schema 驗證)
 
-- [ ] **T005** [P] 建立 tests/unit/schemas/article-schema.test.ts
-  - 檔案: `tests/unit/schemas/article-schema.test.ts` (新檔案)
+- [x] **T005** [P] 建立 `src/types/__tests__/article-schema.test.ts`
+  - 檔案: `src/types/__tests__/article-schema.test.ts` (新檔案)
+  - 測試結果: ✅ 所有 34 個測試通過 (schema 已在 Phase 3.1 實作)
   - 測試 BaseArticle 驗證:
     - 有效: 靜態圖片且路徑格式正確
     - 有效: 產生的 OG 圖片 (icon + background)
@@ -116,8 +117,9 @@
   - 相依性: T004 (型別定義)
   - 預期: 所有測試失敗 (尚未實作)
 
-- [ ] **T006** [P] 建立 src/lib/**tests**/tag-utils.test.ts
+- [x] **T006** [P] 建立 `src/lib/__tests__/tag-utils.test.ts`
   - 檔案: `src/lib/__tests__/tag-utils.test.ts` (新檔案)
+  - 測試結果: ✅ 測試失敗 (符合 TDD 預期，src/lib/tag-utils.ts 尚未實作)
   - 測試 normalizeTag 函式:
     - "Next.js" → "next.js"
     - "Type Script" → "type-script"
@@ -128,13 +130,14 @@
   - 測試 filterValidTags 函式:
     - ["next.js", "", " ", "typescript"] → ["next.js", "typescript"]
   - 相依性: 無 (工具函式尚未實作)
-  - 預期: 所有測試失敗 (尚未實作)
 
-### 元件測試 (Article Info 顯示)
+### 元件測試 (Article 與內部 ArticleInfo)
 
-- [ ] **T007** [P] 建立 src/components/article/**tests**/article-info.test.tsx
-  - 檔案: `src/components/article/__tests__/article-info.test.tsx` (新檔案)
-  - 測試 Article Info 渲染:
+- [x] **T007** [P] 更新 `src/components/article/__tests__/index.test.tsx` 加入 ArticleInfo 測試
+  - 檔案: `src/components/article/__tests__/index.test.tsx` (既有檔案)
+  - 測試結果: ✅ 測試失敗 (符合 TDD 預期，ArticleInfo 元件尚未實作)
+  - 注意: ArticleInfo 是 Article 的內部元件，不單獨匯出，測試透過 Article 元件進行
+  - 測試 ArticleInfo 渲染 (透過 Article 元件):
     - 以 locale 格式化日期顯示 (zh-TW, en, ja)
     - 使用 Badge 元件渲染標籤
     - 提供 githubUrl 時渲染 GitHub 連結 (僅 Projects)
@@ -143,18 +146,18 @@
     - 渲染 LanguageToggle 元件
     - 空標籤陣列 → 不顯示標籤區塊
   - 測試響應式版面:
-    - 桌面版 (≥1024px): 右側邊欄版面
-    - 行動版 (<1024px): 內容下方版面
+    - 桌面版 (≥1024px): 右側邊欄版面 (lg:grid lg:grid-cols-[1fr_300px])
+    - 行動版 (<1024px): 內容下方版面 (flex flex-col)
   - 測試無障礙性:
-    - 日期使用 <time> 元素及 dateTime 屬性
+    - ArticleInfo 中的日期使用 `<time>` 元素及 dateTime 屬性
     - 連結有適當的 aria-labels
     - 存在 data-testid 屬性供 E2E 使用
   - 相依性: T004 (ArticleInfoProps 型別)
-  - 預期: 所有測試失敗 (ArticleInfo 尚未實作)
 
-- [ ] **T008** [P] 建立 src/components/article/**tests**/article.test.tsx
-  - 檔案: `src/components/article/__tests__/article.test.tsx` (新檔案)
-  - 測試 Article 元件整合:
+- [x] **T008** [P] 更新 `src/components/article/__tests__/index.test.tsx` 加入整合測試
+  - 檔案: `src/components/article/__tests__/index.test.tsx` (既有檔案)
+  - 測試結果: ✅ 與 T007 同時完成
+  - 測試 Article 元件整合 (在既有測試基礎上擴充):
     - 從 article.content 渲染 MDX 內容
     - 以正確 props 渲染 ArticleImage
     - 渲染包含 title 和 description 的標頭
@@ -164,15 +167,14 @@
       - Notes: 不傳遞連結 (型別安全檢查)
     - 返回連結在 URL 中使用正確的 contentType
   - 測試泛型型別參數:
-    - ArticleProps<ProjectArticle> 接受專案資料
-    - ArticleProps<NoteArticle> 接受筆記資料
+    - `ArticleProps<ProjectArticle>` 接受專案資料
+    - `ArticleProps<NoteArticle>` 接受筆記資料
     - 傳遞錯誤資料型別時產生型別錯誤
   - 相依性: T004 (ArticleProps 型別)
-  - 預期: 所有測試失敗 (Article 強化尚未實作)
 
 ### E2E 測試 (標籤過濾與導航)
 
-- [ ] **T009** [P] 建立 tests/e2e/article-tag-filtering.spec.ts
+- [x] **T009** [P] 建立 `tests/e2e/article-tag-filtering.spec.ts`
   - 檔案: `tests/e2e/article-tag-filtering.spec.ts` (新檔案)
   - 測試案例 1: 單一標籤過濾 (來自 quickstart.md)
     - 設定: 建立 3 篇有重疊標籤的測試文章
@@ -192,7 +194,7 @@
   - 相依性: T001-T003 (有標籤的 schema)、既有搜尋 UI
   - 預期: 測試失敗 (Orama 索引尚未設定)
 
-- [ ] **T010** [P] 建立 tests/e2e/article-language-toggle.spec.ts
+- [x] **T010** [P] 建立 `tests/e2e/article-language-toggle.spec.ts`
   - 檔案: `tests/e2e/article-language-toggle.spec.ts` (新檔案)
   - 測試 Article Info 中的語言切換:
     - 設定: 建立有全部 3 種語言版本的文章 (zh-TW, en, ja)
@@ -208,7 +210,7 @@
   - 相依性: T004 (型別)、既有 LanguageToggle 元件
   - 預期: 測試失敗 (ArticleInfo 尚未整合)
 
-- [ ] **T011** [P] 建立 tests/e2e/article-project-links.spec.ts
+- [x] **T011** [P] 建立 `tests/e2e/article-project-links.spec.ts`
   - 檔案: `tests/e2e/article-project-links.spec.ts` (新檔案)
   - 測試 GitHub 連結顯示:
     - 設定: 建立有 githubUrl 的專案
@@ -265,7 +267,7 @@
   - 檔案: `src/components/article/index.tsx`
   - 定義 ArticleInfo 為內部函式元件:
     - Props: 來自 contracts/article-props.ts 的 ArticleInfoProps
-    - 日期顯示: <time dateTime={date}>{格式化日期}</time>
+    - 日期顯示: `<time dateTime={date}>{格式化日期}</time>`
     - 標籤: 將標籤對應至 Badge 元件 (來自 shadcn/ui)
     - 專案連結區塊 (條件於 contentType="projects"):
       - GitHub 連結: 若可用使用 Fumadocs GitHub 元件，否則用 lucide-react Github 圖示的自訂 Link
@@ -274,7 +276,7 @@
   - 更新 Article 元件版面:
     - 行動版 (<1024px): `flex flex-col` (ArticleInfo 在內容後)
     - 桌面版 (≥1024px): `lg:grid lg:grid-cols-[1fr_300px] lg:gap-8`
-    - ArticleInfo 在 <aside> 中，桌面版固定寬度 300px
+    - ArticleInfo 在 `<aside>` 中，桌面版固定寬度 300px
   - 更新 ArticleProps 介面:
     - 新增 contentType: "projects" | "notes"
     - 新增選填 backLinkText?: string
@@ -295,6 +297,7 @@
   - 檔案: 位置不定 (檢查 fumadocs Orama 設定，可能在 app/api/search 或 lib/search)
   - 找到既有的 Orama createFromSource 設定
   - 擴充 buildIndex 函式:
+
     ```typescript
     buildIndex(page) {
       return {
@@ -308,6 +311,7 @@
       };
     }
     ```
+
   - 驗證 tags 欄位已正確索引
   - 必要時更新搜尋 schema 以包含 tag/tags 欄位
   - 相依性: T009 (測試必須先失敗)、T012 (有標籤的 schema)
@@ -447,7 +451,7 @@
 
 ## 相依性
 
-```
+```plaintext
 設定階段 (T001-T004):
   T001 → T002, T003 (相同檔案，循序)
   T001-T003 → T004 (型別定義需要 schemas)
@@ -549,7 +553,7 @@ Task: "執行單元測試套件"
 
 ## 驗證檢查清單
 
-_關卡: 將 tasks.md 標記為完成前驗證完整性_
+(關卡: 將 tasks.md 標記為完成前驗證完整性)
 
 - [x] data-model.md 的所有實體都有任務
   - [x] BaseArticle → T001, T005, T012

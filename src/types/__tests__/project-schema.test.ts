@@ -195,7 +195,6 @@ describe("Project Article Schema Validation", () => {
       expect(notFeatured.success).toBe(true);
 
       // featured omitted (should default to false)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { featured: _, ...withoutFeatured } = validFrontmatter;
       const noFeatured = projectArticleSchema.safeParse(withoutFeatured);
       expect(noFeatured.success).toBe(true);
@@ -228,7 +227,6 @@ describe("Project Article Schema Validation", () => {
     });
 
     it("should accept order as optional", () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { order: _, ...withoutOrder } = validFrontmatter;
       const result = projectArticleSchema.safeParse(withoutOrder);
       expect(result.success).toBe(true);
@@ -247,7 +245,6 @@ describe("Project Article Schema Validation", () => {
     });
 
     it("should default to 'static' if imageType is omitted", () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { imageType: _, ...withoutImageType } = validStaticFrontmatter;
       const result = projectArticleSchema.safeParse(withoutImageType);
       expect(result.success).toBe(true);
