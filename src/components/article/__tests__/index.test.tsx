@@ -29,9 +29,51 @@ jest.mock("../image", () => ({
   ),
 }));
 
-// Mock lucide-react ArrowLeft icon
+// Mock lucide-react icons
 jest.mock("lucide-react", () => ({
   ArrowLeft: () => <div data-testid="arrow-left-icon">←</div>,
+  Tag: () => <div data-testid="tag-icon">🏷️</div>,
+  Github: () => <div data-testid="github-icon">GitHub</div>,
+  ExternalLink: () => <div data-testid="external-link-icon">🔗</div>,
+  Languages: () => <div data-testid="languages-icon">🌐</div>,
+}));
+
+// Mock LanguageToggle component
+jest.mock("../../language-toggle", () => ({
+  LanguageToggle: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="language-toggle-component">{children}</div>
+  ),
+}));
+
+// Mock UI components
+jest.mock("../../ui/badge", () => ({
+  Badge: ({
+    children,
+    variant,
+  }: {
+    children: React.ReactNode;
+    variant?: string;
+  }) => (
+    <span data-testid="badge" data-variant={variant}>
+      {children}
+    </span>
+  ),
+}));
+
+jest.mock("../../ui/button", () => ({
+  Button: ({
+    children,
+    variant,
+    asChild,
+  }: {
+    children: React.ReactNode;
+    variant?: string;
+    asChild?: boolean;
+  }) => (
+    <div data-testid="button" data-variant={variant} data-as-child={asChild}>
+      {children}
+    </div>
+  ),
 }));
 
 describe("Article Component", () => {
