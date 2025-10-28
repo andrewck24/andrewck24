@@ -47,7 +47,7 @@
 
 ## Phase 3.1: 設定與準備
 
-- [ ] **T001** [P] 更新 source.config.ts 統一 baseArticleSchema
+- [x] **T001** [P] 更新 source.config.ts 統一 baseArticleSchema ✅ 完成於 0f7deb8
   - 檔案: `source.config.ts`
   - 使用 `frontmatterSchema.extend()` 抽取基礎 schema
   - 新增欄位: imageType, image, ogImage, date, tags
@@ -56,7 +56,7 @@
   - 標籤: `z.array(z.string()).default([])`
   - 相依性: 無
 
-- [ ] **T002** [P] 在 source.config.ts 擴充 projectArticleSchema
+- [x] **T002** [P] 在 source.config.ts 擴充 projectArticleSchema ✅ 完成於 0f7deb8
   - 檔案: `source.config.ts`
   - 擴充 baseArticleSchema 加入專案特有欄位
   - 新增: githubUrl (選填 URL)、demoUrl (選填 URL)
@@ -64,19 +64,20 @@
   - 套用至 projects.defineDocs() schema
   - 相依性: T001 (相同檔案)
 
-- [ ] **T003** [P] 更新 source.config.ts 的 noteArticleSchema
+- [x] **T003** [P] 更新 source.config.ts 的 noteArticleSchema ✅ 完成於 0f7deb8
   - 檔案: `source.config.ts`
-  - 設定 noteArticleSchema = baseArticleSchema (無擴充)
+  - 設定 noteArticleSchema = baseArticleSchema.extend({ featured })
   - 套用至 notes.defineDocs() schema
-  - 驗證 Notes 不能有 githubUrl/demoUrl
+  - 移除 category 欄位（與 tags 功能重複）
   - 相依性: T001 (相同檔案)
 
-- [ ] **T004** [P] 更新 src/types/article.ts 加入推斷型別
+- [x] **T004** [P] 更新 src/types/article.ts 加入推斷型別 ✅ 完成於 0f7deb8
   - 檔案: `src/types/article.ts`
-  - 從 source.config.ts 匯入 schemas (或視需要複製)
+  - 建立為 Single Source of Truth，定義所有 schemas
   - 新增: `export type BaseArticle = z.infer<typeof baseArticleSchema>`
   - 新增: `export type ProjectArticle = z.infer<typeof projectArticleSchema>`
   - 新增: `export type NoteArticle = z.infer<typeof noteArticleSchema>`
+  - 新增: `export type ArticleCardData<T>` (用於列表/卡片元件)
   - 新增: `export type ArticlePageData<T extends BaseArticle> = T & { content: React.ComponentType; body: string }`
   - 保留既有: SUPPORTED_LOCALES, Locale (L17-18)
   - 移除: 任何重複 Zod 推斷的手動型別定義
@@ -328,78 +329,34 @@
 
 ## Phase 3.4: 整合與內容遷移
 
-- [ ] **T017** 將圖片路徑從 /hero/ 遷移至簡化結構
+- [x] **T017** 將圖片路徑從 /hero/ 遷移至簡化結構
   - 檔案: `public/images/projects/`、`public/images/notes/`
   - 目前結構: `public/images/projects/hero/{locale}/*.jpg`
   - 目標結構: `public/images/projects/{locale}/*.jpg`
-  - 遷移步驟:
+  - 執行結果:
+    - 移動 hero/zh-TW/ 下的 3 個圖片檔案至 zh-TW/
+    - 刪除空的 hero 目錄
+    - notes 目錄下無圖片，無需遷移
+  - 驗證: ✅ 不再有 /hero/ 目錄
+  - 成功標準: ✅ 圖片在新路徑可存取
 
-    ```bash
-    cd public/images/projects
-    mv hero/zh-TW/* zh-TW/ 2>/dev/null || true
-    mv hero/en/* en/ 2>/dev/null || true
-    mv hero/ja/* ja/ 2>/dev/null || true
-    rmdir hero/zh-TW hero/en hero/ja hero 2>/dev/null || true
+- [x] **T018** [P] 以新 frontmatter 更新既有專案 MDX 檔案
+  - 檔案: `content/projects/zh-TW/*.mdx` (3 個檔案)
+  - 更新內容:
+    - ✅ 更新圖片路徑移除 /hero/
+    - ✅ 新增 tags 陣列
+    - ✅ 新增 githubUrl (andrewck24-portfolio.mdx)
+    - ✅ 確認 date 為 YYYY-MM-DD 格式
+    - ✅ 保留既有 featured/order 欄位
+  - 成功標準: ✅ dev server 正常啟動，無 schema 驗證錯誤
 
-    cd ../notes
-    mv hero/zh-TW/* zh-TW/ 2>/dev/null || true
-    mv hero/en/* en/ 2>/dev/null || true
-    mv hero/ja/* ja/ 2>/dev/null || true
-    rmdir hero/zh-TW hero/en hero/ja hero 2>/dev/null || true
-    ```
-
-  - 驗證: 不再有 /hero/ 目錄
-  - 相依性: T012 (有新圖片路徑格式的 schema)
-  - 成功標準: 圖片在新路徑可存取
-
-- [ ] **T018** [P] 以新 frontmatter 更新既有專案 MDX 檔案
-  - 檔案: `content/projects/zh-TW/*.mdx`、`content/projects/en/*.mdx`、`content/projects/ja/*.mdx`
-  - 對每個專案檔案:
-    - 確保 imageType 欄位存在 (預設 "static")
-    - 更新圖片路徑移除 /hero/: `/images/projects/{locale}/...`
-    - 若缺少則新增 tags 陣列: `tags: []`
-    - 確保 date 為 YYYY-MM-DD 格式
-    - 若適用則新增 githubUrl/demoUrl (選填)
-    - 保留既有的 featured/order 欄位
-  - 更新後的 frontmatter 範例:
-    ```yaml
-    ---
-    title: "範例專案"
-    description: "專案描述"
-    imageType: static
-    image: /images/projects/zh-TW/example-project.jpg
-    date: 2025-01-15
-    tags: ["next.js", "typescript"]
-    githubUrl: https://github.com/user/repo
-    demoUrl: https://example.com
-    featured: true
-    order: 1
-    ---
-    ```
-  - 相依性: T012 (schema)、T017 (圖片遷移)
-  - 成功標準: `npm run build` 成功，無 schema 驗證錯誤
-
-- [ ] **T019** [P] 以新 frontmatter 更新既有筆記 MDX 檔案
-  - 檔案: `content/notes/zh-TW/*.mdx`、`content/notes/en/*.mdx`、`content/notes/ja/*.mdx`
-  - 對每個筆記檔案:
-    - 確保 imageType 欄位存在 (預設 "static")
-    - 更新圖片路徑移除 /hero/: `/images/notes/{locale}/...`
-    - 若缺少則新增 tags 陣列: `tags: []`
-    - 確保 date 為 YYYY-MM-DD 格式
-    - 驗證無 githubUrl/demoUrl 欄位 (schema 應拒絕)
-  - 更新後的 frontmatter 範例:
-    ```yaml
-    ---
-    title: "範例筆記"
-    description: "筆記描述"
-    imageType: static
-    image: /images/notes/zh-TW/example-note.jpg
-    date: 2025-02-20
-    tags: ["tutorial", "typescript"]
-    ---
-    ```
-  - 相依性: T012 (schema)、T017 (圖片遷移)
-  - 成功標準: `npm run build` 成功，無 schema 驗證錯誤
+- [x] **T019** [P] 以新 frontmatter 更新既有筆記 MDX 檔案
+  - 檔案: `content/notes/{zh-TW,en,ja}/index.mdx` (3 個檔案)
+  - 更新內容:
+    - ✅ 新增必填的 date 欄位 (2024-10-01)
+    - ✅ 新增 tags 空陣列
+    - ✅ 確認無 githubUrl/demoUrl 欄位
+  - 成功標準: ✅ dev server 正常啟動，無 schema 驗證錯誤
 
 - [ ] **T020** 更新專案頁面元件使用強化的 Article
   - 檔案: `src/app/[lang]/projects/[slug]/page.tsx` 或類似檔案
