@@ -1,3 +1,8 @@
+import { ArticleImage } from "@/components/article/image";
+import { cn } from "@/lib/utils";
+import type { ArticleCardData, BaseArticle } from "@/types/article";
+import Link from "next/link";
+
 /**
  * ArticleCard Component
  *
@@ -5,13 +10,6 @@
  * 支援 hero 和 compact 兩種佈局變體
  * 泛用化自 FeaturedProjectCard
  */
-
-"use client";
-
-import { ArticleImage } from "@/components/article/image";
-import { cn } from "@/lib/utils";
-import type { ArticleCardData, BaseArticle } from "@/types/article";
-import Link from "next/link";
 
 // ============================================================================
 // Types

@@ -6,6 +6,7 @@
  */
 
 import { Article } from "@/components/article";
+import { getAvailableLocales } from "@/lib/data/locales";
 import { generateProjectStaticParams, getProject } from "@/lib/data/projects";
 import type { Locale } from "@/types/project";
 import type { Metadata } from "next";
@@ -29,11 +30,23 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
     notFound();
   }
 
+  // 獲取可用語言版本（build time 執行，結果烘焙到 HTML）
+  const availableLocales = await getAvailableLocales(slug, "projects");
+
+  // 防禦性檢查：至少應該有當前語言
+  if (availableLocales.length === 0) {
+    console.warn(
+      `No available locales found for slug: ${slug}, falling back to current locale`
+    );
+    availableLocales.push(lang as Locale);
+  }
+
   return (
     <Article
       article={project}
       contentType="projects"
       backLinkText="返回專案列表"
+      availableLocales={availableLocales}
     />
   );
 }

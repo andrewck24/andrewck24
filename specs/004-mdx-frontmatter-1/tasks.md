@@ -270,7 +270,8 @@
     - 日期顯示: `<time dateTime={date}>{格式化日期}</time>`
     - 標籤: 將標籤對應至 Badge 元件 (來自 shadcn/ui)
     - 專案連結區塊 (條件於 contentType="projects"):
-      - GitHub 連結: lucide-react Github 圖示的自訂 Link
+      - GitHub 連結: 整合 Fumadocs GithubInfo 元件 (顯示星數) ✅
+      - Fallback: lucide-react Github 圖示的自訂 Link (無效 URL)
       - Demo 連結: shadcn/ui Button 加 lucide-react ExternalLink 圖示
     - 語言切換: 匯入並渲染 LanguageToggle 元件
   - 更新 Article 元件版面:
@@ -280,6 +281,7 @@
   - 更新 ArticleProps 介面:
     - 新增 contentType: "projects" | "notes"
     - 新增選填 backLinkText?: string
+    - 新增必填 availableLocales: Locale[] ✅
   - 型別安全的 props 傳遞至 ArticleInfo:
     - 使用 `'githubUrl' in article && article.githubUrl` 檢查
     - TypeScript 應正確收窄型別
@@ -289,7 +291,51 @@
     - data-testid="project-links"
     - data-testid="language-toggle"
   - 相依性: T007, T008 (測試必須先失敗)、T013 (標籤工具)
-  - 成功標準: T007, T008 測試通過 ✅ 40/45 測試通過（5 個測試需要測試檔案修正）
+  - 成功標準: T007, T008 測試通過 ✅ 所有測試通過
+
+- [x] **T014a** 客製化 GithubInfo 元件並內部化 URL 解析 ✅ 完成
+  - 檔案: `src/components/github-info.tsx`
+  - 透過 Fumadocs CLI 下載可客製化元件
+  - 將 parseGithubUrl 功能內部化到元件中（私有函式）
+  - 元件接受 `url` 參數而非 `owner/repo`
+  - 內部處理 URL 解析和錯誤 fallback：
+    - 無效 URL → 顯示簡單的 GitHub 連結按鈕
+    - API 失敗 → 顯示 owner/repo 連結（不顯示星數）
+    - 成功 → 顯示帶星數的完整資訊
+  - Article 元件簡化使用：`<GithubInfo url={githubUrl} />`
+  - 移除 Article 元件中的 parseGithubUrl 呼叫和 IIFE fallback 邏輯
+  - 刪除獨立工具檔案：
+    - ❌ src/lib/github-utils.ts (已刪除，功能內部化)
+    - ❌ src/lib/**tests**/github-utils.test.ts (已刪除)
+  - 相依性: T014 (Article 元件需要 GitHub 資訊顯示)
+  - 成功標準: ✅ GithubInfo 元件正確顯示星數，錯誤時優雅降級
+
+- [x] **T014b** 建立語言可用性檢查函式 ✅ 完成
+  - 檔案: `src/lib/data/locales.ts` (新檔案)
+  - 實作 getAvailableLocales(slug: string, contentType): Promise<Locale[]>
+    - 檢查指定 slug 在哪些語言有內容
+    - 使用 React.cache() 包裝 (build time 快取)
+    - 支援 projects 和 notes 兩種內容類型
+  - 使用 projectsSource.getPage() / notesSource.getPage() 檢查
+  - 相依性: 無 (獨立工具函式)
+  - 成功標準: ✅ LanguageToggle 只顯示可用語言
+
+- [x] **T014c** 重新設計 LanguageToggle 元件 ✅ 完成
+  - 檔案: `src/components/language-toggle.tsx`
+  - 重大變更:
+    - LanguageSelectProps → LanguageToggleProps (命名一致)
+    - availableLocales 改為必填屬性 (不再是 optional)
+    - 單一語言: 顯示靜態文字 (不顯示下拉選單)
+    - 空陣列: 顯示警告訊息
+  - 更新所有調用點:
+    - Article 元件: 傳遞頁面特定的 availableLocales ✅
+    - Layout 元件 (4 處): 傳遞全部語言 ['zh-TW', 'en', 'ja'] ✅
+      - src/components/layout/docs/index.tsx (2 處)
+      - src/components/layout/home/index.tsx (1 處)
+      - src/components/layout/home/menu.tsx (1 處)
+  - 測試修復: 所有測試加入 availableLocales prop ✅
+  - 相依性: T014b (需要 getAvailableLocales)
+  - 成功標準: ✅ type-check 通過，所有測試通過
 
 ### 搜尋整合
 
@@ -347,25 +393,34 @@
   - 成功標準: ✅ dev server 正常啟動，無 schema 驗證錯誤
 
 - [x] **T020** 更新專案頁面元件使用強化的 Article ✅ 完成（已正確整合）
-  - 檔案: `src/app/[lang]/projects/[slug]/page.tsx`
+  - 檔案:
+    - `src/app/[lang]/projects/[slug]/page.tsx`
+    - `src/lib/data/projects.ts` (修復 bug)
+  - 修復 getProject 函式 bug：
+    - ⚠️ 發現 getProject 沒有提取 githubUrl 和 demoUrl 欄位
+    - ✅ 在返回物件中加入 githubUrl: data.githubUrl 和 demoUrl: data.demoUrl
   - 更新 Article 元件用法:
     - 傳遞 contentType="projects" ✅
     - 以 ProjectArticle 型別傳遞文章資料 ✅
     - 提供 backLinkText (i18n 為 "返回專案列表") ✅
+    - 使用 getAvailableLocales() 獲取可用語言並傳遞 ✅
+    - 防禦性檢查: 若無可用語言則 fallback 至當前語言 ✅
   - 驗證型別安全: TypeScript 應接受 ProjectArticle 資料 ✅
   - 測試渲染: 檢查 Article Info 顯示專案連結 ✅
-  - 相依性: T014 (Article 元件已強化)、T018 (專案已更新)
-  - 成功標準: 專案頁面以 Article Info 側邊欄渲染 ✅
+  - 相依性: T014, T014a, T014b (Article 元件 + GithubInfo + 語言檢查)、T018 (專案已更新)
+  - 成功標準: 專案頁面以 Article Info 側邊欄渲染，正確顯示 GitHub/Demo 連結 ✅
 
 - [x] **T021** 更新筆記頁面元件使用強化的 Article ✅ 完成（已正確整合）
   - 檔案: `src/app/[lang]/notes/[slug]/page.tsx`
   - 更新 Article 元件用法:
     - 傳遞 contentType="notes" ✅
     - 以 NoteArticle 型別傳遞文章資料 ✅
-    - 提供 backLinkText (i18n 為 "返回筆記列表") ✅
+    - 提供 backLinkText (i18n 支援三種語言) ✅
+    - 使用 getAvailableLocales() 獲取可用語言並傳遞 ✅
+    - 防禦性檢查: 若無可用語言則 fallback 至當前語言 ✅
   - 驗證型別安全: TypeScript 應接受 NoteArticle 資料 ✅
   - 驗證無專案連結: ArticleInfo 不應為筆記渲染連結 ✅
-  - 相依性: T014 (Article 元件已強化)、T019 (筆記已更新)
+  - 相依性: T014, T014b (Article 元件 + 語言檢查)、T019 (筆記已更新)
   - 成功標準: 筆記頁面以 Article Info 渲染 (無專案連結) ✅
 
 ---

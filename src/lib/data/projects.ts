@@ -98,6 +98,8 @@ export async function getProject(
     tags: data.tags || [],
     featured: data.featured,
     order: data.order,
+    githubUrl: data.githubUrl,
+    demoUrl: data.demoUrl,
     // 自動產生的 metadata
     slug: page.slugs[0] || slug,
     locale,

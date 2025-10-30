@@ -117,7 +117,7 @@ function Header({
         {themeSwitch.enabled !== false &&
           (themeSwitch.component ?? <ThemeToggle mode={themeSwitch?.mode} />)}
         {i18n ? (
-          <LanguageToggle>
+          <LanguageToggle availableLocales={["zh-TW", "en", "ja"]}>
             <Languages className="size-5" />
           </LanguageToggle>
         ) : null}

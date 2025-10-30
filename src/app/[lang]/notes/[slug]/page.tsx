@@ -6,6 +6,7 @@
  */
 
 import { Article } from "@/components/article";
+import { getAvailableLocales } from "@/lib/data/locales";
 import { getNote, generateNoteStaticParams } from "@/lib/data/notes";
 import type { Locale } from "@/types/note";
 import type { Metadata } from "next";
@@ -32,11 +33,23 @@ export default async function Page({ params }: PageProps) {
     notFound();
   }
 
+  // 獲取可用語言版本
+  const availableLocales = await getAvailableLocales(slug, "notes");
+
+  // 防禦性檢查
+  if (availableLocales.length === 0) {
+    console.warn(
+      `No available locales found for slug: ${slug}, falling back to current locale`
+    );
+    availableLocales.push(locale);
+  }
+
   return (
     <Article
       article={note}
       contentType="notes"
       backLinkText={backLinkTexts[locale]}
+      availableLocales={availableLocales}
     />
   );
 }
