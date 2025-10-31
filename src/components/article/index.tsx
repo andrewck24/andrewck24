@@ -46,7 +46,8 @@ export function Article<T extends BaseArticle = BaseArticle>({
       className="prose prose-neutral dark:prose-invert mx-4 w-full overflow-x-hidden lg:mx-12"
       data-testid="article-section"
     >
-      <header className="mb-12">
+      {/* Header Section */}
+      <header className="mt-12">
         {/* Title */}
         <h1 className="text-foreground mb-4 text-4xl font-bold md:text-5xl">
           {article.title}
@@ -67,30 +68,14 @@ export function Article<T extends BaseArticle = BaseArticle>({
         image={article.image}
         ogImage={article.ogImage}
         priority={true}
-        className="mb-8 aspect-video"
+        className="mt-6 aspect-video"
       />
 
       {/* Responsive layout: flex column on mobile, grid on desktop */}
-      <article className="bg-background/50 border-border my-4 flex flex-2 flex-col-reverse rounded-2xl border px-4 py-10 lg:grid lg:grid-cols-[1fr_300px] lg:gap-8 lg:px-8">
-        {/* Main content area */}
-        <div className="min-w-0">
-          {/* Header Section */}
-
-          {/* MDX Content */}
-          <div className="prose prose-gray dark:prose-invert mx-auto max-w-none">
-            <MDXContent />
-          </div>
-
-          {/* Back Link */}
-          <footer className="border-border mt-12 border-t pt-8">
-            <Link
-              href={backLinkUrl}
-              className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-            >
-              <ArrowLeft className="size-4" />
-              {backLinkText || defaultBackLinkText}
-            </Link>
-          </footer>
+      <article className="bg-background/50 my-4 flex flex-col-reverse lg:mt-8 lg:grid lg:grid-cols-[1fr_300px] lg:gap-8">
+        {/* MDX Content */}
+        <div className="prose prose-gray dark:prose-invert mt-6 overflow-x-hidden">
+          <MDXContent />
         </div>
 
         {/* Article Info Sidebar (right on desktop, below on mobile) */}
@@ -112,6 +97,17 @@ export function Article<T extends BaseArticle = BaseArticle>({
           availableLocales={availableLocales}
         />
       </article>
+
+      {/* Back Link */}
+      <footer className="border-border mt-12 border-t py-8">
+        <Link
+          href={backLinkUrl}
+          className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+        >
+          <ArrowLeft className="size-4" />
+          {backLinkText || defaultBackLinkText}
+        </Link>
+      </footer>
     </div>
   );
 }
@@ -143,7 +139,10 @@ function ArticleInfo({
   availableLocales,
 }: ArticleInfoProps) {
   return (
-    <aside className="space-y-6" data-testid="article-info">
+    <aside
+      className="border-border mt-6 space-y-6 rounded-lg border p-4"
+      data-testid="article-info"
+    >
       {/* Publication Date */}
       <div>
         <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold">

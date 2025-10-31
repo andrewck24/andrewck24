@@ -39,7 +39,7 @@ export function Navbar(props: HomeLayoutProps & ComponentProps<"div">) {
         id="nd-nav"
         {...props}
         className={cn(
-          "mx-4 mt-4 w-full rounded-xl border border-transparent backdrop-blur-sm transition-colors lg:mx-12",
+          "mx-6 mt-4 w-full rounded-xl border border-transparent backdrop-blur-sm transition-colors lg:mx-12",
           (!isTransparent || value.length > 0) &&
             "bg-fd-background/60 border-border",
           props.className
