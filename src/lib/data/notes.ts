@@ -6,6 +6,8 @@
  */
 
 import { notesSource } from "@/lib/source";
+import type { MDXProps } from "mdx/types";
+import type { ComponentType } from "react";
 import type {
   FeaturedNoteCardData,
   Locale,
@@ -105,9 +107,8 @@ export async function getNote(
     slug: page.slugs[0] || slug,
     locale,
     url: page.url,
-    // NotePageData 特有欄位
-    content: data.body,
-    body: "", // fumadocs-mdx 不提供原始 body 字串，若需要可從 MDX 解析
+    // NotePageData 特有欄位：MDX React 元件
+    body: data.body as ComponentType<MDXProps>,
   };
 }
 

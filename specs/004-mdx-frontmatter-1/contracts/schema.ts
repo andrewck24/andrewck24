@@ -72,6 +72,13 @@ export const baseArticleSchema = frontmatterSchema.extend({
    * @default []
    */
   tags: z.array(z.string()).default([]),
+
+  /**
+   * Featured flag (for homepage display)
+   * Shared field: Both Projects and Notes support featured functionality
+   * @default false
+   */
+  featured: z.boolean().default(false),
 });
 
 /**
@@ -86,7 +93,8 @@ export type BaseArticle = z.infer<typeof baseArticleSchema>;
 
 /**
  * Projects-specific schema extension.
- * Adds GitHub/Demo links and featured/order fields.
+ * Adds GitHub/Demo links and order field.
+ * Note: featured is now in baseArticleSchema (shared with Notes)
  *
  * @see data-model.md Section 2: ProjectArticle
  */
@@ -104,14 +112,9 @@ export const projectArticleSchema = baseArticleSchema.extend({
   demoUrl: z.string().url().optional(),
 
   /**
-   * Featured flag (for homepage display)
-   * @default false
-   */
-  featured: z.boolean().default(false),
-
-  /**
    * Display order for featured projects (1-99)
    * Only used when featured === true
+   * Projects-specific: Notes don't have ordering
    */
   order: z.number().int().min(1).max(99).optional(),
 });
@@ -128,7 +131,7 @@ export type ProjectArticle = z.infer<typeof projectArticleSchema>;
 
 /**
  * Notes schema (identical to base schema).
- * Notes do NOT have GitHub/Demo links or featured/order fields.
+ * Notes have featured support (from baseArticleSchema) but NOT GitHub/Demo links or order field.
  *
  * @see data-model.md Section 3: NoteArticle
  */

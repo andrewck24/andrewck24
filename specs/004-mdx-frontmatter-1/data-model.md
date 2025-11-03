@@ -67,6 +67,9 @@ const baseArticleSchema = frontmatterSchema.extend({
   // Tags for search filtering
   tags: z.array(z.string()).default([]),
 
+  // Featured flag (shared by Projects and Notes)
+  featured: z.boolean().default(false),
+
   // Note: fumadocs frontmatterSchema already includes:
   // - title: string
   // - description: string
@@ -85,6 +88,7 @@ const baseArticleSchema = frontmatterSchema.extend({
 | `ogImage`     | object   | ❌ No         | -          | OG image config (optional if imageType="generated")   |
 | `date`        | string   | ✅ Yes        | -          | Publication date in YYYY-MM-DD format                 |
 | `tags`        | string[] | ❌ No         | `[]`       | Array of tag strings for filtering                    |
+| `featured`    | boolean  | ❌ No         | `false`    | Whether article is featured on homepage               |
 | `slug`        | string   | ✅ Yes (auto) | -          | URL slug (auto-generated from filename)               |
 | `locale`      | enum     | ✅ Yes (auto) | -          | Language code: `"zh-TW"`, `"en"`, or `"ja"`           |
 
@@ -156,8 +160,9 @@ export const projects = defineDocs({
 | ----------- | ------------ | -------- | ------- | ------------------------------------------ |
 | `githubUrl` | string (URL) | ❌ No    | -       | GitHub repository URL                      |
 | `demoUrl`   | string (URL) | ❌ No    | -       | Live demo URL                              |
-| `featured`  | boolean      | ❌ No    | `false` | Whether project is featured on homepage    |
 | `order`     | number       | ❌ No    | -       | Display order (1-99) for featured projects |
+
+**Note**: `featured` is now in BaseArticle (shared with Notes).
 
 **Validation Rules**:
 
@@ -175,7 +180,6 @@ export type ProjectArticle = z.infer<typeof projectArticleSchema>;
 //   ...BaseArticle,
 //   githubUrl?: string;
 //   demoUrl?: string;
-//   featured: boolean;
 //   order?: number;
 // }
 ```
@@ -220,7 +224,8 @@ export const notes = defineDocs({
 
 **Notes**:
 
-- Notes do NOT have `githubUrl`, `demoUrl`, `featured`, or `order`
+- Notes have `featured` support (from BaseArticle) for homepage display
+- Notes do NOT have `githubUrl`, `demoUrl`, or `order` (projects-specific fields)
 - Image paths use `/images/notes/{locale}/` pattern
 - Otherwise identical to BaseArticle
 

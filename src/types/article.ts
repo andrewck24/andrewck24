@@ -8,6 +8,8 @@
  */
 
 import { frontmatterSchema } from "fumadocs-mdx/config";
+import type { MDXProps } from "mdx/types";
+import type { ComponentType } from "react";
 import { z } from "zod";
 
 // ============================================================================
@@ -28,7 +30,7 @@ export type Locale = (typeof SUPPORTED_LOCALES)[number];
  * Base article schema (T001)
  *
  * 統一的基礎 schema，供 projects 和 notes 共用
- * 包含共同欄位：imageType, image, ogImage, date, tags
+ * 包含共同欄位：imageType, image, ogImage, date, tags, featured
  */
 export const baseArticleSchema = frontmatterSchema.extend({
   /**
@@ -82,12 +84,20 @@ export const baseArticleSchema = frontmatterSchema.extend({
    * @default []
    */
   tags: z.array(z.string()).default([]),
+
+  /**
+   * Featured flag (for homepage display)
+   * 共用欄位：Projects 和 Notes 都支援精選功能
+   * @default false
+   */
+  featured: z.boolean().default(false),
 });
 
 /**
  * Project article schema (T002)
  *
  * 擴充 baseArticleSchema，加入專案特有欄位
+ * featured 已在 baseArticleSchema 中定義
  */
 export const projectArticleSchema = baseArticleSchema.extend({
   /**
@@ -101,13 +111,8 @@ export const projectArticleSchema = baseArticleSchema.extend({
   demoUrl: z.string().url().optional(),
 
   /**
-   * Featured flag (for homepage display)
-   * @default false
-   */
-  featured: z.boolean().default(false),
-
-  /**
    * Display order for featured projects (1-99)
+   * 專案專屬：用於控制精選專案的顯示順序
    */
   order: z.number().int().min(1).max(99).optional(),
 });
@@ -115,16 +120,10 @@ export const projectArticleSchema = baseArticleSchema.extend({
 /**
  * Note article schema (T003)
  *
- * 擴充 baseArticleSchema，加入筆記特有欄位
- * 保留 featured 以相容既有實作（用於首頁展示）
+ * 筆記 schema = baseArticleSchema（無額外欄位）
+ * featured 已在 baseArticleSchema 中定義，支援精選筆記功能
  */
-export const noteArticleSchema = baseArticleSchema.extend({
-  /**
-   * Featured flag (optional, for homepage display)
-   * @default false
-   */
-  featured: z.boolean().optional().default(false),
-});
+export const noteArticleSchema = baseArticleSchema;
 
 // ============================================================================
 // Inferred TypeScript Types
@@ -176,6 +175,8 @@ export type ArticleCardData<T extends BaseArticle = BaseArticle> = T & {
  * 泛型 wrapper，結合文章 metadata 與編譯後的 MDX 內容
  * 包含 fumadocs 自動生成的欄位（slug, locale, url）
  *
+ * 符合 fumadocs 最佳實踐：使用 body 作為 MDX React 元件
+ *
  * @template T - Article type (BaseArticle | ProjectArticle | NoteArticle)
  */
 export type ArticlePageData<T extends BaseArticle = BaseArticle> = T & {
@@ -188,11 +189,8 @@ export type ArticlePageData<T extends BaseArticle = BaseArticle> = T & {
   /** 完整 URL 路徑 (fumadocs 自動生成) */
   url: string;
 
-  /** 編譯後的 MDX 內容 (React component) */
-  content: React.ComponentType;
-
-  /** 原始 MDX body 文字 */
-  body: string;
+  /** 編譯後的 MDX 內容 (React component，對應 fumadocs page.data.body) */
+  body: ComponentType<MDXProps>;
 };
 
 // ============================================================================
@@ -201,13 +199,14 @@ export type ArticlePageData<T extends BaseArticle = BaseArticle> = T & {
 
 /**
  * 檢查文章是否為專案類型
+ *
+ * 使用 projects 專屬欄位判斷（githubUrl, demoUrl, order）
+ * 注意：featured 已移至 baseArticleSchema，不能作為判斷依據
  */
 export function isProjectArticle(
   article: BaseArticle
 ): article is ProjectArticle {
-  return (
-    "githubUrl" in article || "demoUrl" in article || "featured" in article
-  );
+  return "githubUrl" in article || "demoUrl" in article || "order" in article;
 }
 
 /**

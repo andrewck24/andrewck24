@@ -7,6 +7,7 @@ import { GithubInfo } from "@/components/github-info";
 import { LanguageToggle } from "@/components/language-toggle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getMDXComponents } from "@/lib/mdx-components";
 import type { ArticlePageData, BaseArticle, Locale } from "@/types/article";
 import { ArrowLeft, ExternalLink, Languages, Tag } from "lucide-react";
 import Link from "next/link";
@@ -34,7 +35,7 @@ export function Article<T extends BaseArticle = BaseArticle>({
   backLinkText,
   availableLocales,
 }: ArticleProps<T>) {
-  const MDXContent = article.content;
+  const MDXContent = article.body;
 
   // Generate back link URL and default text
   const backLinkUrl = `/${article.locale}/${contentType}`;
@@ -75,7 +76,7 @@ export function Article<T extends BaseArticle = BaseArticle>({
       <article className="bg-background/50 my-4 flex flex-col-reverse lg:mt-8 lg:grid lg:grid-cols-[1fr_300px] lg:gap-8">
         {/* MDX Content */}
         <div className="prose prose-gray dark:prose-invert mt-6 overflow-x-hidden">
-          <MDXContent />
+          <MDXContent components={getMDXComponents()} />
         </div>
 
         {/* Article Info Sidebar (right on desktop, below on mobile) */}

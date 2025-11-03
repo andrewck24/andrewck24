@@ -35,9 +35,7 @@ export const getAvailableLocales = cache(
     // 檢查每個支援的語言
     for (const locale of SUPPORTED_LOCALES) {
       const page = source.getPage([slug], locale);
-      if (page) {
-        availableLocales.push(locale);
-      }
+      if (page) availableLocales.push(locale);
     }
 
     return availableLocales;

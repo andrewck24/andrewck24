@@ -9,6 +9,11 @@
  * - Existing tests: Header section, MDX content, back link navigation
  */
 
+// Mock getMDXComponents (must be before imports that use it)
+jest.mock("../../../lib/mdx-components", () => ({
+  getMDXComponents: jest.fn(() => ({})),
+}));
+
 import type { ArticlePageData, ProjectArticle } from "@/types/article";
 import { render, screen } from "@testing-library/react";
 import { Article } from "../index";
@@ -94,8 +99,8 @@ describe("Article Component", () => {
     imageType: "static",
     image: "/test-image.jpg",
     tags: [],
-    content: MockMDXContent,
-    body: "",
+    featured: false,
+    body: MockMDXContent,
   };
 
   // T024: Header section rendering tests
@@ -408,7 +413,7 @@ describe("Article Component", () => {
 
       const complexArticle = {
         ...mockArticle,
-        content: ComplexMDXContent,
+        body: ComplexMDXContent,
       };
 
       render(<Article article={complexArticle} availableLocales={["zh-TW"]} />);

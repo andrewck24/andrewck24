@@ -166,7 +166,7 @@ describe("Notes Data Layer", () => {
       expect(result?.title).toBe("Test Note");
       expect(result?.slug).toBe("test-note");
       expect(result?.locale).toBe("zh-TW");
-      expect(result?.content).toBe(MockContent);
+      expect(result?.body).toBe(MockContent);
       expect(result?.tags).toEqual(["react", "typescript"]);
     });
 

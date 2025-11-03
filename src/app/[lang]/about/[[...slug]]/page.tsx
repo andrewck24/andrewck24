@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import type { MDXProps } from "mdx/types";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import type { FC } from "react";
+import type { ComponentType } from "react";
 
 interface PageProps {
   params: Promise<{ lang: string; slug?: string[] }>;
@@ -14,7 +14,7 @@ interface PageProps {
 export interface MDXPageData {
   title?: string;
   description?: string;
-  body: FC<MDXProps>;
+  body: ComponentType<MDXProps>;
 }
 
 export default async function AboutPage({ params }: PageProps) {

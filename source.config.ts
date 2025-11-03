@@ -42,5 +42,15 @@ export const notes = defineDocs({
 });
 
 export default defineConfig({
-  mdxOptions: {},
+  mdxOptions: {
+    rehypeCodeOptions: {
+      lazy: true,
+      langs: ["ts", "js", "html", "tsx", "mdx"],
+      inline: "tailing-curly-colon",
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+    },
+  },
 });

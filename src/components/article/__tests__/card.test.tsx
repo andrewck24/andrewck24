@@ -9,9 +9,9 @@
  * - T017: Navigation and hover effects
  */
 
+import { ArticleCard } from "@/components/article/card";
+import type { ArticlePageData, BaseArticle } from "@/types/article";
 import { render, screen } from "@testing-library/react";
-import { ArticleCard } from "../card";
-import type { BaseArticle, ArticlePageData } from "@/types/article";
 
 // Mock ArticleImage component
 jest.mock("../image", () => ({
@@ -46,8 +46,8 @@ describe("ArticleCard Component", () => {
     imageType: "static",
     image: "/test.jpg",
     tags: [],
-    content: () => null,
-    body: "",
+    featured: false,
+    body: () => null,
   };
 
   // T015: Hero variant layout tests

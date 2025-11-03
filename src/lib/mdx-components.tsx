@@ -7,7 +7,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     ...defaultMdxComponents,
     pre: ({ ref: _ref, ...props }) => (
-      <CodeBlock {...props}>
+      <CodeBlock {...props} className="border-border">
         <Pre>{props.children}</Pre>
       </CodeBlock>
     ),
