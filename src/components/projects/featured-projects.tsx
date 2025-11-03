@@ -1,8 +1,8 @@
 import { ArticleCard } from "@/components/article/card";
-import type { FeaturedProject, Locale } from "@/types/project";
+import type { FeaturedProjectCardData, Locale } from "@/types/project";
 
 export interface FeaturedProjectsProps {
-  projects: FeaturedProject[];
+  projects: FeaturedProjectCardData[];
   locale: Locale;
 }
 

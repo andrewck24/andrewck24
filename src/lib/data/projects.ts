@@ -5,9 +5,12 @@
  */
 
 import { projectsSource } from "@/lib/source";
+import type { MDXProps } from "mdx/types";
+import type { ComponentType } from "react";
 import type {
-  FeaturedProject,
+  FeaturedProjectCardData,
   Locale,
+  ProjectCardData,
   ProjectMetadata,
   ProjectPageData,
 } from "@/types/project";
@@ -25,7 +28,7 @@ import type {
  */
 export async function getFeaturedProjects(
   locale: Locale
-): Promise<FeaturedProject[]> {
+): Promise<FeaturedProjectCardData[]> {
   // 取得所有頁面
   const pages = projectsSource.getPages(locale);
 
@@ -50,6 +53,7 @@ export async function getFeaturedProjects(
       image: data.image,
       ogImage: data.ogImage,
       date: data.date,
+      tags: data.tags || [],
       featured: true as const,
       order: data.order,
       // 自動產生的 metadata
@@ -93,15 +97,17 @@ export async function getProject(
     image: data.image,
     ogImage: data.ogImage,
     date: data.date,
+    tags: data.tags || [],
     featured: data.featured,
     order: data.order,
+    githubUrl: data.githubUrl,
+    demoUrl: data.demoUrl,
     // 自動產生的 metadata
     slug: page.slugs[0] || slug,
     locale,
     url: page.url,
-    // ProjectPageData 特有欄位
-    content: data.body,
-    body: "", // fumadocs-mdx 不提供原始 body 字串，若需要可從 MDX 解析
+    // ProjectPageData 特有欄位：MDX React 元件
+    body: data.body as ComponentType<MDXProps>,
   };
 }
 
@@ -142,7 +148,7 @@ export async function generateProjectStaticParams(): Promise<
  */
 export async function getAllProjects(
   locale: Locale
-): Promise<ProjectMetadata[]> {
+): Promise<ProjectCardData[]> {
   const pages = projectsSource.getPages(locale);
 
   return pages.map((page) => {
@@ -155,6 +161,7 @@ export async function getAllProjects(
       image: data.image,
       ogImage: data.ogImage,
       date: data.date,
+      tags: data.tags || [],
       featured: data.featured,
       order: data.order,
       // 自動產生的 metadata

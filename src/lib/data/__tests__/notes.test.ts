@@ -31,7 +31,6 @@ describe("Notes Data Layer", () => {
             date: "2025-01-01",
             featured: true,
             tags: ["tag1"],
-            category: "frontend" as const,
           },
         },
         {
@@ -52,7 +51,6 @@ describe("Notes Data Layer", () => {
             description: "Description 3",
             date: "2025-01-03",
             featured: true,
-            category: "backend" as const,
           },
         },
       ] as unknown);
@@ -121,7 +119,6 @@ describe("Notes Data Layer", () => {
             date: "2025-01-01",
             featured: true,
             tags: ["tag1", "tag2"],
-            category: "frontend" as const,
           },
         },
       ] as unknown);
@@ -142,7 +139,6 @@ describe("Notes Data Layer", () => {
         date: "2025-01-01",
         featured: true,
         tags: ["tag1", "tag2"],
-        category: "frontend",
       });
     });
   });
@@ -160,7 +156,6 @@ describe("Notes Data Layer", () => {
           date: "2025-01-01",
           featured: true,
           tags: ["react", "typescript"],
-          category: "frontend" as const,
           body: MockContent,
         },
       } as unknown);
@@ -171,9 +166,8 @@ describe("Notes Data Layer", () => {
       expect(result?.title).toBe("Test Note");
       expect(result?.slug).toBe("test-note");
       expect(result?.locale).toBe("zh-TW");
-      expect(result?.content).toBe(MockContent);
+      expect(result?.body).toBe(MockContent);
       expect(result?.tags).toEqual(["react", "typescript"]);
-      expect(result?.category).toBe("frontend");
     });
 
     it("should return null when note does not exist", async () => {
@@ -203,7 +197,6 @@ describe("Notes Data Layer", () => {
       expect(result).not.toBeNull();
       expect(result?.title).toBe("Minimal Note");
       expect(result?.tags).toBeUndefined();
-      expect(result?.category).toBeUndefined();
       expect(result?.featured).toBeUndefined();
     });
 
@@ -299,7 +292,6 @@ describe("Notes Data Layer", () => {
             date: "2025-01-01",
             featured: true,
             tags: ["tag1", "tag2", "tag3"],
-            category: "testing" as const,
           },
         },
       ] as unknown);
@@ -317,7 +309,6 @@ describe("Notes Data Layer", () => {
         date: "2025-01-01",
         featured: true,
         tags: ["tag1", "tag2", "tag3"],
-        category: "testing",
       });
     });
 

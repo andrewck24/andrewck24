@@ -44,7 +44,7 @@ export function Menu({
   return (
     <ul className="ms-auto -me-1.5 flex flex-row items-center gap-1.5 lg:hidden">
       {i18n && (
-        <LanguageToggle>
+        <LanguageToggle availableLocales={["zh-TW", "en", "ja"]}>
           <Languages className="size-5" />
         </LanguageToggle>
       )}

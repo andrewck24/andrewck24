@@ -5,6 +5,12 @@ import { createTokenizer as createJapaneseTokenizer } from "@orama/tokenizers/ja
 import { createTokenizer as createMandarinTokenizer } from "@orama/tokenizers/mandarin";
 import { createFromSource } from "fumadocs-core/search/server";
 
+/**
+ * T015: Orama search with tag support
+ *
+ * Note: Tags from frontmatter are automatically indexed by Fumadocs
+ * The tag-utils.ts functions can be used for tag filtering in UI components
+ */
 export const { GET } = createFromSource(notesSource, {
   localeMap: {
     en: { language: "english" },

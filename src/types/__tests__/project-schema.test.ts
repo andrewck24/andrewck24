@@ -1,5 +1,5 @@
 /**
- * T012: 單元測試 - projectFrontmatterSchema validation
+ * T012: 單元測試 - projectArticleSchema validation
  *
  * 測試內容:
  * - 驗證合法 frontmatter 通過
@@ -10,15 +10,15 @@
  * - order 範圍驗證（1-99）
  */
 
-import { projectFrontmatterSchema } from "../project";
+import { projectArticleSchema } from "@/types/article";
 
-describe("Project Frontmatter Schema Validation", () => {
+describe("Project Article Schema Validation", () => {
   // Valid static frontmatter
   const validStaticFrontmatter = {
     title: "測試專案",
     description: "這是一個測試專案的描述",
     imageType: "static" as const,
-    image: "/images/projects/hero/zh-TW/test.jpg",
+    image: "/images/projects/zh-TW/test.jpg",
     date: "2024-10-10",
     featured: true,
     order: 1,
@@ -30,7 +30,8 @@ describe("Project Frontmatter Schema Validation", () => {
     description: "使用動態 OG Image 的專案",
     imageType: "generated" as const,
     ogImage: {
-      background: "/images/projects/og-backgrounds/common/tech.jpg",
+      icon: "/images/icons/test.svg",
+      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
     },
     date: "2024-10-10",
     featured: true,
@@ -41,7 +42,7 @@ describe("Project Frontmatter Schema Validation", () => {
   const validFrontmatter = validStaticFrontmatter;
 
   it("should accept valid frontmatter", () => {
-    const result = projectFrontmatterSchema.safeParse(validFrontmatter);
+    const result = projectArticleSchema.safeParse(validFrontmatter);
     expect(result.success).toBe(true);
   });
 
@@ -51,7 +52,7 @@ describe("Project Frontmatter Schema Validation", () => {
         ...validFrontmatter,
         title: "A".repeat(101), // 101 characters
       };
-      const result = projectFrontmatterSchema.safeParse(longTitle);
+      const result = projectArticleSchema.safeParse(longTitle);
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.issues[0].path).toContain("title");
@@ -63,7 +64,7 @@ describe("Project Frontmatter Schema Validation", () => {
         ...validFrontmatter,
         title: "A".repeat(100), // Exactly 100 characters
       };
-      const result = projectFrontmatterSchema.safeParse(maxLengthTitle);
+      const result = projectArticleSchema.safeParse(maxLengthTitle);
       expect(result.success).toBe(true);
     });
 
@@ -72,7 +73,7 @@ describe("Project Frontmatter Schema Validation", () => {
         ...validFrontmatter,
         title: "",
       };
-      const result = projectFrontmatterSchema.safeParse(emptyTitle);
+      const result = projectArticleSchema.safeParse(emptyTitle);
       expect(result.success).toBe(false);
     });
   });
@@ -83,7 +84,7 @@ describe("Project Frontmatter Schema Validation", () => {
         ...validFrontmatter,
         description: "B".repeat(201), // 201 characters
       };
-      const result = projectFrontmatterSchema.safeParse(longDesc);
+      const result = projectArticleSchema.safeParse(longDesc);
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.issues[0].path).toContain("description");
@@ -95,7 +96,7 @@ describe("Project Frontmatter Schema Validation", () => {
         ...validFrontmatter,
         description: "B".repeat(200),
       };
-      const result = projectFrontmatterSchema.safeParse(maxLengthDesc);
+      const result = projectArticleSchema.safeParse(maxLengthDesc);
       expect(result.success).toBe(true);
     });
 
@@ -104,7 +105,7 @@ describe("Project Frontmatter Schema Validation", () => {
         ...validFrontmatter,
         description: "",
       };
-      const result = projectFrontmatterSchema.safeParse(emptyDesc);
+      const result = projectArticleSchema.safeParse(emptyDesc);
       expect(result.success).toBe(false);
     });
   });
@@ -112,14 +113,14 @@ describe("Project Frontmatter Schema Validation", () => {
   describe("image path validation (static mode)", () => {
     it("should accept valid image paths with locale", () => {
       const validImages = [
-        "/images/projects/hero/zh-TW/test.jpg",
-        "/images/projects/hero/en/test.png",
-        "/images/projects/hero/ja/test.webp",
-        "/images/projects/hero/zh-TW/my-project.avif",
+        "/images/projects/zh-TW/test.jpg",
+        "/images/projects/en/test.png",
+        "/images/projects/ja/test.webp",
+        "/images/projects/zh-TW/my-project.avif",
       ];
 
       validImages.forEach((image) => {
-        const result = projectFrontmatterSchema.safeParse({
+        const result = projectArticleSchema.safeParse({
           ...validStaticFrontmatter,
           image,
         });
@@ -132,16 +133,16 @@ describe("Project Frontmatter Schema Validation", () => {
         ...validStaticFrontmatter,
         image: "/images/projects/test.jpg",
       };
-      const result = projectFrontmatterSchema.safeParse(oldFormatImage);
+      const result = projectArticleSchema.safeParse(oldFormatImage);
       expect(result.success).toBe(false);
     });
 
     it("should reject invalid image extensions", () => {
       const invalidImage = {
         ...validStaticFrontmatter,
-        image: "/images/projects/hero/zh-TW/test.txt",
+        image: "/images/projects/zh-TW/test.txt",
       };
-      const result = projectFrontmatterSchema.safeParse(invalidImage);
+      const result = projectArticleSchema.safeParse(invalidImage);
       expect(result.success).toBe(false);
     });
   });
@@ -151,7 +152,7 @@ describe("Project Frontmatter Schema Validation", () => {
       const validDates = ["2024-10-10", "2023-01-01", "2025-12-31"];
 
       validDates.forEach((date) => {
-        const result = projectFrontmatterSchema.safeParse({
+        const result = projectArticleSchema.safeParse({
           ...validFrontmatter,
           date,
         });
@@ -168,7 +169,7 @@ describe("Project Frontmatter Schema Validation", () => {
       ];
 
       invalidDates.forEach((date) => {
-        const result = projectFrontmatterSchema.safeParse({
+        const result = projectArticleSchema.safeParse({
           ...validFrontmatter,
           date,
         });
@@ -180,23 +181,22 @@ describe("Project Frontmatter Schema Validation", () => {
   describe("featured field validation", () => {
     it("should accept featured as optional boolean", () => {
       // featured: true
-      const featured = projectFrontmatterSchema.safeParse({
+      const featured = projectArticleSchema.safeParse({
         ...validFrontmatter,
         featured: true,
       });
       expect(featured.success).toBe(true);
 
       // featured: false
-      const notFeatured = projectFrontmatterSchema.safeParse({
+      const notFeatured = projectArticleSchema.safeParse({
         ...validFrontmatter,
         featured: false,
       });
       expect(notFeatured.success).toBe(true);
 
       // featured omitted (should default to false)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { featured: _, ...withoutFeatured } = validFrontmatter;
-      const noFeatured = projectFrontmatterSchema.safeParse(withoutFeatured);
+      const noFeatured = projectArticleSchema.safeParse(withoutFeatured);
       expect(noFeatured.success).toBe(true);
     });
   });
@@ -206,7 +206,7 @@ describe("Project Frontmatter Schema Validation", () => {
       const validOrders = [1, 50, 99];
 
       validOrders.forEach((order) => {
-        const result = projectFrontmatterSchema.safeParse({
+        const result = projectArticleSchema.safeParse({
           ...validFrontmatter,
           order,
         });
@@ -218,7 +218,7 @@ describe("Project Frontmatter Schema Validation", () => {
       const invalidOrders = [0, -1, 100, 1000];
 
       invalidOrders.forEach((order) => {
-        const result = projectFrontmatterSchema.safeParse({
+        const result = projectArticleSchema.safeParse({
           ...validFrontmatter,
           order,
         });
@@ -227,30 +227,26 @@ describe("Project Frontmatter Schema Validation", () => {
     });
 
     it("should accept order as optional", () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { order: _, ...withoutOrder } = validFrontmatter;
-      const result = projectFrontmatterSchema.safeParse(withoutOrder);
+      const result = projectArticleSchema.safeParse(withoutOrder);
       expect(result.success).toBe(true);
     });
   });
 
   describe("imageType validation", () => {
     it("should accept 'static' imageType", () => {
-      const result = projectFrontmatterSchema.safeParse(validStaticFrontmatter);
+      const result = projectArticleSchema.safeParse(validStaticFrontmatter);
       expect(result.success).toBe(true);
     });
 
     it("should accept 'generated' imageType", () => {
-      const result = projectFrontmatterSchema.safeParse(
-        validDynamicFrontmatter
-      );
+      const result = projectArticleSchema.safeParse(validDynamicFrontmatter);
       expect(result.success).toBe(true);
     });
 
     it("should default to 'static' if imageType is omitted", () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { imageType: _, ...withoutImageType } = validStaticFrontmatter;
-      const result = projectFrontmatterSchema.safeParse(withoutImageType);
+      const result = projectArticleSchema.safeParse(withoutImageType);
       expect(result.success).toBe(true);
       if (result.success) {
         expect(result.data.imageType).toBe("static");
@@ -266,7 +262,7 @@ describe("Project Frontmatter Schema Validation", () => {
           background: "/images/projects/og-backgrounds/common/bg.jpg",
         },
       };
-      const result = projectFrontmatterSchema.safeParse(withCommonBg);
+      const result = projectArticleSchema.safeParse(withCommonBg);
       expect(result.success).toBe(true);
     });
 
@@ -280,7 +276,7 @@ describe("Project Frontmatter Schema Validation", () => {
             background: `/images/projects/og-backgrounds/${locale}/bg.png`,
           },
         };
-        const result = projectFrontmatterSchema.safeParse(withLocaleBg);
+        const result = projectArticleSchema.safeParse(withLocaleBg);
         expect(result.success).toBe(true);
       });
     });
@@ -293,7 +289,7 @@ describe("Project Frontmatter Schema Validation", () => {
           className: "custom-og-style",
         },
       };
-      const result = projectFrontmatterSchema.safeParse(withClassName);
+      const result = projectArticleSchema.safeParse(withClassName);
       expect(result.success).toBe(true);
     });
 
@@ -304,7 +300,7 @@ describe("Project Frontmatter Schema Validation", () => {
           className: "gradient-blue",
         },
       };
-      const result = projectFrontmatterSchema.safeParse(withoutBackground);
+      const result = projectArticleSchema.safeParse(withoutBackground);
       expect(result.success).toBe(true);
     });
 
@@ -315,7 +311,7 @@ describe("Project Frontmatter Schema Validation", () => {
           background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         },
       };
-      const result = projectFrontmatterSchema.safeParse(gradientBg);
+      const result = projectArticleSchema.safeParse(gradientBg);
       expect(result.success).toBe(true);
     });
 
@@ -328,30 +324,11 @@ describe("Project Frontmatter Schema Validation", () => {
       ];
 
       colorBgs.forEach((background) => {
-        const result = projectFrontmatterSchema.safeParse({
+        const result = projectArticleSchema.safeParse({
           ...validDynamicFrontmatter,
           ogImage: { background },
         });
         expect(result.success).toBe(true);
-      });
-    });
-
-    it("should reject invalid background format", () => {
-      const invalidBgs = ["invalid-value", "notacolor", "background-image"];
-
-      invalidBgs.forEach((background) => {
-        const result = projectFrontmatterSchema.safeParse({
-          ...validDynamicFrontmatter,
-          ogImage: { background },
-        });
-        expect(result.success).toBe(false);
-        if (!result.success) {
-          // Should have background validation error
-          const bgError = result.error.issues.find((issue) =>
-            issue.path.includes("background")
-          );
-          expect(bgError).toBeDefined();
-        }
       });
     });
   });
@@ -367,7 +344,7 @@ describe("Project Frontmatter Schema Validation", () => {
         order: 100, // Out of range
       };
 
-      const result = projectFrontmatterSchema.safeParse(invalidFrontmatter);
+      const result = projectArticleSchema.safeParse(invalidFrontmatter);
       expect(result.success).toBe(false);
       if (!result.success) {
         // Should have multiple errors

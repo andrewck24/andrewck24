@@ -25,7 +25,7 @@ import { ChevronDown, ExternalLink } from "lucide-react";
 import {
   type ComponentProps,
   createContext,
-  type FC,
+  type ComponentType,
   Fragment,
   type ReactNode,
   useContext,
@@ -455,9 +455,13 @@ function useInternalContext() {
 }
 
 export interface SidebarComponents {
-  Item: FC<{ item: PageTree.Item }>;
-  Folder: FC<{ item: PageTree.Folder; level: number; children: ReactNode }>;
-  Separator: FC<{ item: PageTree.Separator }>;
+  Item: ComponentType<{ item: PageTree.Item }>;
+  Folder: ComponentType<{
+    item: PageTree.Folder;
+    level: number;
+    children: ReactNode;
+  }>;
+  Separator: ComponentType<{ item: PageTree.Separator }>;
 }
 
 /**

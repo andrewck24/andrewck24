@@ -17,6 +17,23 @@ const eslintConfig = defineConfig([
   // Extend Next.js configs
   ...nextVitals,
   ...nextTs,
+
+  {
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          // 允許忽略：
+          //   - 僅由底線組成的變數名（_、__、___）
+          //   - 以「單一底線開頭」的變數名（_foo）
+          // 避免過度寬鬆（如 __foo、_importantValue）
+          argsIgnorePattern: "^(_+$|_[^_])",
+          varsIgnorePattern: "^(_+$|_[^_])",
+          // "caughtErrorsIgnorePattern": "^_", // 可視需要啟用
+        },
+      ],
+    },
+  },
 ]);
 
 export default eslintConfig;

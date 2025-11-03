@@ -172,7 +172,7 @@ export function DocsLayout({
               ))}
             </div>
             {i18n ? (
-              <LanguageToggle>
+              <LanguageToggle availableLocales={["zh-TW", "en", "ja"]}>
                 <Languages className="size-4.5" />
                 <LanguageToggleText />
               </LanguageToggle>
@@ -243,7 +243,7 @@ export function DocsLayout({
           <SidebarFooter>
             <div className="text-fd-muted-foreground flex items-center empty:hidden">
               {i18n && (
-                <LanguageToggle>
+                <LanguageToggle availableLocales={["zh-TW", "en", "ja"]}>
                   <Languages className="size-4.5" />
                 </LanguageToggle>
               )}

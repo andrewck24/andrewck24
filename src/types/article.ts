@@ -1,98 +1,72 @@
 /**
- * Article Schema - Base Type Definitions
+ * Article Schema & Type Definitions (T004)
  *
- * 定義泛用型 article 元件系統的基礎資料結構
- * 供 projects 和 notes 共用
+ * 統一的 article schema 與型別系統
+ * 此檔案為 schema 定義的唯一來源（Single Source of Truth）
+ *
+ * @see specs/004-mdx-frontmatter-1/contracts/schema.ts
  */
 
+import { frontmatterSchema } from "fumadocs-mdx/config";
+import type { MDXProps } from "mdx/types";
+import type { ComponentType } from "react";
 import { z } from "zod";
 
 // ============================================================================
-// Enums & Constants
+// Locale Types (保留既有定義於 L17-18)
 // ============================================================================
 
 /**
- * 支援的語言
+ * 支援的語言代碼
  */
 export const SUPPORTED_LOCALES = ["zh-TW", "en", "ja"] as const;
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
 // ============================================================================
-// Zod Schemas
+// Zod Schemas (Single Source of Truth)
 // ============================================================================
 
 /**
- * OGImageConfig Schema
+ * Base article schema (T001)
  *
- * 動態生成 OG Image 的配置
- * 支援三種 background 格式：CSS gradient / 純色 / 圖片路徑
+ * 統一的基礎 schema，供 projects 和 notes 共用
+ * 包含共同欄位：imageType, image, ogImage, date, tags, featured
  */
-export const ogImageConfigSchema = z.object({
-  /** 圖示圖片路徑 */
-  icon: z.string().optional(),
-
+export const baseArticleSchema = frontmatterSchema.extend({
   /**
-   * 背景樣式
-   * 支援：
-   * - 圖片路徑：/images/projects/og-backgrounds/common/bg.jpg
-   * - CSS Gradient：linear-gradient(135deg, #667eea 0%, #764ba2 100%)
-   * - Hex Color：#667eea, #f3f4f6
-   * - RGB/RGBA：rgb(102, 126, 234), rgba(102, 126, 234, 0.8)
-   * - HSL/HSLA：hsl(235, 72%, 61%), hsla(235, 72%, 61%, 0.8)
+   * Image type selector
+   * @default "static"
    */
-  background: z
-    .string()
-    .refine(
-      (val) => {
-        // 允許圖片路徑、CSS gradient、或純色
-        if (val.startsWith("/")) return true; // 圖片路徑
-        if (val.includes("gradient")) return true; // CSS gradient
-        if (/^#[0-9a-f]{3,8}$/i.test(val)) return true; // Hex color
-        if (val.startsWith("rgb")) return true; // RGB/RGBA
-        if (val.startsWith("hsl")) return true; // HSL/HSLA
-        return false;
-      },
-      {
-        message: "background 必須為圖片路徑、CSS gradient、或有效的 CSS color",
-      }
-    )
-    .optional(),
-
-  /** 自訂 CSS className */
-  className: z.string().optional(),
-});
-
-/**
- * Article Metadata Schema
- *
- * 所有文章類型的共同屬性
- */
-export const articleMetadataSchema = z.object({
-  /** 文章標題（≤100 字元） */
-  title: z.string().min(1, "標題不可為空").max(100, "標題不可超過 100 字元"),
-
-  /** 文章簡述（≤200 字元） */
-  description: z
-    .string()
-    .min(1, "描述不可為空")
-    .max(200, "描述不可超過 200 字元"),
-
-  /** 主視覺類型 */
   imageType: z.enum(["static", "generated"]).default("static"),
 
-  /** 靜態圖片路徑（當 imageType="static" 時必填） */
+  /**
+   * Static image path (when imageType === "static")
+   * Pattern: /images/{projects|notes}/{locale}/*.{ext}
+   * Note: Simplified path (removed /hero/ nesting)
+   */
   image: z
     .string()
     .regex(
-      /^\/images\/(projects|notes)\/hero\/(zh-TW|en|ja)\/[a-z0-9-]+\.(jpg|jpeg|png|webp|avif)$/i,
-      "圖片路徑格式: /images/{projects|notes}/hero/{locale}/*.{jpg|jpeg|png|webp|avif}"
+      /^\/images\/(projects|notes)\/(zh-TW|en|ja)\/[a-z0-9-]+\.(jpg|jpeg|png|webp|avif)$/i,
+      "圖片路徑格式: /images/{projects|notes}/{locale}/*.{jpg|jpeg|png|webp|avif}"
     )
     .optional(),
 
-  /** 動態生成設定（當 imageType="generated" 時選填） */
-  ogImage: ogImageConfigSchema.optional(),
+  /**
+   * Generated OG image configuration (when imageType === "generated")
+   */
+  ogImage: z
+    .object({
+      icon: z.string().optional(),
+      background: z.string().optional(),
+      className: z.string().optional(),
+    })
+    .optional(),
 
-  /** 發布日期（ISO 8601: YYYY-MM-DD） */
+  /**
+   * Publication date (YYYY-MM-DD format)
+   * Accepts string or Date, transformed to string
+   */
   date: z
     .union([
       z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "日期格式: YYYY-MM-DD"),
@@ -105,112 +79,116 @@ export const articleMetadataSchema = z.object({
       return val;
     }),
 
-  /** URL slug（自動產生自檔名） */
-  slug: z.string().min(1),
+  /**
+   * Tags for search filtering (hybrid mode: suggested + custom)
+   * @default []
+   */
+  tags: z.array(z.string()).default([]),
 
-  /** 語言代碼 */
-  locale: z.enum(SUPPORTED_LOCALES),
-
-  /** 完整 URL 路徑 */
-  url: z.string().url(),
+  /**
+   * Featured flag (for homepage display)
+   * 共用欄位：Projects 和 Notes 都支援精選功能
+   * @default false
+   */
+  featured: z.boolean().default(false),
 });
 
+/**
+ * Project article schema (T002)
+ *
+ * 擴充 baseArticleSchema，加入專案特有欄位
+ * featured 已在 baseArticleSchema 中定義
+ */
+export const projectArticleSchema = baseArticleSchema.extend({
+  /**
+   * GitHub repository URL (optional)
+   */
+  githubUrl: z.string().url().optional(),
+
+  /**
+   * Live demo URL (optional)
+   */
+  demoUrl: z.string().url().optional(),
+
+  /**
+   * Display order for featured projects (1-99)
+   * 專案專屬：用於控制精選專案的顯示順序
+   */
+  order: z.number().int().min(1).max(99).optional(),
+});
+
+/**
+ * Note article schema (T003)
+ *
+ * 筆記 schema = baseArticleSchema（無額外欄位）
+ * featured 已在 baseArticleSchema 中定義，支援精選筆記功能
+ */
+export const noteArticleSchema = baseArticleSchema;
+
 // ============================================================================
-// TypeScript Interfaces
+// Inferred TypeScript Types
 // ============================================================================
 
 /**
- * OGImageConfig
+ * Base article type (所有文章的基礎型別)
  *
- * 動態生成 OG Image 的配置
+ * 包含共同欄位：title, description, imageType, image, ogImage, date, tags
  */
-export interface OGImageConfig {
-  /** 圖示圖片路徑 */
-  icon?: string;
-
-  /** 背景樣式（支援 gradient/color/image） */
-  background?: string;
-
-  /** 自訂 CSS className */
-  className?: string;
-}
+export type BaseArticle = z.infer<typeof baseArticleSchema>;
 
 /**
- * ArticleMetadata
+ * Project article type (專案文章型別)
  *
- * 所有文章類型的共同屬性（基礎型別）
+ * 擴充 BaseArticle，額外包含：githubUrl, demoUrl, featured, order
  */
-export interface ArticleMetadata {
-  /** 文章標題（≤100 字元） */
-  title: string;
+export type ProjectArticle = z.infer<typeof projectArticleSchema>;
 
-  /** 文章簡述（≤200 字元） */
-  description: string;
+/**
+ * Note article type (筆記文章型別)
+ *
+ * 擴充 BaseArticle，額外包含：featured
+ */
+export type NoteArticle = z.infer<typeof noteArticleSchema>;
 
-  /** 主視覺類型 */
-  imageType?: "static" | "generated";
-
-  /** 靜態圖片路徑 */
-  image?: string;
-
-  /** 動態生成設定 */
-  ogImage?: OGImageConfig;
-
-  /** 發布日期（ISO 8601: YYYY-MM-DD） */
-  date: string;
-
-  /** URL slug */
+/**
+ * Article card data (用於卡片元件的文章資料)
+ *
+ * 包含文章 metadata 和導航欄位，但不包含 MDX 內容
+ * 用於列表頁和卡片元件
+ *
+ * @template T - Article type (BaseArticle | ProjectArticle | NoteArticle)
+ */
+export type ArticleCardData<T extends BaseArticle = BaseArticle> = T & {
+  /** URL slug (fumadocs 自動生成) */
   slug: string;
 
-  /** 語言代碼 */
+  /** 語言代碼 (fumadocs 自動生成) */
   locale: Locale;
 
-  /** 完整 URL 路徑 */
+  /** 完整 URL 路徑 (fumadocs 自動生成) */
   url: string;
-}
-
-/**
- * ArticlePageData
- *
- * 包含 MDX 內容的完整文章資料（泛用型 wrapper）
- */
-export type ArticlePageData<T extends ArticleMetadata = ArticleMetadata> = T & {
-  /** MDX 內容（已編譯的 React component） */
-  content: React.ComponentType;
-
-  /** MDX 檔案的原始 body 內容 */
-  body: string;
 };
 
-// ============================================================================
-// Type Guards
-// ============================================================================
-
 /**
- * 檢查文章是否為精選文章
+ * Article page data (包含 MDX 內容的完整文章資料)
  *
- * 泛用型 helper，適用於 projects 和 notes
+ * 泛型 wrapper，結合文章 metadata 與編譯後的 MDX 內容
+ * 包含 fumadocs 自動生成的欄位（slug, locale, url）
+ *
+ * 符合 fumadocs 最佳實踐：使用 body 作為 MDX React 元件
+ *
+ * @template T - Article type (BaseArticle | ProjectArticle | NoteArticle)
  */
-export function isFeaturedArticle(article: ArticleMetadata): boolean {
-  return "featured" in article && article.featured === true;
-}
+export type ArticlePageData<T extends BaseArticle = BaseArticle> = T & {
+  /** URL slug (fumadocs 自動生成) */
+  slug: string;
 
-/**
- * 檢查 article 是否為 ProjectMetadata
- *
- * Note: 此函式需要在 runtime 使用，因為 ProjectMetadata 定義在 project.ts
- * 檢查邏輯：ProjectMetadata 包含 featured 和 order 欄位
- */
-export function isProjectMetadata(article: ArticleMetadata): boolean {
-  return "featured" in article && "order" in article;
-}
+  /** 語言代碼 (fumadocs 自動生成) */
+  locale: Locale;
 
-/**
- * 檢查 article 是否為 NoteMetadata
- *
- * Note: 此函式需要在 runtime 使用，因為 NoteMetadata 定義在 note.ts
- * 檢查邏輯：NoteMetadata 包含 tags 或 category 欄位
- */
-export function isNoteMetadata(article: ArticleMetadata): boolean {
-  return "tags" in article || "category" in article;
-}
+  /** 完整 URL 路徑 (fumadocs 自動生成) */
+  url: string;
+
+  /** 編譯後的 MDX 內容 (React component，對應 fumadocs page.data.body) */
+  body: ComponentType<MDXProps>;
+};
