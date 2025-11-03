@@ -50,6 +50,22 @@ jest.mock("../../language-toggle", () => ({
   ),
 }));
 
+// Mock GithubInfo component (async Server Component)
+jest.mock("../../github-info", () => ({
+  GithubInfo: ({ url, className }: { url: string; className?: string }) => (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="View on GitHub"
+      data-testid="github-info"
+      className={className}
+    >
+      GitHub
+    </a>
+  ),
+}));
+
 // Mock UI components
 jest.mock("../../ui/badge", () => ({
   Badge: ({
@@ -360,8 +376,9 @@ describe("Article Component", () => {
       );
 
       const article = container.querySelector("article");
-      expect(article).toHaveClass("rounded-2xl");
-      expect(article).toHaveClass("border");
+      expect(article).toHaveClass("bg-background/50");
+      expect(article).toHaveClass("lg:grid");
+      expect(article).toHaveClass("lg:grid-cols-[1fr_300px]");
     });
   });
 
@@ -416,15 +433,18 @@ describe("Article Component", () => {
         body: ComplexMDXContent,
       };
 
-      render(<Article article={complexArticle} availableLocales={["zh-TW"]} />);
+      const { container } = render(
+        <Article article={complexArticle} availableLocales={["zh-TW"]} />
+      );
 
-      expect(screen.getByTestId("complex-mdx")).toBeInTheDocument();
-      expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-        "Section 1"
-      );
-      expect(screen.getByRole("heading", { level: 3 })).toHaveTextContent(
-        "Subsection 1.1"
-      );
+      const mdxContent = screen.getByTestId("complex-mdx");
+      expect(mdxContent).toBeInTheDocument();
+
+      // Query within the MDX content container to avoid ArticleInfo headings
+      const h2 = container.querySelector('[data-testid="complex-mdx"] h2');
+      const h3 = container.querySelector('[data-testid="complex-mdx"] h3');
+      expect(h2).toHaveTextContent("Section 1");
+      expect(h3).toHaveTextContent("Subsection 1.1");
     });
   });
 
@@ -697,22 +717,6 @@ describe("Article Component", () => {
         expect(screen.getByTestId("article-tags")).toBeInTheDocument();
         expect(screen.getByTestId("project-links")).toBeInTheDocument();
         expect(screen.getByTestId("language-toggle")).toBeInTheDocument();
-      });
-    });
-
-    describe("Responsive layout", () => {
-      it("should have responsive grid layout classes on desktop", () => {
-        render(
-          <Article
-            article={mockProjectArticle}
-            contentType="projects"
-            availableLocales={["zh-TW"]}
-          />
-        );
-
-        // ArticleInfo should be in a layout that supports responsive grid
-        const articleInfo = screen.getByTestId("article-info");
-        expect(articleInfo).toHaveClass(expect.stringMatching(/lg:/));
       });
     });
   });
