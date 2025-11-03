@@ -192,33 +192,3 @@ export type ArticlePageData<T extends BaseArticle = BaseArticle> = T & {
   /** 編譯後的 MDX 內容 (React component，對應 fumadocs page.data.body) */
   body: ComponentType<MDXProps>;
 };
-
-// ============================================================================
-// Type Guards (型別守衛函式)
-// ============================================================================
-
-/**
- * 檢查文章是否為專案類型
- *
- * 使用 projects 專屬欄位判斷（githubUrl, demoUrl, order）
- * 注意：featured 已移至 baseArticleSchema，不能作為判斷依據
- */
-export function isProjectArticle(
-  article: BaseArticle
-): article is ProjectArticle {
-  return "githubUrl" in article || "demoUrl" in article || "order" in article;
-}
-
-/**
- * 檢查文章是否為筆記類型
- */
-export function isNoteArticle(article: BaseArticle): article is NoteArticle {
-  return !isProjectArticle(article);
-}
-
-/**
- * 檢查專案是否為精選專案
- */
-export function isFeaturedProject(article: ProjectArticle): boolean {
-  return article.featured === true;
-}

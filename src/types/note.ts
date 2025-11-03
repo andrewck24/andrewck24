@@ -6,13 +6,10 @@
  */
 
 import {
-  noteArticleSchema,
-  type NoteArticle,
-  type BaseArticle,
   type ArticleCardData,
   type ArticlePageData,
   type Locale,
-  isNoteArticle,
+  type NoteArticle,
 } from "@/types/article";
 
 // ============================================================================
@@ -61,33 +58,6 @@ export type { Locale };
  * Featured Notes 顯示數量上限
  */
 export const MAX_FEATURED_NOTES = 5;
-
-// ============================================================================
-// Type Guards
-// ============================================================================
-
-/**
- * 檢查 article 是否為 NoteArticle
- */
-export function isNoteMetadata(article: BaseArticle): article is NoteArticle {
-  return isNoteArticle(article);
-}
-
-// ============================================================================
-// Validation Functions
-// ============================================================================
-
-/**
- * 驗證筆記資料是否合法
- */
-export function validateNoteMetadata(data: unknown): data is NoteArticle {
-  try {
-    noteArticleSchema.parse(data);
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 // ============================================================================
 // Helper Types
