@@ -9,6 +9,7 @@
    - 若非涉及範疇過於廣泛，都應該加上 範疇 (scope)，例如：`feat(docs): ...`、`fix(ui): ...`
    - 若有關聯的 issue，請在 commit message 中加入 `Closes #<issue-number>`
    - 使用英文撰寫
+   - 專案、筆記文章的修改，其 commit msg tag 應該都要是 `content(projects)`/`content(notes)`
 
 ## Docs Guidelines
 

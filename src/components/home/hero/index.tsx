@@ -20,13 +20,13 @@ export function ProfileHero({ locale }: ProfileHeroProps) {
         <div className="flex flex-col justify-center gap-6 text-center lg:h-full lg:text-left">
           <div className="space-y-4">
             <h1
-              className="from-foreground to-foreground/70 bg-gradient-to-b bg-clip-text text-5xl font-bold tracking-tight text-transparent md:text-6xl lg:text-7xl xl:text-8xl"
+              className="from-foreground to-foreground/70 bg-linear-to-b bg-clip-text text-5xl font-bold tracking-tight text-transparent md:text-6xl lg:text-7xl xl:text-8xl"
               data-testid="profile-name"
             >
               {profile.name}
             </h1>
             <h2
-              className="from-primary via-primary/80 to-primary/60 bg-gradient-to-r bg-clip-text text-xl font-semibold text-transparent md:text-2xl lg:text-3xl"
+              className="from-primary via-primary/80 to-primary/60 bg-linear-to-r bg-clip-text text-xl font-semibold text-transparent md:text-2xl lg:text-3xl"
               data-testid="profile-title"
             >
               {profile.title}
