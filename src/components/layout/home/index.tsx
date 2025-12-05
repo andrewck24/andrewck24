@@ -12,7 +12,6 @@ import { LargeSearchToggle } from "@/components/search-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 import Link from "fumadocs-core/link";
-import { NavProvider } from "fumadocs-ui/contexts/layout";
 import { Languages } from "lucide-react";
 import { type HTMLAttributes, useMemo } from "react";
 
@@ -43,7 +42,7 @@ export function HomeLayout(
   } = props;
 
   return (
-    <NavProvider transparentMode={nav?.transparentMode}>
+    <>
       {backgroundAnimation && <BackgroundAnimation />}
       {nav.enabled !== false &&
         (nav.component ?? (
@@ -66,7 +65,7 @@ export function HomeLayout(
       >
         {props.children}
       </main>
-    </NavProvider>
+    </>
   );
 }
 

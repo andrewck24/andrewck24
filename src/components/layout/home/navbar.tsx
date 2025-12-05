@@ -18,7 +18,6 @@ import type {
 } from "@radix-ui/react-navigation-menu";
 import { cva, type VariantProps } from "class-variance-authority";
 import Link, { type LinkProps } from "fumadocs-core/link";
-import { useNav } from "fumadocs-ui/contexts/layout";
 import { type ComponentProps, Fragment, useState } from "react";
 
 const navItemVariants = cva(
@@ -27,7 +26,6 @@ const navItemVariants = cva(
 
 export function Navbar(props: HomeLayoutProps & ComponentProps<"div">) {
   const [value, setValue] = useState("");
-  const { isTransparent } = useNav();
 
   return (
     <NavigationMenu
@@ -40,8 +38,7 @@ export function Navbar(props: HomeLayoutProps & ComponentProps<"div">) {
         {...props}
         className={cn(
           "mx-6 mt-4 w-full rounded-xl border border-transparent backdrop-blur-sm transition-colors lg:mx-12",
-          (!isTransparent || value.length > 0) &&
-            "bg-fd-background/60 border-border",
+          value.length > 0 && "bg-fd-background/60 border-border",
           props.className
         )}
       >
