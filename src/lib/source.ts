@@ -1,4 +1,4 @@
-import { about, notes, projects } from "@/.source";
+import { about, notes, projects } from "fumadocs-mdx:collections/server";
 import { i18n } from "@/lib/i18n";
 import { loader } from "fumadocs-core/source";
 

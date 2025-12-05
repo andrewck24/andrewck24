@@ -1,103 +1,128 @@
-import {
-  type BreadcrumbProps,
-  type FooterProps,
-  PageBreadcrumb,
-  PageFooter,
-  PageLastUpdate,
-  PageTOC,
-  PageTOCPopover,
-  PageTOCPopoverContent,
-  PageTOCPopoverTrigger,
-} from "@/components/layout/docs/page-client";
-import { TOCItems, TOCProvider, TOCScrollArea } from "@/components/ui/toc";
-import ClerkTOCItems from "@/components/ui/toc-clerk";
+"use client";
+
 import { cn } from "@/lib/utils";
-import type { AnchorProviderProps } from "fumadocs-core/toc";
-import { I18nLabel } from "fumadocs-ui/contexts/i18n";
-import { Text } from "lucide-react";
-import { type ComponentProps } from "react";
+import { Link, usePathname } from "fumadocs-core/framework";
+import type * as PageTree from "fumadocs-core/page-tree";
+import {
+  AnchorProvider,
+  type TOCItemType,
+  useActiveAnchors,
+} from "fumadocs-core/toc";
+import { useTreeContext } from "fumadocs-ui/contexts/tree";
+import { type ComponentProps, type ReactNode, useMemo } from "react";
 
-export function PageTOCTitle(props: ComponentProps<"h2">) {
+export interface DocsPageProps {
+  toc?: TOCItemType[];
+
+  children: ReactNode;
+}
+
+export function DocsPage({ toc = [], ...props }: DocsPageProps) {
   return (
-    <h3
-      {...props}
-      className={cn(
-        "text-fd-muted-foreground inline-flex items-center gap-1.5 text-sm",
-        props.className
+    <AnchorProvider toc={toc}>
+      <main className="flex w-full min-w-0 flex-col">
+        <article className="flex w-full max-w-[860px] flex-1 flex-col gap-6 px-4 py-8 md:mx-auto md:px-6">
+          {props.children}
+          <Footer />
+        </article>
+      </main>
+      {toc.length > 0 && (
+        <div className="sticky top-(--fd-nav-height) h-[calc(100dvh-var(--fd-nav-height))] w-[286px] shrink-0 overflow-auto p-4 max-xl:hidden">
+          <p className="text-fd-muted-foreground mb-2 text-sm">On this page</p>
+          <div className="flex flex-col">
+            {toc.map((item) => (
+              <TocItem key={item.url} item={item} />
+            ))}
+          </div>
+        </div>
       )}
-    >
-      <Text className="size-4" />
-      <I18nLabel label="toc" />
-    </h3>
+    </AnchorProvider>
   );
 }
 
-export function PageTOCItems({
-  variant = "normal",
-  ...props
-}: ComponentProps<"div"> & { variant?: "clerk" | "normal" }) {
+export function DocsBody(props: ComponentProps<"div">) {
   return (
-    <TOCScrollArea {...props}>
-      {variant === "clerk" ? <ClerkTOCItems /> : <TOCItems />}
-    </TOCScrollArea>
-  );
-}
-
-export function PageTOCPopoverItems({
-  variant = "normal",
-  ...props
-}: ComponentProps<"div"> & { variant?: "clerk" | "normal" }) {
-  return (
-    <TOCScrollArea {...props}>
-      {variant === "clerk" ? <ClerkTOCItems /> : <TOCItems />}
-    </TOCScrollArea>
-  );
-}
-
-export function PageArticle(props: ComponentProps<"article">) {
-  return (
-    <article
-      {...props}
-      className={cn(
-        "flex w-full min-w-0 flex-col gap-4 px-4 pt-8 md:mx-auto md:px-6",
-        props.className
-      )}
-    >
+    <div {...props} className={cn("prose", props.className)}>
       {props.children}
-    </article>
-  );
-}
-
-export interface RootProps extends ComponentProps<"div"> {
-  toc?: Omit<AnchorProviderProps, "children"> | false;
-}
-
-export function PageRoot({ toc = false, children, ...props }: RootProps) {
-  const content = (
-    <div
-      id="nd-page"
-      {...props}
-      className={cn(
-        "mx-auto flex w-full max-w-(--fd-page-width) flex-1 pe-(--fd-toc-width) pt-(--fd-tocnav-height)",
-        props.className
-      )}
-    >
-      {children}
     </div>
   );
-
-  if (toc) return <TOCProvider {...toc}>{content}</TOCProvider>;
-  return content;
 }
 
-export {
-  PageBreadcrumb,
-  PageFooter,
-  PageLastUpdate,
-  PageTOC,
-  PageTOCPopover,
-  PageTOCPopoverContent,
-  PageTOCPopoverTrigger,
-  type BreadcrumbProps,
-  type FooterProps,
-};
+export function DocsDescription(props: ComponentProps<"p">) {
+  // don't render if no description provided
+  if (props.children === undefined) return null;
+
+  return (
+    <p
+      {...props}
+      className={cn("text-fd-muted-foreground mb-8 text-lg", props.className)}
+    >
+      {props.children}
+    </p>
+  );
+}
+
+export function DocsTitle(props: ComponentProps<"h1">) {
+  return (
+    <h1 {...props} className={cn("text-3xl font-semibold", props.className)}>
+      {props.children}
+    </h1>
+  );
+}
+
+function TocItem({ item }: { item: TOCItemType }) {
+  const isActive = useActiveAnchors().includes(item.url.slice(1));
+
+  return (
+    <a
+      href={item.url}
+      className={cn(
+        "text-fd-foreground/80 py-1 text-sm",
+        isActive && "text-fd-primary"
+      )}
+      style={{
+        paddingLeft: Math.max(0, item.depth - 2) * 16,
+      }}
+    >
+      {item.title}
+    </a>
+  );
+}
+
+function Footer() {
+  const { root } = useTreeContext();
+  const pathname = usePathname();
+  const flatten = useMemo(() => {
+    const result: PageTree.Item[] = [];
+
+    function scan(items: PageTree.Node[]) {
+      for (const item of items) {
+        if (item.type === "page") result.push(item);
+        else if (item.type === "folder") {
+          if (item.index) result.push(item.index);
+          scan(item.children);
+        }
+      }
+    }
+
+    scan(root.children);
+    return result;
+  }, [root]);
+
+  const { previous, next } = useMemo(() => {
+    const idx = flatten.findIndex((item) => item.url === pathname);
+
+    if (idx === -1) return {};
+    return {
+      previous: flatten[idx - 1],
+      next: flatten[idx + 1],
+    };
+  }, [flatten, pathname]);
+
+  return (
+    <div className="flex flex-row items-center justify-between gap-2 font-medium">
+      {previous ? <Link href={previous.url}>{previous.name}</Link> : null}
+      {next ? <Link href={next.url}>{next.name}</Link> : null}
+    </div>
+  );
+}

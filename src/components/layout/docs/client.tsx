@@ -7,21 +7,18 @@ import { isTabActive } from "@/lib/is-active";
 import { cn } from "@/lib/utils";
 import { usePathname } from "fumadocs-core/framework";
 import Link from "fumadocs-core/link";
-import { useNav } from "fumadocs-ui/contexts/layout";
-import { useSidebar } from "fumadocs-ui/contexts/sidebar";
+import { useSidebar } from "fumadocs-ui/components/sidebar/base";
 import { Sidebar as SidebarIcon } from "lucide-react";
 import { type ComponentProps, useMemo } from "react";
 
 export function Navbar(props: ComponentProps<"header">) {
-  const { isTransparent } = useNav();
-
   return (
     <header
       id="nd-subnav"
       {...props}
       className={cn(
         "fixed top-(--fd-banner-height) right-(--removed-body-scroll-bar-size,0) left-0 z-30 flex items-center border-b ps-4 pe-2.5 backdrop-blur-sm transition-colors",
-        !isTransparent && "bg-fd-background/80",
+        !false && "bg-fd-background/80",
         props.className
       )}
     >

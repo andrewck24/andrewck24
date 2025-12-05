@@ -5,8 +5,6 @@
  */
 
 import { projectsSource } from "@/lib/source";
-import type { MDXProps } from "mdx/types";
-import type { ComponentType } from "react";
 import type {
   FeaturedProjectCardData,
   Locale,
@@ -14,12 +12,15 @@ import type {
   ProjectMetadata,
   ProjectPageData,
 } from "@/types/project";
+import type * as PageTree from "fumadocs-core/page-tree";
+import type { MDXProps } from "mdx/types";
+import type { ComponentType } from "react";
 
 /**
  * 取得指定語言的精選專案
  *
  * @param locale - 語言代碼
- * @returns 精選專案陣列（最多 5 個，依照 meta.json 順序）
+ * @returns 精選專案陣列（最多 5 個，依照 order 欄位排序）
  *
  * @example
  * ```ts
@@ -38,9 +39,15 @@ export async function getFeaturedProjects(
     return data.featured === true;
   });
 
-  // 依照 meta.json 順序（getPages 已排序）
+  // 依照 frontmatter 的 order 欄位排序
+  const sortedPages = featuredPages.sort((a, b) => {
+    const aData = a.data as unknown as ProjectMetadata;
+    const bData = b.data as unknown as ProjectMetadata;
+    return (aData.order ?? Infinity) - (bData.order ?? Infinity);
+  });
+
   // 限制最多 5 個
-  const limitedPages = featuredPages.slice(0, 5);
+  const limitedPages = sortedPages.slice(0, 5);
 
   // 轉換為 FeaturedProject 格式
   return limitedPages.map((page) => {
@@ -150,8 +157,33 @@ export async function getAllProjects(
   locale: Locale
 ): Promise<ProjectCardData[]> {
   const pages = projectsSource.getPages(locale);
+  const pageTree = projectsSource.pageTree[locale];
 
-  return pages.map((page) => {
+  // 從 pageTree 中提取頁面順序
+  const orderedSlugs: string[] = [];
+  const extractSlugs = (node: PageTree.Node): void => {
+    if (node.type === "page") {
+      const slug = node.url.split("/").pop();
+      if (slug) orderedSlugs.push(slug);
+    } else if (node.type === "folder" && node.children) {
+      node.children.forEach(extractSlugs);
+    }
+  };
+  pageTree?.children?.forEach(extractSlugs);
+
+  // 根據 pageTree 的順序排序
+  const sortedPages = pages.sort((a, b) => {
+    const aSlug = a.slugs[0] || "";
+    const bSlug = b.slugs[0] || "";
+    const aIndex = orderedSlugs.indexOf(aSlug);
+    const bIndex = orderedSlugs.indexOf(bSlug);
+    // 如果某個 slug 不在 orderedSlugs 中，放到最後
+    if (aIndex === -1) return 1;
+    if (bIndex === -1) return -1;
+    return aIndex - bIndex;
+  });
+
+  return sortedPages.map((page) => {
     const data = page.data as unknown as ProjectMetadata;
     return {
       // 只提取 ProjectFrontmatter 定義的欄位

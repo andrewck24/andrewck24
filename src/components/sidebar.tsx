@@ -19,13 +19,13 @@ import Link, { type LinkProps } from "fumadocs-core/link";
 import type * as PageTree from "fumadocs-core/page-tree";
 import { useMediaQuery } from "fumadocs-core/utils/use-media-query";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
-import { useSidebar } from "fumadocs-ui/contexts/sidebar";
+import { useSidebar } from "fumadocs-ui/components/sidebar/base";
 import { useTreeContext, useTreePath } from "fumadocs-ui/contexts/tree";
 import { ChevronDown, ExternalLink } from "lucide-react";
 import {
   type ComponentProps,
-  createContext,
   type ComponentType,
+  createContext,
   Fragment,
   type ReactNode,
   useContext,

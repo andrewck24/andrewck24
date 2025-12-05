@@ -60,7 +60,7 @@ export function Menu({
           )}
           enableHover={nav.enableHoverToOpen}
         >
-          <ChevronDown className="!size-5.5 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+          <ChevronDown className="size-5.5! transition-transform duration-300 group-data-[state=open]:rotate-180" />
         </MenuTrigger>
         <MenuContent className="sm:flex-row sm:items-center sm:justify-end">
           {menuItems

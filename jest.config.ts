@@ -25,6 +25,11 @@ const config: Config = {
   transformIgnorePatterns: [
     "/node_modules/(?!(fumadocs-core|fumadocs-mdx|fumadocs-ui)/)",
   ],
+  // Map fumadocs modules
+  moduleNameMapper: {
+    "^fumadocs-mdx/config$": "<rootDir>/tests/__mocks__/fumadocs-mdx-config.ts",
+    "^fumadocs-mdx:collections/(.*)$": "<rootDir>/.source/$1",
+  },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

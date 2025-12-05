@@ -1,388 +1,197 @@
-import {
-  LanguageToggle,
-  LanguageToggleText,
-} from "@/components/language-toggle";
-import {
-  CollapsibleControl,
-  LayoutBody,
-  LayoutTabs,
-  Navbar,
-} from "@/components/layout/docs/client";
-import {
-  type BaseLayoutProps,
-  BaseLinkItem,
-  getLinks,
-  type LinkItemType,
-} from "@/components/layout/shared";
-import { type Option, RootToggle } from "@/components/root-toggle";
-import { LargeSearchToggle, SearchToggle } from "@/components/search-toggle";
-import {
-  Sidebar,
-  SidebarCollapseTrigger,
-  type SidebarComponents,
-  SidebarContent,
-  SidebarContentMobile,
-  SidebarFolder,
-  SidebarFolderContent,
-  SidebarFolderLink,
-  SidebarFolderTrigger,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarItem,
-  SidebarPageTree,
-  type SidebarProps,
-  SidebarTrigger,
-  SidebarViewport,
-} from "@/components/sidebar";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { buttonVariants } from "@/components/ui/button";
+"use client";
 import { cn } from "@/lib/utils";
+import { cva } from "class-variance-authority";
+import { usePathname } from "fumadocs-core/framework";
 import Link from "fumadocs-core/link";
 import type * as PageTree from "fumadocs-core/page-tree";
-import { NavProvider } from "fumadocs-ui/contexts/layout";
-import { TreeContextProvider } from "fumadocs-ui/contexts/tree";
-import {
-  getSidebarTabs,
-  type GetSidebarTabsOptions,
-} from "fumadocs-ui/utils/get-sidebar-tabs";
-import { Languages, Sidebar as SidebarIcon } from "lucide-react";
+import { useSearchContext } from "fumadocs-ui/contexts/search";
+import { TreeContextProvider, useTreeContext } from "fumadocs-ui/contexts/tree";
 import {
   type ComponentProps,
-  type HTMLAttributes,
+  createContext,
   type ReactNode,
+  use,
+  useMemo,
+  useState,
 } from "react";
 
-export interface DocsLayoutProps extends BaseLayoutProps {
+interface SidebarContext {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SidebarContext = createContext<SidebarContext | null>(null);
+
+export interface DocsLayoutProps {
   tree: PageTree.Root;
-
-  sidebar?: SidebarOptions;
-
-  tabMode?: "top" | "auto";
-
-  /**
-   * Props for the `div` container
-   */
-  containerProps?: HTMLAttributes<HTMLDivElement>;
+  children: ReactNode;
 }
 
-interface SidebarOptions
-  extends ComponentProps<"aside">,
-    Pick<SidebarProps, "defaultOpenLevel" | "prefetch"> {
-  enabled?: boolean;
-  component?: ReactNode;
-  components?: Partial<SidebarComponents>;
-
-  /**
-   * Root Toggle options
-   */
-  tabs?: Option[] | GetSidebarTabsOptions | false;
-
-  banner?: ReactNode;
-  footer?: ReactNode;
-
-  /**
-   * Support collapsing the sidebar on desktop mode
-   *
-   * @defaultValue true
-   */
-  collapsible?: boolean;
-}
-
-export function DocsLayout({
-  nav: { transparentMode, ...nav } = {},
-  sidebar: {
-    tabs: sidebarTabs,
-    enabled: sidebarEnabled = true,
-    ...sidebarProps
-  } = {},
-  searchToggle = {},
-  themeSwitch = {},
-  tabMode = "auto",
-  i18n = false,
-  children,
-  tree,
-  ...props
-}: DocsLayoutProps) {
-  let tabs: Option[];
-  if (Array.isArray(sidebarTabs)) {
-    tabs = sidebarTabs;
-  } else if (typeof sidebarTabs === "object") {
-    tabs = getSidebarTabs(tree, sidebarTabs);
-  } else if (sidebarTabs !== false) {
-    tabs = getSidebarTabs(tree);
-  } else {
-    tabs = [];
-  }
-
-  const links = getLinks(props.links ?? [], props.githubUrl);
-  const sidebarVariables = cn(
-    "md:[--fd-sidebar-width:268px] lg:[--fd-sidebar-width:286px]"
-  );
-
-  function sidebar() {
-    const {
-      footer,
-      banner,
-      collapsible = true,
-      component,
-      components,
-      defaultOpenLevel,
-      prefetch,
-      ...rest
-    } = sidebarProps;
-    if (component) return component;
-
-    const iconLinks = links.filter((item) => item.type === "icon");
-
-    const viewport = (
-      <SidebarViewport>
-        {links
-          .filter((v) => v.type !== "icon")
-          .map((item, i, list) => (
-            <SidebarLinkItem
-              key={i}
-              item={item}
-              className={cn(i === list.length - 1 && "mb-4")}
-            />
-          ))}
-        <SidebarPageTree components={components} />
-      </SidebarViewport>
-    );
-
-    const mobile = (
-      <SidebarContentMobile {...rest}>
-        <SidebarHeader>
-          <div className="text-fd-muted-foreground flex items-center gap-1.5">
-            <div className="flex flex-1">
-              {iconLinks.map((item, i) => (
-                <BaseLinkItem
-                  key={i}
-                  item={item}
-                  className={cn(
-                    buttonVariants({
-                      size: "icon",
-                      variant: "ghost",
-                      className: "p-2",
-                    })
-                  )}
-                  aria-label={item.label}
-                >
-                  {item.icon}
-                </BaseLinkItem>
-              ))}
-            </div>
-            {i18n ? (
-              <LanguageToggle availableLocales={["zh-TW", "en", "ja"]}>
-                <Languages className="size-4.5" />
-                <LanguageToggleText />
-              </LanguageToggle>
-            ) : null}
-            {themeSwitch.enabled !== false &&
-              (themeSwitch.component ?? (
-                <ThemeToggle className="p-0" mode={themeSwitch.mode} />
-              ))}
-            <SidebarTrigger
-              className={cn(
-                buttonVariants({
-                  variant: "ghost",
-                  size: "icon",
-                  className: "p-2",
-                })
-              )}
-            >
-              <SidebarIcon />
-            </SidebarTrigger>
-          </div>
-          {tabs.length > 0 && <RootToggle options={tabs} />}
-          {banner}
-        </SidebarHeader>
-        {viewport}
-        <SidebarFooter className="empty:hidden">{footer}</SidebarFooter>
-      </SidebarContentMobile>
-    );
-
-    const content = (
-      <SidebarContent {...rest}>
-        <SidebarHeader>
-          <div className="flex">
-            <Link
-              href={nav.url ?? "/"}
-              className="me-auto inline-flex items-center gap-2.5 text-[15px] font-medium"
-            >
-              {nav.title}
-            </Link>
-            {nav.children}
-            {collapsible && (
-              <SidebarCollapseTrigger
-                className={cn(
-                  buttonVariants({
-                    variant: "ghost",
-                    size: "icon",
-                    className: "text-fd-muted-foreground mb-auto",
-                  })
-                )}
-              >
-                <SidebarIcon />
-              </SidebarCollapseTrigger>
-            )}
-          </div>
-          {searchToggle.enabled !== false &&
-            (searchToggle.components?.lg ?? (
-              <LargeSearchToggle hideIfDisabled />
-            ))}
-          {tabs.length > 0 && tabMode === "auto" && (
-            <RootToggle options={tabs} />
-          )}
-          {banner}
-        </SidebarHeader>
-        {viewport}
-        {(i18n ||
-          iconLinks.length > 0 ||
-          themeSwitch?.enabled !== false ||
-          footer) && (
-          <SidebarFooter>
-            <div className="text-fd-muted-foreground flex items-center empty:hidden">
-              {i18n && (
-                <LanguageToggle availableLocales={["zh-TW", "en", "ja"]}>
-                  <Languages className="size-4.5" />
-                </LanguageToggle>
-              )}
-              {iconLinks.map((item, i) => (
-                <BaseLinkItem
-                  key={i}
-                  item={item}
-                  className={cn(
-                    buttonVariants({ size: "icon", variant: "ghost" })
-                  )}
-                  aria-label={item.label}
-                >
-                  {item.icon}
-                </BaseLinkItem>
-              ))}
-              {themeSwitch.enabled !== false &&
-                (themeSwitch.component ?? (
-                  <ThemeToggle
-                    className="ms-auto p-0"
-                    mode={themeSwitch.mode}
-                  />
-                ))}
-            </div>
-            {footer}
-          </SidebarFooter>
-        )}
-      </SidebarContent>
-    );
-
-    return (
-      <Sidebar
-        defaultOpenLevel={defaultOpenLevel}
-        prefetch={prefetch}
-        Mobile={mobile}
-        Content={
-          <>
-            {collapsible && <CollapsibleControl />}
-            {content}
-          </>
-        }
-      />
-    );
-  }
-
+export function DocsLayout({ tree, children }: DocsLayoutProps) {
   return (
     <TreeContextProvider tree={tree}>
-      <NavProvider transparentMode={transparentMode}>
-        {nav.enabled !== false &&
-          (nav.component ?? (
-            <Navbar className="on-root:[--fd-nav-height:56px] md:on-root:[--fd-nav-height:0px] h-(--fd-nav-height) md:hidden">
-              <Link
-                href={nav.url ?? "/"}
-                className="inline-flex items-center gap-2.5 font-semibold"
-              >
-                {nav.title}
-              </Link>
-              <div className="flex-1">{nav.children}</div>
-              {searchToggle.enabled !== false &&
-                (searchToggle.components?.sm ?? (
-                  <SearchToggle className="p-2" hideIfDisabled />
-                ))}
-              {sidebarEnabled && (
-                <SidebarTrigger
-                  className={cn(
-                    buttonVariants({
-                      variant: "ghost",
-                      size: "icon",
-                      className: "p-2",
-                    })
-                  )}
-                >
-                  <SidebarIcon />
-                </SidebarTrigger>
-              )}
-            </Navbar>
-          ))}
-        <LayoutBody
-          {...props.containerProps}
-          className={cn(
-            "md:[&_#nd-page_article]:pt-12 xl:[&_#nd-page_article]:px-8",
-            sidebarEnabled && sidebarVariables,
-            props.containerProps?.className
-          )}
+      <SidebarProvider>
+        <header className="bg-fd-background sticky top-0 z-20 h-14">
+          <nav className="flex size-full flex-row items-center gap-2 px-4">
+            <Link href="/" className="mr-auto font-medium">
+              My Docs
+            </Link>
+
+            <SearchToggle />
+            <NavbarSidebarTrigger className="md:hidden" />
+          </nav>
+        </header>
+        <main
+          id="nd-docs-layout"
+          className="flex flex-1 flex-row [--fd-nav-height:56px]"
         >
-          {sidebarEnabled && sidebar()}
-          {tabMode === "top" && tabs.length > 0 && (
-            <LayoutTabs
-              options={tabs}
-              className="bg-fd-background sticky top-[calc(var(--fd-nav-height)+var(--fd-tocnav-height))] z-10 border-b px-6 pt-3 max-md:hidden xl:px-8"
-            />
-          )}
+          <Sidebar />
           {children}
-        </LayoutBody>
-      </NavProvider>
+        </main>
+      </SidebarProvider>
     </TreeContextProvider>
   );
 }
 
-function SidebarLinkItem({
-  item,
-  ...props
-}: {
-  item: Exclude<LinkItemType, { type: "icon" }>;
-  className?: string;
-}) {
-  if (item.type === "menu")
-    return (
-      <SidebarFolder {...props}>
-        {item.url ? (
-          <SidebarFolderLink href={item.url} external={item.external}>
-            {item.icon}
-            {item.text}
-          </SidebarFolderLink>
-        ) : (
-          <SidebarFolderTrigger>
-            {item.icon}
-            {item.text}
-          </SidebarFolderTrigger>
-        )}
-        <SidebarFolderContent>
-          {item.items.map((child, i) => (
-            <SidebarLinkItem key={i} item={child} />
-          ))}
-        </SidebarFolderContent>
-      </SidebarFolder>
-    );
-
-  if (item.type === "custom") return <div {...props}>{item.children}</div>;
+function SidebarProvider({ children }: { children: ReactNode }) {
+  const [open, setOpen] = useState(false);
 
   return (
-    <SidebarItem
-      href={item.url}
-      icon={item.icon}
-      external={item.external}
-      {...props}
+    <SidebarContext
+      value={useMemo(
+        () => ({
+          open,
+          setOpen,
+        }),
+        [open]
+      )}
     >
-      {item.text}
-    </SidebarItem>
+      {children}
+    </SidebarContext>
   );
 }
 
-export { CollapsibleControl, Navbar, SidebarTrigger, type LinkItemType };
+function SearchToggle(props: ComponentProps<"button">) {
+  const { enabled, setOpenSearch } = useSearchContext();
+  if (!enabled) return;
+
+  return (
+    <button
+      {...props}
+      className={cn("text-sm", props.className)}
+      onClick={() => setOpenSearch(true)}
+    >
+      Search
+    </button>
+  );
+}
+
+function NavbarSidebarTrigger(props: ComponentProps<"button">) {
+  const { open, setOpen } = use(SidebarContext)!;
+
+  return (
+    <button
+      {...props}
+      className={cn("text-sm", props.className)}
+      onClick={() => setOpen(!open)}
+    >
+      Sidebar
+    </button>
+  );
+}
+
+function Sidebar() {
+  const { root } = useTreeContext();
+  const { open } = use(SidebarContext)!;
+
+  const children = useMemo(() => {
+    function renderItems(items: PageTree.Node[]) {
+      return items.map((item) => (
+        <SidebarItem key={item.$id} item={item}>
+          {item.type === "folder" ? renderItems(item.children) : null}
+        </SidebarItem>
+      ));
+    }
+
+    return renderItems(root.children);
+  }, [root]);
+
+  return (
+    <aside
+      className={cn(
+        "fixed top-14 z-20 flex shrink-0 flex-col overflow-auto p-4 text-sm md:sticky md:h-[calc(100dvh-56px)] md:w-[300px]",
+        "max-md:bg-fd-background max-md:inset-x-0 max-md:bottom-0",
+        !open && "max-md:invisible"
+      )}
+    >
+      {children}
+    </aside>
+  );
+}
+
+const linkVariants = cva(
+  "text-fd-foreground/80 flex w-full items-center gap-2 rounded-lg py-1.5 [&_svg]:size-4",
+  {
+    variants: {
+      active: {
+        true: "text-fd-primary font-medium",
+        false: "hover:text-fd-accent-foreground",
+      },
+    },
+  }
+);
+
+function SidebarItem({
+  item,
+  children,
+}: {
+  item: PageTree.Node;
+  children: ReactNode;
+}) {
+  const pathname = usePathname();
+
+  if (item.type === "page") {
+    return (
+      <Link
+        href={item.url}
+        className={linkVariants({
+          active: pathname === item.url,
+        })}
+      >
+        {item.icon}
+        {item.name}
+      </Link>
+    );
+  }
+
+  if (item.type === "separator") {
+    return (
+      <p className="text-fd-muted-foreground mt-6 mb-2 first:mt-0">
+        {item.icon}
+        {item.name}
+      </p>
+    );
+  }
+
+  return (
+    <div>
+      {item.index ? (
+        <Link
+          className={linkVariants({
+            active: pathname === item.index.url,
+          })}
+          href={item.index.url}
+        >
+          {item.index.icon}
+          {item.index.name}
+        </Link>
+      ) : (
+        <p className={cn(linkVariants(), "text-start")}>
+          {item.icon}
+          {item.name}
+        </p>
+      )}
+      <div className="flex flex-col border-l pl-4">{children}</div>
+    </div>
+  );
+}
