@@ -18,6 +18,7 @@ import type {
 } from "@radix-ui/react-navigation-menu";
 import { cva, type VariantProps } from "class-variance-authority";
 import Link, { type LinkProps } from "fumadocs-core/link";
+import { useMotionValueEvent, useScroll } from "motion/react";
 import { type ComponentProps, Fragment, useState } from "react";
 
 const navItemVariants = cva(
@@ -26,26 +27,35 @@ const navItemVariants = cva(
 
 export function Navbar(props: HomeLayoutProps & ComponentProps<"div">) {
   const [value, setValue] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setIsScrolled(latest > 50);
+  });
 
   return (
     <NavigationMenu
       value={value}
       onValueChange={setValue}
-      className="*:max-w-fd-container fixed top-(--fd-banner-height) right-(--removed-body-scroll-bar-size,0) left-0 z-40 flex justify-center"
+      className="fixed top-(--fd-banner-height,0) right-(--removed-body-scroll-bar-size,0) left-0 z-40 flex justify-center"
     >
-      <div
-        id="nd-nav"
-        {...props}
-        className={cn(
-          "mx-6 mt-4 w-full rounded-xl border border-transparent backdrop-blur-sm transition-colors lg:mx-12",
-          value.length > 0 && "bg-fd-background/60 border-border",
-          props.className
-        )}
-      >
-        <NavigationMenuList className="flex h-14 w-full items-center px-4">
-          {props.children}
-        </NavigationMenuList>
-        <NavigationMenuViewport />
+      <div className="w-full max-w-7xl px-6 lg:px-12">
+        <div
+          id="nd-nav"
+          {...props}
+          className={cn(
+            "mt-4 w-full rounded-xl bg-transparent transition-all",
+            (value.length > 0 || isScrolled) &&
+              "bg-background/60 shadow-secondary/60 shadow-xl backdrop-blur-sm",
+            props.className
+          )}
+        >
+          <NavigationMenuList className="flex h-14 w-full items-center px-4">
+            {props.children}
+          </NavigationMenuList>
+          <NavigationMenuViewport />
+        </div>
       </div>
     </NavigationMenu>
   );
