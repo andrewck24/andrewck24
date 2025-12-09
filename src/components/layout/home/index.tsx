@@ -59,7 +59,7 @@ export function HomeLayout(
         id="nd-home-layout"
         {...rest}
         className={cn(
-          "*:max-w-fd-container flex w-full flex-1 flex-col items-center justify-start px-6 pt-22 lg:px-12",
+          "flex w-full max-w-7xl flex-1 flex-col items-center justify-start px-6 pt-22 lg:px-12",
           rest.className
         )}
       >
